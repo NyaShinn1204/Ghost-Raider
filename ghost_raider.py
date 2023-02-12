@@ -523,6 +523,22 @@ def menu():
                 tokens = l.rstrip("\n")
                 threading.Thread(target=join, args=[tokens]).start()
             menu()    
+    if modes == "4":
+        print("Coming soon")
+        time.sleep(1)
+        menu()
+    if modes == "5":
+        print("Coming soon")
+        time.sleep(1)
+        menu()
+    if modes == "6":
+        print("Coming soon")
+        time.sleep(1)
+        menu() 
+    if modes == "9":
+        print("Coming soon")
+        time.sleep(1)
+        menu()                       
     else:
         print("引数が不正です。")
         time.sleep(1)
