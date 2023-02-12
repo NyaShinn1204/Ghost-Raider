@@ -238,14 +238,14 @@ def menu():
             channel_id = input("Channel id >>")
             chlist = get_channels(token,int(guild_id))
         else:
-            channel_id = input("Channel id >> ")
+            channel_id = input("Channel Id >> ")
         randoms = int(input("Random Mention数(しない場合0と入力) >> "))
         if randoms > 0:
             if allchannels == "y":
                 tokens = token
             else:
                 tokens = input("Input Token >> ")
-                guild_id = input("Server ID >> ")
+                guild_id = input("Server Id >> ")
             bot = discum.Client(token=tokens, log=False)
             def close_after_fetching(resp, guild_id):
                 if bot.gateway.finishedMemberFetching(guild_id):
@@ -379,8 +379,8 @@ def menu():
             executor.submit(join)
 
     if modes == "3":
-        channel_id = input("channel_id >> ")
-        message_id = input("message_id >>")
+        channel_id = input("Channel Id >> ")
+        message_id = input("Message Id >>")
         with open('token.txt') as f:
             lines = f.readlines()
             while True:
@@ -394,7 +394,7 @@ def menu():
                     except Exception as e:
                         print("Error: "+ e) 
     if modes == "7":
-        guild = input("Server ID >> ")
+        guild = input("Server Id >> ")
         with open('token.txt') as f:
             lines = f.readlines()
             for l in lines:
@@ -406,8 +406,8 @@ def menu():
     import urllib
     if modes == "8":
             emoji = input("emoji >> ")
-            channelid = input("Channel ID >> ")
-            messageid = input("Message ID >> ")
+            channelid = input("Channel Id >> ")
+            messageid = input("Message Id >> ")
             with open('token.txt') as f:
                 lines = f.readlines()
                 for l in lines:
@@ -452,9 +452,9 @@ def menu():
                         print("Token死んでるかも")
                 menu()
     if modes == "11":
-        guild_id = input("Server ID >> ")
-        channel_id = input("Channel_id >> ")
-        message_id = input("Message_id >>")
+        guild_id = input("Server Id >> ")
+        channel_id = input("Channel Id >> ")
+        message_id = input("Message Id >>")
         ffs = open('message.txt',"r",encoding="utf-8_sig")
         messages = ffs.read()
         def reply():
@@ -473,8 +473,8 @@ def menu():
             time.sleep(0.2)
             threading.Thread(target=reply).start()
     if modes == "12":
-        guild = input("Guild_id >> ")
-        channel = input("Channel Id >> ")
+        guild = input("Server Id >> ")
+        channel = input("Voice Channel Id >> ")
         def join(token):
             ws = websocket.WebSocket()
             ws.connect("wss://gateway.discord.gg/?encoding=json&v=9")
