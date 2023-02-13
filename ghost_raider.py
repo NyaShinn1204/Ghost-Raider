@@ -233,9 +233,9 @@ def menu():
         messages = ffs.read()
         allchannels = input("All Channel y/n >> ")
         if allchannels == "y":
-            guild_id  = input("Server id >> ")
+            guild_id  = input("Server Id >> ")
             token = input("Token >> ")
-            channel_id = input("Channel id >>")
+            channel_id = input("Channel Id >>")
             chlist = get_channels(token,int(guild_id))
         else:
             channel_id = input("Channel Id >> ")
@@ -512,7 +512,7 @@ def menu():
                                 "channel_id": channel,
                                 "self_mute": False,
                                 "self_deaf": True,
-                                "self_video": True
+                                "self_video": False
                             }
                         }
                     )
@@ -538,7 +538,7 @@ def menu():
     if modes == "9":
         print("Coming soon")
         time.sleep(1)
-        menu()                       
+        menu() 
     else:
         print("引数が不正です。")
         time.sleep(1)
