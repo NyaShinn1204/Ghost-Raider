@@ -220,11 +220,11 @@ def menu():
     """+Color.RESET)
     print(Color.BLUE+"""
 
-      1: Spammer            2: Joiner    3: Report Spam        4: Ghost Spam         5: Slash Command Spammer
+      1: Spammer            2: Joiner       3: Report Spam        4: Ghost Spam         5: Slash Command Spammer
       
-      6: Form Creater       7: Leaver    8: Reaction Spammer   9: NicknameChanger    10: Yax Bot Verify Bypasser
+      6: Form Creater       7: Leaver       8: Reaction Spammer   9: NicknameChanger    10: Yax Bot Verify Bypasser
       
-      11: Reply Spammer     12: VC Joiner 
+      11: Reply Spammer     12: VC Joiner
 
     """+Color.RESET)
     modes = input("Mode >> ")
@@ -281,9 +281,9 @@ def menu():
                         lines = f.readlines()
                         while True:
                             for l in lines:
-                                    #if allchannels == "y":
-                                    #    channel_id = random.choice(chlist)
-                                    #    print(channel_id)
+                                    if allchannels == "y":
+                                        channel_id = random.choice(chlist)
+                                        print(channel_id)
                                     for _ in range(randoms):
                                         spams += "<@" + random.choice(memberslist) + "> "
                                     randomed = randomname(10)
@@ -306,8 +306,8 @@ def menu():
                             for l in lines:
                                 randoms = randomname(10)
                                 try:
-                                    #if allchannels == "y":
-                                    #    channel_id = random.choice(chlist)
+                                    if allchannels == "y":
+                                        channel_id = random.choice(chlist)
                                     payload = {"content": f"{messages}\n"+randoms}
                                     headers = {"authorization": l.rstrip("\n")}
                                     res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages", headers=headers, json=payload)
@@ -473,8 +473,8 @@ def menu():
             time.sleep(0.2)
             threading.Thread(target=reply).start()
     if modes == "12":
-        guild = input("Server Id >> ")
-        channel = input("Voice Channel Id >> ")
+        guild_id = input("Server Id >> ")
+        channel_id = input("Voice Channel Id >> ")
         def join(token):
             ws = websocket.WebSocket()
             ws.connect("wss://gateway.discord.gg/?encoding=json&v=9")
@@ -508,8 +508,8 @@ def menu():
                         {
                             "op": 4,
                             "d": {
-                                "guild_id": guild,
-                                "channel_id": channel,
+                                "guild_id": guild_id,
+                                "channel_id": channel_id,
                                 "self_mute": False,
                                 "self_deaf": True,
                                 "self_video": False
@@ -522,7 +522,7 @@ def menu():
             for l in lines:    
                 tokens = l.rstrip("\n")
                 threading.Thread(target=join, args=[tokens]).start()
-            menu()    
+            menu()             
     if modes == "4":
         print("Coming soon")
         time.sleep(1)
@@ -532,10 +532,6 @@ def menu():
         time.sleep(1)
         menu()
     if modes == "6":
-        print("Coming soon")
-        time.sleep(1)
-        menu() 
-    if modes == "9":
         print("Coming soon")
         time.sleep(1)
         menu() 
