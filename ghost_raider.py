@@ -541,7 +541,7 @@ def menu():
             while True:
                 for l in lines:
                     try:
-                        randoms = randomname(4)
+                        randoms = randomname(7)
                         payload = {"name": f"{forum_name} " +randoms, "message": {"content": f"{forum_message}"}}
                         headers = {"authorization": l.rstrip("\n")}
                         res = requests.post(f"https://discord.com/api/v9/channels/{forum_id}/threads?use_nested_fields=true", headers=headers, json=payload)
@@ -550,9 +550,20 @@ def menu():
                     except Exception as e:
                         print("Error: "+ e) 
     if modes == "9":
-        print("Coming soon")
-        time.sleep(1)
-        menu()                    
+        guild_id = input("Server Id >> ")
+        nickname = input("Nickname >> ")
+        with open('token.txt') as f:
+            lines = f.readlines()
+            while True:
+                for l in lines:
+                    try:
+                        payload = {"nick": {nickname}}
+                        headers = {"authorization": l.rstrip("\n")}
+                        res = requests.patch(f"https://discord.com/api/v9/guilds/{guild_id}/members/@me", headers=headers, json=payload)
+                        print(l.rstrip("\n"))
+                        print(res.text)
+                    except Exception as e:
+                        print("Error: "+ e)              
     else:
         print("引数が不正です。")
         time.sleep(1)
