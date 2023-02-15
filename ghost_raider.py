@@ -532,9 +532,27 @@ def menu():
         time.sleep(1)
         menu()
     if modes == "6":
+        guild_id = input("Server Id >> ")
+        forum_id = input("Forum Id >> ")
+        forum_name = input("Forum name >> ")
+        forum_message = input("Forum message >> ")
+        with open('token.txt') as f:
+            lines = f.readlines()
+            while True:
+                for l in lines:
+                    try:
+                        randoms = randomname(4)
+                        payload = {"name": f"{forum_name} " +randoms, "message": {"content": f"{forum_message}"}}
+                        headers = {"authorization": l.rstrip("\n")}
+                        res = requests.post(f"https://discord.com/api/v9/channels/{forum_id}/threads?use_nested_fields=true", headers=headers, json=payload)
+                        print(l.rstrip("\n"))
+                        print(res.text)
+                    except Exception as e:
+                        print("Error: "+ e) 
+    if modes == "9":
         print("Coming soon")
         time.sleep(1)
-        menu() 
+        menu()                    
     else:
         print("引数が不正です。")
         time.sleep(1)
