@@ -220,11 +220,13 @@ def menu():
     """+Color.RESET)
     print(Color.BLUE+"""
 
-      1: Spammer            2: Joiner       3: Report Spam        4: Ghost Spam         5: Slash Command Spammer
-      
-      6: Form Creater       7: Leaver       8: Reaction Spammer   9: NicknameChanger    10: Yax Bot Verify Bypasser
-      
-      11: Reply Spammer     12: VC Joiner   13: Token hecker      14: Token Status
+      01: Spammer                     02: Joiner                   03: Report Spam            04: Ghost Spam         
+    
+      05: HypeSquad Change            06: Form Creater             07: Leaver                 08: Reaction Spammer
+
+      09: Nickname Changer            10: Yax Bot Verify Bypasser  11: Reply Spammer          12: VC Joiner        
+            
+      13: Token Checker               14: Token Status
 
     """+Color.RESET)
     modes = input("Mode >> ")
@@ -539,9 +541,17 @@ def menu():
                     except Exception as e:
                         print("Error: "+ e)         
     if modes == "5":
-        print("Coming soon")
-        time.sleep(1)
-        menu()
+        house_id = input("1=Bravery 2=Brilliance 3=Balance \n House Id >> ")
+        with open('token.txt') as f:
+            lines = f.readlines()
+            while True:
+                for l in lines:
+                    try:
+                        payload = {"house_id": {house_id}}
+                        headers = {"authorization": l.rstrip("\n")}
+                        res = requests.post(f"https://ptb.discord.com/api/v9/hypesquad/online", headers=headers, json=payload)
+                    except Exception as e:
+                        print("Error: "+ e)    
     if modes == "6":
         guild_id = input("Server Id >> ")
         forum_id = input("Forum Id >> ")
@@ -574,16 +584,16 @@ def menu():
                         print(l.rstrip("\n"))
                         print(res.text)
                     except Exception as e:
-                        print("Error: "+ e)   
+                        print("Error: "+ e)
     if modes == "13":
         with open('token.txt','r+') as f:
             for line in f:
                 token=line.strip("\n")
-                headers = {'Content-Type': 'application/json', 'authorization': token}
+                headers = {"Content-Type": "application/json", "authorization": token}
                 res = requests.get(f"https://discord.com/api/v9/users/@me", headers=headers)
                 if res.status_code == 200:
                     print(f"{Fore.GREEN}  Valid {Fore.CYAN}| {Fore.RESET}{token}")
-                elif r.status_code == 429:
+                elif res.status_code == 429:
                     print(f"{Fore.YELLOW}  Rate Limited {Fore.YELLOW}[{Fore.RESET}429{Fore.YELLOW}] {Fore.CYAN}| {Fore.RESET}{token}")
                 else:
                     print(f"{Fore.RED}  Invalid {Fore.CYAN}| {Fore.RESET}{token}")
@@ -627,7 +637,7 @@ def menu():
                     )
             print(f"\n[\033[32m+\033[0m] Online | {tokens}")
     else:
-        print("引数が不正です。")
+        #print("引数が不正です。")
         time.sleep(1)
         menu()               
 menu()
