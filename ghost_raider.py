@@ -17,6 +17,7 @@ import base64
 import httpx
 import time
 from colorama import Fore
+import discord_self_embed
 
 import re
 import binascii
@@ -574,7 +575,19 @@ def menu():
                         print(l.rstrip("\n"))
                         print(res.text)
                     except Exception as e:
-                        print("Error: "+ e)              
+                        print("Error: "+ e)   
+    if modes == "13":
+        with open('token.txt','r+') as f:
+            for line in f:
+                token=line.strip("\n")
+                headers = {'Content-Type': 'application/json', 'authorization': token}
+                res = requests.get(f"https://discord.com/api/v9/users/@me", headers=headers)
+                if res.status_code == 200:
+                    print(f"{Fore.GREEN}  Valid {Fore.CYAN}| {Fore.RESET}{token}")
+                elif r.status_code == 429:
+                    print(f"{Fore.YELLOW}  Rate Limited {Fore.YELLOW}[{Fore.RESET}429{Fore.YELLOW}] {Fore.CYAN}| {Fore.RESET}{token}")
+                else:
+                    print(f"{Fore.RED}  Invalid {Fore.CYAN}| {Fore.RESET}{token}")
     else:
         print("引数が不正です。")
         time.sleep(1)
