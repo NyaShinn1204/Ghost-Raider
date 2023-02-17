@@ -17,7 +17,6 @@ import base64
 import httpx
 import time
 from colorama import Fore
-import discord_self_embed
 
 import re
 import binascii
