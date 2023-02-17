@@ -225,7 +225,7 @@ def menu():
       
       6: Form Creater       7: Leaver       8: Reaction Spammer   9: NicknameChanger    10: Yax Bot Verify Bypasser
       
-      11: Reply Spammer     12: VC Joiner
+      11: Reply Spammer     12: VC Joiner   13: Checker
 
     """+Color.RESET)
     modes = input("Mode >> ")
