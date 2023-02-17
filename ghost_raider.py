@@ -225,7 +225,7 @@ def menu():
       
       6: Form Creater       7: Leaver       8: Reaction Spammer   9: NicknameChanger    10: Yax Bot Verify Bypasser
       
-      11: Reply Spammer     12: VC Joiner   13: Checker
+      11: Reply Spammer     12: VC Joiner   13: Token hecker      14: Token Status
 
     """+Color.RESET)
     modes = input("Mode >> ")
@@ -588,6 +588,45 @@ def menu():
                     print(f"{Fore.YELLOW}  Rate Limited {Fore.YELLOW}[{Fore.RESET}429{Fore.YELLOW}] {Fore.CYAN}| {Fore.RESET}{token}")
                 else:
                     print(f"{Fore.RED}  Invalid {Fore.CYAN}| {Fore.RESET}{token}")
+    if modes == "14":
+        status = input("候補 online,idle,dnd \nStatus >> ")
+        game = input("Game Name >> ")
+        details = input("一行下の文 >> ")
+        state = input("二行下の文 >> ")
+        with open('token.txt') as f:
+            lines = f.readlines()
+            for l in lines:    
+                tokens = l.rstrip("\n")
+                ws = websocket.WebSocket()
+                ws.connect("wss://gateway.discord.gg/?encoding=json&v=9")
+                ws.send(json.dumps({
+                    "op":2,
+                        "d": {
+                            "token": tokens,
+                            "properties": {
+                                "$os": "Discord Android",
+                                "$browser": "Discord Android",
+                                "$device": "Discord Android",
+                            },
+                            "presence": {
+                                "game": {                #初期設定
+                                    "name": game,        #Ghost Raider
+                                    "type": 0,           
+                                    "details": details,  #Edited Version
+                                    "state": state       #By cocoapc911
+                                },
+                                "status": status,
+                                "since": 0,
+                                "activities": [],
+                                "afk": False,
+                            },
+                        },
+                        "s": None,
+                        "t": None,
+                }
+                )
+                    )
+            print(f"\n[\033[32m+\033[0m] Online | {tokens}")
     else:
         print("引数が不正です。")
         time.sleep(1)
