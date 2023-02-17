@@ -578,13 +578,20 @@ def menu():
             while True:
                 for l in lines:
                     try:
-                        payload = {"nick": {nickname}}
-                        headers = {"authorization": l.rstrip("\n")}
+                        token=l.rstrip("\n")
+                        payload = {"nick": nickname}
+                        headers = {"authorization": token}
                         res = requests.patch(f"https://discord.com/api/v9/guilds/{guild_id}/members/@me", headers=headers, json=payload)
-                        print(l.rstrip("\n"))
-                        print(res.text)
+                        #print(l.rstrip("\n"))
+                        #print(res.text)
+                        if res.status_code == 200:
+                            print(f"{Fore.GREEN} Success Change {Fore.RESET}{token}")
+                        elif res.status_code == 200:
+                            print(f"{Fore.YELLOW} Rate Limited {Fore.CYAN}| {Fore.RESET}{token}")    
+                        time.sleep(1)
+                        menu()
                     except Exception as e:
-                        print("Error: "+ e)
+                        print("Error: "+ e)    
     if modes == "13":
         with open('token.txt','r+') as f:
             for line in f:
@@ -636,8 +643,10 @@ def menu():
                 )
                     )
             print(f"\n[\033[32m+\033[0m] Online | {tokens}")
+            time.sleep(1)
+            menu()
     else:
-        #print("引数が不正です。")
+        print("引数が不正です。")
         time.sleep(1)
         menu()               
 menu()
