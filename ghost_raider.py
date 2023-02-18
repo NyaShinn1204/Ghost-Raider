@@ -226,7 +226,7 @@ def menu():
 
       09: Nickname Changer            10: Yax Bot Verify Bypasser  11: Reply Spammer          12: VC Joiner        
             
-      13: Token Checker               14: Token Status
+      13: Token Checker               14: Token Status             
 
     """+Color.RESET)
     modes = input("Mode >> ")
@@ -319,7 +319,7 @@ def menu():
                                     print("Error: "+ e)          
             while True:
                 time.sleep(0.4)
-                threading.Thread(target=spamss).start()   
+                threading.Thread(target=spamss).start()                
     if modes == "2":
         invid = input("Invite Code >> ")
         rule = input("RuleScreen y/n >> ")
@@ -549,7 +549,7 @@ def menu():
                     try:
                         payload = {"house_id": {house_id}}
                         headers = {"authorization": l.rstrip("\n")}
-                        res = requests.post(f"https://ptb.discord.com/api/v9/hypesquad/online", headers=headers, json=payload)
+                        res = requests.post(f"https://discord.com/api/v9/hypesquad/online", headers=headers, json=payload)
                     except Exception as e:
                         print("Error: "+ e)    
     if modes == "6":
@@ -648,5 +648,5 @@ def menu():
     else:
         print("引数が不正です。")
         time.sleep(1)
-        menu()               
+        menu()
 menu()
