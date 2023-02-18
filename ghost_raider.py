@@ -541,17 +541,32 @@ def menu():
                     except Exception as e:
                         print("Error: "+ e)         
     if modes == "5":
-        house_id = input("1=Bravery 2=Brilliance 3=Balance \n House Id >> ")
+        house_id = input("1=Bravery 2=Brilliance 3=Balance 4=なし\nHouse Id >> ")
         with open('token.txt') as f:
             lines = f.readlines()
             while True:
                 for l in lines:
                     try:
-                        payload = {"house_id": {house_id}}
+                        if house_id == "4":
+                            headers = {"authorization": l.rstrip("\n")}
+                            res = requests.delete(f"https://discord.com/api/v9/hypesquad/online", headers=headers)
+                            if res.status_code == 204:
+                                print(f"{Fore.GREEN} 成功{Fore.RESET}")
+                            else: 
+                                print(f"{Fore.RED} 失敗{Fore.RESET}")
+                            time.sleep(1)
+                            menu()
+                        payload = {"house_id": house_id}
                         headers = {"authorization": l.rstrip("\n")}
                         res = requests.post(f"https://discord.com/api/v9/hypesquad/online", headers=headers, json=payload)
+                        if res.status_code == 204:
+                            print(f"{Fore.GREEN} 成功{Fore.RESET}")
+                        else: 
+                            print(f"{Fore.RED} 失敗{Fore.RESET}")
+                        time.sleep(1)
+                        menu()
                     except Exception as e:
-                        print("Error: "+ e)    
+                        print("Error: "+ e)        
     if modes == "6":
         guild_id = input("Server Id >> ")
         forum_id = input("Forum Id >> ")
