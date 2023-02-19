@@ -724,6 +724,22 @@ def menu():
             while True:
                 time.sleep(0.4)
                 threading.Thread(target=normalspam).start()
+    #if modes == "15":
+    #    guild_id  = input("Server Id >> ")
+    #    token = input("Token >> ")
+    #    forum_id = input("Forum Id >> ")
+    #    chlist = get_channels(token,int(forum_id))      
+    #    with open('tokens.txt') as f:
+    #        lines = f.readlines()
+    #        while True:
+    #            for l in lines:
+    #                try:
+    #                    channel_id = random.choice(chlist)
+    #                    headers = {"authorization": l.rstrip("\n")}
+    #                    res = requests.delete(f"https://discord.com/api/v9/channels/{guild_id}/{forum_id}/threads/{channel_id}", headers=headers)
+    #                    print("Deleted")
+    #                except Exception as e:
+    #                    print("Error: "+ e)         
     else:
         print("引数が不正です。")
         time.sleep(1)
