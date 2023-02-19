@@ -215,9 +215,9 @@ def menu():
     | |__| | | | | (_) \__ \ |_  | | \ \ (_| | | (_| |  __/ |   
      \_____|_| |_|\___/|___/\__| |_|  \_\__,_|_|\__,_|\___|_|   
     
-        | Made By cocoapc911
+        | Made By cocoapc911 Modify By ☆にゃにゃっこ☆
         | Discord: ここあ#0001
-        | Credit: mode=114514
+        | Github: https://github.com/HACKShinn1204/Ghost-Raider
     """+Color.RESET)
     print(Color.BLUE+"""
 
@@ -649,10 +649,6 @@ def menu():
             print(f"\n[\033[32m+\033[0m] Online | {tokens}")
             time.sleep(1)
             menu()
-    if modes == "114514":
-        print(f"{Fore.GREEN}Creators {Fore.RESET}> {Fore.GREEN}☆にゃにゃっこ☆#5964\n{Fore.GREEN}LINKS {Fore.RESET}> {Fore.BLUE}https://github.com/HACKShinn1204/Ghost-Raider{Fore.RESET}")       
-        time.sleep(3)
-        menu()
     if modes == "0.5":
         ffs = open('message.txt',"r",encoding="utf-8_sig")
         messages = ffs.read()
