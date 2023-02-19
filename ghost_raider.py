@@ -239,6 +239,8 @@ def menu():
             token = input("Token >> ")
             channel_id = input("Channel Id >> ")
             chlist = get_channels(token,int(guild_id))
+        else:
+            channel_id = input("Channel id >> ")    
         randoms = int(input("Random Mention数(しない場合0と入力) >> "))
         if randoms > 0:
             if allchannels == "y":
