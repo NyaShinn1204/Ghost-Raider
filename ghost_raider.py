@@ -770,45 +770,28 @@ def menu():
                             print(res.text)
                         except Exception as e:
                             print("Error: "+ e) 
-        if forummode == "2":        
+        if forummode == "2":
             channel_id = input("Channel Id >> ")
-            message_id = input("Message Id >> ")
-            forum_name = input("Forum name >> ")
-            forum_message = input("Forum message >> ")
-            #def get_messages(channel_id):
-            #    with open('token.txt') as f:
-            #        lines = f.readlines()
-            #        while True:
-            #            for l in lines:
-            #                try: 
-            #                    headers = {"authorization": l.rstrip("\n")}
-            #                    res = requests.get(f"https://discord.com/api/v8/channels/{channelid}/messages", headers=headers)
-            #                except Exception as e:
-            #                    print("Error: "+ e)    
-            #messages = get_messages(channel_id)
-            #messageslist = []
-            #for messageID in messages:
-            #    print(f"メッセージを取得しました。{messageID}")
-            #    messageslist.append(messageID)             
-            with open('token.txt') as f:
-                lines = f.readlines()
-                while True:
-                    for l in lines:
-                        try:
-                            #message_id = random.choice(messageslist)
-                            randoms = randomname(7)
-                            payload = {"name": f"{forum_name} " +randoms, "message": {"content": f"{forum_message}"}}
-                            headers = {"authorization": l.rstrip("\n")}
-                            res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages/{message_id}/threads", headers=headers, json=payload)
-                            print(l.rstrip("\n"))
-                            print(res.text)
-                        except Exception as e:
-                            print("Error: "+ e) 
-        if forummode == "114514":
-            channel_id = input("Channel Id >> ")
-            message_all = int(input("Message All しない場合0>> "))
+            message_all = int(input("Message All する=1 しない=0 >> "))
             if message_all == 0:
                 message_id = input("Message Id >> ")
+                forum_name = input("Forum name >> ")
+                forum_message = input("Forum message >> ")
+                with open('token.txt') as f:
+                    lines = f.readlines()
+                    while True:
+                        for l in lines:
+                            try:
+                                randoms = randomname(7)
+                                payload = {"name": f"{forum_name} " +randoms, "message": {"content": f"{forum_message}"}}
+                                headers = {"authorization": l.rstrip("\n")}
+                                res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages/{message_id}/threads", headers=headers, json=payload)
+                                print(l.rstrip("\n"))
+                                print(res.text)
+                            except Exception as e:
+                                print("Error: "+ e) 
+            if message_all == 1:
+                print("いつか")    
             forum_name = input("Forum name >> ")
             forum_message = input("Forum message >> ")
             print("DEBUGGER ONLY")                    
