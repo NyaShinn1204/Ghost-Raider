@@ -237,10 +237,8 @@ def menu():
         if allchannels == "y":
             guild_id  = input("Server Id >> ")
             token = input("Token >> ")
-            channel_id = input("Channel Id >>")
-            chlist = get_channels(token,int(guild_id))
-        else:
             channel_id = input("Channel Id >> ")
+            chlist = get_channels(token,int(guild_id))
         randoms = int(input("Random Mention数(しない場合0と入力) >> "))
         if randoms > 0:
             if allchannels == "y":
@@ -277,15 +275,15 @@ def menu():
             for memberID in members:
                 print(f"メンバーを取得しました。{memberID}")
                 memberslist.append(memberID)      
-            def spams():
+            def memberspam():
                 spams = ""
+                channel_id = input("Channel Id >> ")
                 with open('token.txt') as f:
                         lines = f.readlines()
                         while True:
                             for l in lines:
                                     if allchannels == "y":
                                         channel_id = random.choice(chlist)
-                                        print(channel_id)
                                     for _ in range(randoms):
                                         spams += "<@" + random.choice(memberslist) + "> "
                                     randomed = randomname(10)
@@ -298,10 +296,11 @@ def menu():
                                 
             while True:
                 time.sleep(0.7)
-                threading.Thread(target=spams).start()
+                threading.Thread(target=memberspam).start()
         else:
-            def spamss():
+            def normalspam():
                 with ThreadPoolExecutor(max_workers=4) as executor:
+                    channel_id = input("Channel Id >> ")
                     with open('token.txt') as f:
                         lines = f.readlines()
                         while True:
@@ -319,7 +318,7 @@ def menu():
                                     print("Error: "+ e)          
             while True:
                 time.sleep(0.4)
-                threading.Thread(target=spamss).start()                
+                threading.Thread(target=normalspam).start()              
     if modes == "2":
         invid = input("Invite Code >> ")
         rule = input("RuleScreen y/n >> ")
