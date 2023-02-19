@@ -217,6 +217,7 @@ def menu():
     
         | Made By cocoapc911
         | Discord: ここあ#0001
+        | Credit: mode=114514
     """+Color.RESET)
     print(Color.BLUE+"""
 
@@ -661,6 +662,10 @@ def menu():
             print(f"\n[\033[32m+\033[0m] Online | {tokens}")
             time.sleep(1)
             menu()
+    if modes == "114514":
+        print(f"{Fore.GREEN}Creators {Fore.RESET}> {Fore.GREEN}☆にゃにゃっこ☆#5964\n{Fore.GREEN}LINKS {Fore.RESET}> {Fore.BLUE}https://github.com/HACKShinn1204/Ghost-Raider{Fore.RESET}")       
+        time.sleep(3)
+        menu()
     else:
         print("引数が不正です。")
         time.sleep(1)
