@@ -804,6 +804,14 @@ def menu():
                             print(res.text)
                         except Exception as e:
                             print("Error: "+ e) 
+        if forummode == "114514":
+            channel_id = input("Channel Id >> ")
+            message_all = int(input("Message All しない場合0>> "))
+            if message_all == 0:
+                message_id = input("Message Id >> ")
+            forum_name = input("Forum name >> ")
+            forum_message = input("Forum message >> ")
+            print("DEBUGGER ONLY")                    
     if modes == "9":
         guild_id = input("Server Id >> ")
         nickname = input("Nickname >> ")
