@@ -3,6 +3,7 @@ import threading
 import os
 import random
 import discum as discum
+from datetime import datetime
 import requests
 import threading
 import emoji as eeemj
@@ -16,7 +17,9 @@ import websocket
 import base64
 import httpx
 import time
+import sys
 from colorama import Fore
+
 
 import re
 import binascii
@@ -54,6 +57,195 @@ def get_channels(tokens,guildid):
             break
         else:
             continue
+
+def getheaders(token=None):
+    headers = random.choice(heads)
+    if token:
+        headers.update({"Authorization": token})
+    return headers
+
+heads = [
+    {
+        "Content-Type": "application/json",
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; rv:76.0) Gecko/20100101 Firefox/76.0'
+    },
+
+    {
+        "Content-Type": "application/json",
+        "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:72.0) Gecko/20100101 Firefox/72.0"
+    },
+
+    {
+        "Content-Type": "application/json",
+        "User-Agent": "Mozilla/5.0 (X11; Debian; Linux x86_64; rv:72.0) Gecko/20100101 Firefox/72.0"
+    },
+
+    {
+        "Content-Type": "application/json",
+        'User-Agent': 'Mozilla/5.0 (Windows NT 3.1; rv:76.0) Gecko/20100101 Firefox/69.0'
+    },
+
+    {
+        "Content-Type": "application/json",
+        "User-Agent": "Mozilla/5.0 (X11; Debian; Linux x86_64; rv:72.0) Gecko/20100101 Firefox/76.0"
+    },
+
+    {
+       "Content-Type": "application/json",
+       "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11"
+    }
+]
+
+def Info(token):
+    r = requests.get('https://discord.com/api/v9/users/@me', headers=getheaders(token))
+    cc_digits = {
+    'american express': '3',
+    'visa': '4',
+    'mastercard': '5'
+}
+    badges = ""
+
+    Discord_Employee = 1
+    Partnered_Server_Owner = 2
+    HypeSquad_Events = 4
+    Bug_Hunter_Level_1 = 8
+    House_Bravery = 64
+    House_Brilliance = 128
+    House_Balance = 256
+    Early_Supporter = 512
+    Bug_Hunter_Level_2 = 16384
+    Early_Verified_Bot_Developer = 131072
+
+    flags = r.json()['flags']
+    if (flags == Discord_Employee):
+        badges += "スタッフ"
+    if (flags == Partnered_Server_Owner):
+        badges += "パートナーサーバーのオーナー"
+    if (flags == HypeSquad_Events):
+        badges += "Hypesquadイベント"
+    if (flags == Bug_Hunter_Level_1):
+        badges += "バグハンター(Green,level1)"
+    if (flags == House_Bravery):
+        badges += "Hypesquad Bravery, "
+    if (flags == House_Brilliance):
+        badges += "HypeSquad Brillance, "
+    if (flags == House_Balance):
+        badges += "HypeSquad Balance, "
+    if (flags == Early_Supporter):
+        badges += "早期サポーター"
+    if (flags == Bug_Hunter_Level_2):
+        badges += "バグハンター(gold,level2)"
+    if (flags == Early_Verified_Bot_Developer):
+        badges += "認証BOTのDeveloper "
+    if (badges == ""):
+        badges = "無し"
+
+    userName = r.json()['username'] + '#' + r.json()['discriminator']
+    userID = r.json()['id']
+    phone = r.json()['phone']
+    email = r.json()['email']
+    language = r.json()['locale']
+    mfa = r.json()['mfa_enabled']
+    avatar_id = r.json()['avatar']
+    has_nitro = False
+    res = requests.get('https://discordapp.com/api/v9/users/@me/billing/subscriptions', headers=getheaders(token))
+    nitro_data = res.json()
+    has_nitro = bool(len(nitro_data) > 0)
+    avatar_url = f'https://cdn.discordapp.com/avatars/{userID}/{avatar_id}.webp'
+    cREAtion_date = datetime.utcfromtimestamp(((int(userID) >> 22) + 1420070400000) / 1000).strftime("%Y/%m/%d %H:%M:%S")
+
+    if has_nitro:
+        d1 = datetime.strptime(nitro_data[0]["current_period_end"].split('.')[0], "%Y-%m-%dT%H:%M:%S")
+        d2 = datetime.strptime(nitro_data[0]["current_period_start"].split('.')[0], "%Y-%m-%dT%H:%M:%S")
+        days_left = abs((d2 - d1).days)
+
+    billing_info = []
+    for x in requests.get('https://discordapp.com/api/v9/users/@me/billing/payment-sources', headers=getheaders(token)).json():
+        y = x['billing_address']
+        name = y['name']
+        address_1 = y['line_1']
+        address_2 = y['line_2']
+        city = y['city']
+        postal_code = y['postal_code']
+        state = y['state']
+        country = y['country']
+        if x['type'] == 1:
+            cc_brand = x['brand']
+            cc_first = cc_digits.get(cc_brand)
+            cc_last = x['last_4']
+            cc_month = str(x['expires_month'])
+            cc_year = str(x['expires_year'])
+            data = {
+                'Payment Type': 'Credit Card',
+                'Valid': not x['invalid'],
+                'CC Holder Name': name,
+                'CC Brand': cc_brand.title(),
+                'CC Number': ''.join(z if (i + 1) % 2 else z + ' ' for i, z in enumerate((cc_first if cc_first else '*') + ('*' * 11) + cc_last)),
+                'CC Exp. Date': ('0' + cc_month if len(cc_month) < 2 else cc_month) + '/' + cc_year[2:4],
+                'Address 1': address_1,
+                'Address 2': address_2 if address_2 else '',
+                'City': city,
+                'Postal Code': postal_code,
+                'State': state if state else '',
+                'Country': country,
+                'Default Payment': x['default']
+            }
+        elif x['type'] == 2:
+            data = {
+                'Payment Type': 'PayPal',
+                'Valid': not x['invalid'],
+                'PayPal Name': name,
+                'PayPal Email': x['email'],
+                'Address 1': address_1,
+                'Address 2': address_2 if address_2 else '',
+                'City': city,
+                'Postal Code': postal_code,
+                'State': state if state else '',
+                'Country': country,
+                'Default Payment': x['default']
+            }
+        billing_info.append(data)
+        
+    print(f'''
+{Fore.RESET}{Fore.LIGHTMAGENTA_EX} アカウント {Fore.RESET}
+[{Fore.GREEN}ユーザーネーム{Fore.RESET}]    {userName} | {userID}
+[{Fore.GREEN}バッジ{Fore.RESET}]           {badges}
+[{Fore.GREEN}言語{Fore.RESET}]             {language}
+[{Fore.GREEN}作成日時{Fore.RESET}]         {cREAtion_date}
+[{Fore.GREEN}アバターURL{Fore.RESET}]      {avatar_url if avatar_id else ""}
+[{Fore.GREEN}Token{Fore.RESET}]   {Fore.RED}{token}{Fore.RESET}
+
+{Fore.RESET}{Fore.LIGHTMAGENTA_EX} セキュリティ {Fore.RESET}
+[{Fore.GREEN}Eメール{Fore.RESET}]     {email}
+[{Fore.GREEN}電話番号{Fore.RESET}]    {phone if phone else "無し"}
+[{Fore.GREEN}二段階認証{Fore.RESET}]  {mfa}
+
+{Fore.RESET}{Fore.LIGHTMAGENTA_EX} Nitro {Fore.RESET}
+[{Fore.GREEN}Nitro 情報{Fore.RESET}]    {has_nitro}
+[{Fore.GREEN}Nitroの終了まで{Fore.RESET}]  {days_left if has_nitro else "0"}日
+            ''')
+    if len(billing_info) > 0:
+        print(f"{Fore.RESET}{Fore.LIGHTMAGENTA_EX} 請求情報 {Fore.RESET}")
+        if len(billing_info) == 1:
+            for billing in billing_info:
+                for key,val in billing.items():
+                    if not val:
+                        continue
+                    print(f"[{Fore.RED}"+'{:<23}{:<10}{}'.format(key+Fore.RED+Fore.RESET+"]", Fore.RESET, val))
+        else:
+            for i, x in enumerate(billing_info):
+                title = f'支払い情報 #{i + 1} ({x[""]})'
+                print('' + title)
+                print('' + ('=' * len(title)))
+                for j, (key, val) in enumerate(x.items()):
+                    if not val or j == 0:
+                        continue
+                    print(f"[{Fore.RED}"+'{:<23}{:<10}{}'.format(key+Fore.RED+Fore.RESET+"]", Fore.RESET, val))
+                if i < len(billing_info) - 1:
+                    print(f'{Fore.RESET}')
+        print(f'{Fore.RESET}')
+    input(f'[\x1b[95m>\x1b[95m\x1B[37m] ENTERを入力してください: ')
+        
 def get_proxies():
     """Proxies"""
     global kusi
@@ -132,6 +324,7 @@ def get_session():
     headers["content-type"] = "application/json"
     session.post(f'https://discord.com/cdn-cgi/challenge-platform/h/b/cv/result/{r}', headers=headers, json=payload)
     return session
+
 def get_headers(option=None):
     headers = {
         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
@@ -218,16 +411,17 @@ def menu():
         | Made By cocoapc911 Modify By ☆にゃにゃっこ☆
         | Discord: ここあ#0001
         | Github: https://github.com/HACKShinn1204/Ghost-Raider
+        | Skid List: Ghost Raider, auau Raider
     """+Color.RESET)
     print(Color.BLUE+"""
 
       01:  AllCh   Spammer             02: Joiner                   03: Report Spam            04: Ghost Spam         
       0.5: Channel Spammer 
-      05: HypeSquad Change            06: Form Creater             07: Leaver                 08: Reaction Spammer
+      05: HypeSquad Change             06: Form(Threads) Creater    07: Leaver                 08: Reaction Spammer
 
-      09: Nickname Changer            10: Yax Bot Verify Bypasser  11: Reply Spammer          12: VC Joiner        
+      09: Nickname Changer             10: Yax Bot Verify Bypasser  11: Reply Spammer          12: VC Joiner        
             
-      13: Token Checker               14: Token Status             
+      13: Token Checker                14: Token Status             15: Token Info 
 
     """+Color.RESET)
     modes = input("Mode >> ")
@@ -557,6 +751,8 @@ def menu():
                     except Exception as e:
                         print("Error: "+ e)        
     if modes == "6":
+        #forummode = input(f"[1]{Fore.GREEN}Threads Creator{Fore.RESET}\n[2]{Fore.RED}Threads Deleter{Fore.RESET}\nMode >> ")
+        #if forummode == "1":
         guild_id = input("Server Id >> ")
         forum_id = input("Forum Id >> ")
         forum_name = input("Forum name >> ")
@@ -724,22 +920,15 @@ def menu():
             while True:
                 time.sleep(0.4)
                 threading.Thread(target=normalspam).start()
-    #if modes == "15":
-    #    guild_id  = input("Server Id >> ")
-    #    token = input("Token >> ")
-    #    forum_id = input("Forum Id >> ")
-    #    chlist = get_channels(token,int(forum_id))      
-    #    with open('tokens.txt') as f:
-    #        lines = f.readlines()
-    #        while True:
-    #            for l in lines:
-    #                try:
-    #                    channel_id = random.choice(chlist)
-    #                    headers = {"authorization": l.rstrip("\n")}
-    #                    res = requests.delete(f"https://discord.com/api/v9/channels/{guild_id}/{forum_id}/threads/{channel_id}", headers=headers)
-    #                    print("Deleted")
-    #                except Exception as e:
-    #                    print("Error: "+ e)         
+    if modes == "15":  
+        os.system("cls")
+        token = open("token.txt", "r").read().splitlines()
+        with open('token.txt', 'r') as handle:
+            tokens = handle.readlines()
+            for i in tokens:
+                token = i.rstrip()
+                Info(token)
+                menu()
     else:
         print("引数が不正です。")
         time.sleep(1)
