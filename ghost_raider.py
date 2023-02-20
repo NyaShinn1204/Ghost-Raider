@@ -434,6 +434,7 @@ def menu():
         | Discord: ここあ#0001
         | Github: https://github.com/HACKShinn1204/Ghost-Raider
         | Skid List: Ghost Raider, auau Raider
+        | Version: 0.01.42
     """+Color.RESET)
     print(Color.BLUE+"""
 
