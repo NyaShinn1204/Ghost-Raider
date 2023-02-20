@@ -24,6 +24,11 @@ from colorama import Fore
 import re
 import binascii
 import tls_client
+
+token_file = input("Token file? >>")
+print("Set Token File >> "+ token_file +".txt")
+
+time.sleep(1)
 kusi = None
 def bypass(token, guildid, session):
     headers = get_headers()
@@ -484,7 +489,7 @@ def menu():
                 memberslist.append(memberID)      
             def memberspam():
                 spams = ""
-                with open('token.txt') as f:
+                with open(token_file + '.txt') as f:
                         lines = f.readlines()
                         while True:
                             for l in lines:
@@ -505,7 +510,7 @@ def menu():
         else:
             def normalspam():
                 with ThreadPoolExecutor(max_workers=4) as executor:
-                    with open('token.txt') as f:
+                    with open(token_file + '.txt') as f:
                         lines = f.readlines()
                         while True:
                             for l in lines:
@@ -526,7 +531,7 @@ def menu():
         invid = input("Invite Code >> ")
         rule = input("RuleScreen y/n >> ")
         def join():
-            with open('token.txt') as f:
+            with open(token_file + '.txt') as f:
                 lines = f.readlines()
                 for l in lines:
                     print("start")
@@ -585,7 +590,7 @@ def menu():
     if modes == "3":
         channel_id = input("Channel Id >> ")
         message_id = input("Message Id >>")
-        with open('token.txt') as f:
+        with open(token_file + '.txt') as f:
             lines = f.readlines()
             while True:
                 for l in lines:
@@ -599,7 +604,7 @@ def menu():
                         print("Error: "+ e) 
     if modes == "7":
         guild = input("Server Id >> ")
-        with open('token.txt') as f:
+        with open(token_file + '.txt') as f:
             lines = f.readlines()
             for l in lines:
                 try:
@@ -612,7 +617,7 @@ def menu():
             emoji = input("emoji >> ")
             channelid = input("Channel Id >> ")
             messageid = input("Message Id >> ")
-            with open('token.txt') as f:
+            with open(token_file + '.txt') as f:
                 lines = f.readlines()
                 for l in lines:
                     try:
@@ -624,7 +629,7 @@ def menu():
                         print("Error")
     if modes == "10":
         url = input("Verify URL >> ")
-        with open('token.txt') as f:
+        with open(token_file + '.txt') as f:
                 lines = f.readlines()
 
                 for l in lines:
@@ -662,7 +667,7 @@ def menu():
         ffs = open('message.txt',"r",encoding="utf-8_sig")
         messages = ffs.read()
         def reply():
-            with open('token.txt') as f:
+            with open(token_file + '.txt') as f:
                 lines = f.readlines()
                 while True:
                     for l in lines:
@@ -721,7 +726,7 @@ def menu():
                         }
                     )
             )        
-        with open('token.txt') as f:
+        with open(token_file + '.txt') as f:
             lines = f.readlines()
             for l in lines:    
                 tokens = l.rstrip("\n")
@@ -730,7 +735,7 @@ def menu():
     if modes == "4":
         messages = input("Messages >> ")
         channel_id = input("Channel Id >>")
-        with open('token.txt') as f:
+        with open(token_file + '.txt') as f:
             lines = f.readlines()
             while True:
                  for l in lines:
@@ -744,7 +749,7 @@ def menu():
                         print("Error: "+ e)         
     if modes == "5":
         house_id = input("1=Bravery 2=Brilliance 3=Balance 4=なし\nHouse Id >> ")
-        with open('token.txt') as f:
+        with open(token_file + '.txt') as f:
             lines = f.readlines()
             while True:
                 for l in lines:
@@ -776,7 +781,7 @@ def menu():
             forum_id = input("Forum Id >> ")
             forum_name = input("Forum name >> ")
             forum_message = input("Forum message >> ")
-            with open('token.txt') as f:
+            with open(token_file + '.txt') as f:
                 lines = f.readlines()
                 while True:
                     for l in lines:
@@ -796,7 +801,7 @@ def menu():
                 message_id = input("Message Id >> ")
                 forum_name = input("Forum name >> ")
                 forum_message = input("Forum message >> ")
-                with open('token.txt') as f:
+                with open(token_file + '.txt') as f:
                     lines = f.readlines()
                     while True:
                         for l in lines:
@@ -815,7 +820,7 @@ def menu():
                 forum_message = input("Forum message >> ")
                 mslist = get_messages(token,int(channel_id))
                 tokens = token
-                with open('token.txt') as f:
+                with open(token_file + '.txt') as f:
                     lines = f.readlines()
                     while True:
                         for l in lines:
@@ -832,7 +837,7 @@ def menu():
     if modes == "9":
         guild_id = input("Server Id >> ")
         nickname = input("Nickname >> ")
-        with open('token.txt') as f:
+        with open(token_file + '.txt') as f:
             lines = f.readlines()
             while True:
                 for l in lines:
@@ -852,7 +857,7 @@ def menu():
                     except Exception as e:
                         print("Error: "+ e)    
     if modes == "13":
-        with open('token.txt','r+') as f:
+        with open(token_file + '.txt') as f:
             for line in f:
                 token=line.strip("\n")
                 headers = {"Content-Type": "application/json", "authorization": token}
@@ -868,7 +873,7 @@ def menu():
         game = input("Game Name >> ")
         details = input("一行下の文 >> ")
         state = input("二行下の文 >> ")
-        with open('token.txt') as f:
+        with open(token_file + '.txt') as f:
             lines = f.readlines()
             for l in lines:    
                 tokens = l.rstrip("\n")
@@ -943,7 +948,7 @@ def menu():
                 memberslist.append(memberID)      
             def memberspam():
                 spams = ""
-                with open('token.txt') as f:
+                with open(token_file + '.txt') as f:
                         lines = f.readlines()
                         while True:
                             for l in lines:
@@ -963,7 +968,7 @@ def menu():
         else:
             def normalspam():
                 with ThreadPoolExecutor(max_workers=4) as executor:
-                    with open('token.txt') as f:
+                    with open(token_file + '.txt') as f:
                         lines = f.readlines()
                         while True:
                             for l in lines:
