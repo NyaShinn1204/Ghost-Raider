@@ -25,10 +25,10 @@ import re
 import binascii
 import tls_client
 
-token_file = input("Token file? >>")
-print("Set Token File >> "+ token_file +".txt")
-
+token_file = input("とけんファイル名(.txtは消す) >> ")
+print("設定しました。(保存はされないよ)")
 time.sleep(1)
+
 kusi = None
 def bypass(token, guildid, session):
     headers = get_headers()
