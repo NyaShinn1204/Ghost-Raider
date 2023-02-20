@@ -57,6 +57,23 @@ def get_channels(tokens,guildid):
             break
         else:
             continue
+def get_messages(tokens,channel_id):
+    while True:
+        headers = get_headers()
+        headers["authorization"] = tokens
+        messages = []
+        session = get_session()
+        proxy = get_proxies()
+        req = session.get(f"https://discord.com/api/v9/channels/{channel_id}/messages", headers=headers)
+        if req.status_code == 200:
+            for message in req.json():
+                if 'bitrate' not in message and message['type'] == 0:
+                    if message not in messages:
+                        messages.append(message["id"])
+            return messages
+            break
+        else:
+            continue
 
 def getheaders(token=None):
     headers = random.choice(heads)
@@ -429,7 +446,9 @@ def menu():
         ffs = open('message.txt',"r",encoding="utf-8_sig")
         messages = ffs.read()
         guild_id  = input("Server Id >> ")
+        channel_id = input("Channel id >> ") 
         token = input("Token >> ")
+        channel_id = input("Channel id >> ") 
         chlist = get_channels(token,int(guild_id))
         randoms = int(input("Random Mention数(しない場合0と入力) >> "))
         if randoms > 0:
@@ -791,10 +810,25 @@ def menu():
                             except Exception as e:
                                 print("Error: "+ e) 
             if message_all == 1:
-                print("いつか")    
-            forum_name = input("Forum name >> ")
-            forum_message = input("Forum message >> ")
-            print("DEBUGGER ONLY")                    
+                token = input("Token >> ")
+                forum_name = input("Forum name >> ")
+                forum_message = input("Forum message >> ")
+                mslist = get_messages(token,int(channel_id))
+                tokens = token
+                with open('token.txt') as f:
+                    lines = f.readlines()
+                    while True:
+                        for l in lines:
+                            try:
+                                randoms = randomname(7)
+                                message_id = random.choice(mslist)
+                                payload = {"name": f"{forum_name} " +randoms, "message": {"content": f"{forum_message}"}}
+                                headers = {"authorization": l.rstrip("\n")}
+                                res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages/{message_id}/threads", headers=headers, json=payload)
+                                print(l.rstrip("\n"))
+                                print(res.text)
+                            except Exception as e:
+                                print("Error: "+ e)                         
     if modes == "9":
         guild_id = input("Server Id >> ")
         nickname = input("Nickname >> ")
