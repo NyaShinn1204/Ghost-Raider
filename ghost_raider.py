@@ -692,9 +692,11 @@ def menu():
                         print("エラーが発生しました。") 
     import urllib
     if modes == "8":
+        reaction_mode = input(f"[1]{Fore.GREEN}All Messages{Fore.RESET}\n[2]{Fore.GREEN}One Messages{Fore.RESET}\nMode >> ")
+        if reaction_mode == "2":
             emoji = input("emoji >> ")
-            channelid = input("Channel Id >> ")
-            messageid = input("Message Id >> ")
+            channel_id = input("Channel Id >> ")
+            message_id = input("Message Id >> ")
             with open(token_file + '.txt') as f:
                 lines = f.readlines()
                 for l in lines:
@@ -702,9 +704,28 @@ def menu():
                         emojii = eeemj.emojize(emoji, language='alias')
                         emojiaa = urllib.parse.quote(emojii)
                         headers = {"authorization": l.rstrip("\n")}
-                        req = requests.put(f"https://discord.com/api/v9/channels/{channelid}/messages/{messageid}/reactions/{emojiaa}/%40me", headers=headers)
+                        req = requests.put(f"https://discord.com/api/v9/channels/{channel_id}/messages/{message_id}/reactions/{emojiaa}/%40me", headers=headers)
                     except:
                         print("Error")
+        if reaction_mode == "1":
+                token = input("Token >> ")
+                emoji = input("emoji >> ")
+                channel_id = input("Channel Id >> ")
+                mslist = get_messages(token,int(channel_id))
+                tokens = token
+                with open(token_file + '.txt') as f:
+                    lines = f.readlines()
+                    while True:
+                        for l in lines:
+                            try:
+                                message_id = random.choice(mslist)
+                                emojii = eeemj.emojize(emoji, language='alias')
+                                emojiaa = urllib.parse.quote(emojii)
+                                message_id = random.choice(mslist)
+                                headers = {"authorization": l.rstrip("\n")}
+                                req = requests.put(f"https://discord.com/api/v9/channels/{channel_id}/messages/{message_id}/reactions/{emojiaa}/%40me", headers=headers)
+                            except Exception as e:
+                                print("Error: "+ e)       
     if modes == "10":
         url = input("Verify URL >> ")
         with open(token_file + '.txt') as f:
