@@ -456,7 +456,13 @@ def menu():
             guild_id  = input("Server Id >> ")
             channel_id = input("Channel id >> ") 
             token = input("Token >> ")
-            channel_id = input("Channel id >> ") 
+            messageselect = input("ファイルのメッセージを読み込みますか？ >> ")
+            if messageselect == "y":
+                ffs = open('message.txt',"r",encoding="utf-8_sig")
+                messages = ffs.read()
+            if messageselect == "n":
+                messages = input("Message >> ")                
+            randomcount = input("Random length >> ")    
             chlist = get_channels(token,int(guild_id))
             randoms = int(input("Random Mention数(しない場合0と入力) >> "))
             if randoms > 0:
@@ -499,7 +505,7 @@ def menu():
                                         channel_id = random.choice(chlist)
                                         for _ in range(randoms):
                                             spams += "<@" + random.choice(memberslist) + "> "
-                                        randomed = randomname(10)
+                                        randomed = randomname(randomcount)
                                         payload = {"content": f"{messages}\n{spams}\n" + randomed}
                                         headers = {"authorization": l.rstrip("\n")}
                                         res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages", headers=headers, json=payload)
@@ -517,7 +523,7 @@ def menu():
                             lines = f.readlines()
                             while True:
                                 for l in lines:
-                                    randoms = randomname(10)
+                                    randoms = randomname(randomcount)
                                     try:
                                         channel_id = random.choice(chlist)
                                         payload = {"content": f"{messages}\n"+randoms}
@@ -531,9 +537,15 @@ def menu():
                     time.sleep(0.4)
                     threading.Thread(target=normalspam).start()      
         if spam_mode == "2":
-            ffs = open('message.txt',"r",encoding="utf-8_sig")
-            messages = ffs.read()
             channel_id = input("Channel id >> ")    
+            messageselect = input("ファイルのメッセージを読み込みますか？ >> ")
+            if messageselect == "y":
+                ffs = open('message.txt',"r",encoding="utf-8_sig")
+                messages = ffs.read()
+            if messageselect == "n":
+                messages = input("Message >> ")       
+            randomcount = input("Random length >> ")                 
+            chlist = get_channels(token,int(guild_id))
             randoms = int(input("Random Mention数(しない場合0と入力) >> "))
             if randoms > 0:
                 tokens = input("Input Token >> ")
@@ -575,7 +587,7 @@ def menu():
                                 for l in lines:
                                         for _ in range(randoms):
                                             spams += "<@" + random.choice(memberslist) + "> "
-                                        randomed = randomname(10)
+                                        randomed = randomname(randomcount)
                                         payload = {"content": f"{messages}\n{spams}\n" + randomed}
                                         headers = {"authorization": l.rstrip("\n")}
                                         res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages", headers=headers, json=payload)
@@ -593,7 +605,7 @@ def menu():
                             lines = f.readlines()
                             while True:
                                 for l in lines:
-                                    randoms = randomname(10)
+                                    randoms = randomname(randomcount)
                                     try:
                                         payload = {"content": f"{messages}\n"+randoms}
                                         headers = {"authorization": l.rstrip("\n")}
