@@ -438,8 +438,8 @@ def menu():
     """+Color.RESET)
     print(Color.BLUE+"""
 
-      01:  AllCh   Spammer             02: Joiner                   03: Report Spam            04: Ghost Spam         
-      0.5: Channel Spammer 
+      01: Spammer                      02: Joiner                   03: Report Spam            04: Ghost Spam         
+
       05: HypeSquad Change             06: Form(Threads) Creater    07: Leaver                 08: Reaction Spammer
 
       09: Nickname Changer             10: Yax Bot Verify Bypasser  11: Reply Spammer          12: VC Joiner        
@@ -449,85 +449,162 @@ def menu():
     """+Color.RESET)
     modes = input("Mode >> ")
     if modes == "1":
-        ffs = open('message.txt',"r",encoding="utf-8_sig")
-        messages = ffs.read()
-        guild_id  = input("Server Id >> ")
-        channel_id = input("Channel id >> ") 
-        token = input("Token >> ")
-        channel_id = input("Channel id >> ") 
-        chlist = get_channels(token,int(guild_id))
-        randoms = int(input("Random Mention数(しない場合0と入力) >> "))
-        if randoms > 0:
-            tokens = token
-            bot = discum.Client(token=tokens, log=False)
-            def close_after_fetching(resp, guild_id):
-                if bot.gateway.finishedMemberFetching(guild_id):
-                    bot.gateway.removeCommand({
+        spam_mode = input(f"[1]{Fore.GREEN}All Channel{Fore.RESET}\n[2]{Fore.GREEN}Normal Channel{Fore.RESET}\nMode >> ")
+        if spam_mode == "1":
+            ffs = open('message.txt',"r",encoding="utf-8_sig")
+            messages = ffs.read()
+            guild_id  = input("Server Id >> ")
+            channel_id = input("Channel id >> ") 
+            token = input("Token >> ")
+            channel_id = input("Channel id >> ") 
+            chlist = get_channels(token,int(guild_id))
+            randoms = int(input("Random Mention数(しない場合0と入力) >> "))
+            if randoms > 0:
+                tokens = token
+                bot = discum.Client(token=tokens, log=False)
+                def close_after_fetching(resp, guild_id):
+                    if bot.gateway.finishedMemberFetching(guild_id):
+                        bot.gateway.removeCommand({
+                            'function': close_after_fetching,
+                            'params': {
+                                'guild_id': guild_id
+                            }
+                        })
+                        bot.gateway.close()
+
+                def get_members(guild_id, channel_id):
+                    bot.gateway.fetchMembers(
+                        guild_id, channel_id, keep="all",
+                        wait=1)  #get all user attributes, wait 1 second between requests
+                    bot.gateway.command({
                         'function': close_after_fetching,
                         'params': {
                             'guild_id': guild_id
                         }
                     })
-                    bot.gateway.close()
-
-            def get_members(guild_id, channel_id):
-                bot.gateway.fetchMembers(
-                    guild_id, channel_id, keep="all",
-                    wait=1)  #get all user attributes, wait 1 second between requests
-                bot.gateway.command({
-                    'function': close_after_fetching,
-                    'params': {
-                        'guild_id': guild_id
-                    }
-                })
-                bot.gateway.run()
-                bot.gateway.resetSession()  #saves 10 seconds when gateway is run again
-                return bot.gateway.session.guild(guild_id).members
-            members = get_members(guild_id, channel_id)
-            memberslist = []
-            for memberID in members:
-                print(f"メンバーを取得しました。{memberID}")
-                memberslist.append(memberID)      
-            def memberspam():
-                spams = ""
-                with open(token_file + '.txt') as f:
-                        lines = f.readlines()
-                        while True:
-                            for l in lines:
-                                    channel_id = random.choice(chlist)
-                                    for _ in range(randoms):
-                                        spams += "<@" + random.choice(memberslist) + "> "
-                                    randomed = randomname(10)
-                                    payload = {"content": f"{messages}\n{spams}\n" + randomed}
-                                    headers = {"authorization": l.rstrip("\n")}
-                                    res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages", headers=headers, json=payload)
-                                    spams = ""
-                                    print("Send: "+randomed)
+                    bot.gateway.run()
+                    bot.gateway.resetSession()  #saves 10 seconds when gateway is run again
+                    return bot.gateway.session.guild(guild_id).members
+                members = get_members(guild_id, channel_id)
+                memberslist = []
+                for memberID in members:
+                    print(f"メンバーを取得しました。{memberID}")
+                    memberslist.append(memberID)      
+                def memberspam():
+                    spams = ""
+                    with open(token_file + '.txt') as f:
+                            lines = f.readlines()
+                            while True:
+                                for l in lines:
+                                        channel_id = random.choice(chlist)
+                                        for _ in range(randoms):
+                                            spams += "<@" + random.choice(memberslist) + "> "
+                                        randomed = randomname(10)
+                                        payload = {"content": f"{messages}\n{spams}\n" + randomed}
+                                        headers = {"authorization": l.rstrip("\n")}
+                                        res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages", headers=headers, json=payload)
+                                        spams = ""
+                                        print("Send: "+randomed)
 
                                 
-            while True:
-                time.sleep(0.7)
-                threading.Thread(target=memberspam).start()
-        else:
-            def normalspam():
-                with ThreadPoolExecutor(max_workers=4) as executor:
+                while True:
+                    time.sleep(0.7)
+                    threading.Thread(target=memberspam).start()
+            else:
+                def normalspam():
+                    with ThreadPoolExecutor(max_workers=4) as executor:
+                        with open(token_file + '.txt') as f:
+                            lines = f.readlines()
+                            while True:
+                                for l in lines:
+                                    randoms = randomname(10)
+                                    try:
+                                        channel_id = random.choice(chlist)
+                                        payload = {"content": f"{messages}\n"+randoms}
+                                        headers = {"authorization": l.rstrip("\n")}
+                                        res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages", headers=headers, json=payload)
+                                        spams = ""
+                                        print("Send: "+randoms)
+                                    except Exception as e:
+                                        print("Error: "+ e)          
+                while True:
+                    time.sleep(0.4)
+                    threading.Thread(target=normalspam).start()      
+        if spam_mode == "2":
+            ffs = open('message.txt',"r",encoding="utf-8_sig")
+            messages = ffs.read()
+            channel_id = input("Channel id >> ")    
+            randoms = int(input("Random Mention数(しない場合0と入力) >> "))
+            if randoms > 0:
+                tokens = input("Input Token >> ")
+                guild_id = input("Server Id >> ")
+                bot = discum.Client(token=tokens, log=False)
+                def close_after_fetching(resp, guild_id):
+                    if bot.gateway.finishedMemberFetching(guild_id):
+                        bot.gateway.removeCommand({
+                            'function': close_after_fetching,
+                            'params': {
+                                'guild_id': guild_id
+                            }
+                        })
+                        bot.gateway.close()
+    
+                def get_members(guild_id, channel_id):
+                    bot.gateway.fetchMembers(
+                        guild_id, channel_id, keep="all",
+                        wait=1)  #get all user attributes, wait 1 second between requests
+                    bot.gateway.command({
+                        'function': close_after_fetching,
+                        'params': {
+                            'guild_id': guild_id
+                        }
+                    })
+                    bot.gateway.run()
+                    bot.gateway.resetSession()  #saves 10 seconds when gateway is run again
+                    return bot.gateway.session.guild(guild_id).members
+                members = get_members(guild_id, channel_id)
+                memberslist = []
+                for memberID in members:
+                    print(f"メンバーを取得しました。{memberID}")
+                    memberslist.append(memberID)      
+                def memberspam():
+                    spams = ""
                     with open(token_file + '.txt') as f:
-                        lines = f.readlines()
-                        while True:
-                            for l in lines:
-                                randoms = randomname(10)
-                                try:
-                                    channel_id = random.choice(chlist)
-                                    payload = {"content": f"{messages}\n"+randoms}
-                                    headers = {"authorization": l.rstrip("\n")}
-                                    res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages", headers=headers, json=payload)
-                                    spams = ""
-                                    print("Send: "+randoms)
-                                except Exception as e:
-                                    print("Error: "+ e)          
+                            lines = f.readlines()
+                            while True:
+                                for l in lines:
+                                        for _ in range(randoms):
+                                            spams += "<@" + random.choice(memberslist) + "> "
+                                        randomed = randomname(10)
+                                        payload = {"content": f"{messages}\n{spams}\n" + randomed}
+                                        headers = {"authorization": l.rstrip("\n")}
+                                        res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages", headers=headers, json=payload)
+                                        spams = ""
+                                        print("Send: "+randomed)
+
+                                
+                while True:
+                    time.sleep(0.7)
+                    threading.Thread(target=memberspam).start()
+            else:
+                def normalspam():
+                    with ThreadPoolExecutor(max_workers=4) as executor:
+                        with open(token_file + '.txt') as f:
+                            lines = f.readlines()
+                            while True:
+                                for l in lines:
+                                    randoms = randomname(10)
+                                    try:
+                                        payload = {"content": f"{messages}\n"+randoms}
+                                        headers = {"authorization": l.rstrip("\n")}
+                                        res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages", headers=headers, json=payload)
+                                        spams = ""
+                                        print("Send: "+randoms)
+                                    except Exception as e:
+                                        print("Error: "+ e)          
             while True:
                 time.sleep(0.4)
-                threading.Thread(target=normalspam).start()              
+                threading.Thread(target=normalspam).start()                                
     if modes == "2":
         invid = input("Invite Code >> ")
         rule = input("RuleScreen y/n >> ")
@@ -910,81 +987,6 @@ def menu():
             print(f"\n[\033[32m+\033[0m] Online | {tokens}")
             time.sleep(1)
             menu()
-    if modes == "0.5":
-        ffs = open('message.txt',"r",encoding="utf-8_sig")
-        messages = ffs.read()
-        channel_id = input("Channel id >> ")    
-        randoms = int(input("Random Mention数(しない場合0と入力) >> "))
-        if randoms > 0:
-            tokens = input("Input Token >> ")
-            guild_id = input("Server Id >> ")
-            bot = discum.Client(token=tokens, log=False)
-            def close_after_fetching(resp, guild_id):
-                if bot.gateway.finishedMemberFetching(guild_id):
-                    bot.gateway.removeCommand({
-                        'function': close_after_fetching,
-                        'params': {
-                            'guild_id': guild_id
-                        }
-                    })
-                    bot.gateway.close()
-
-            def get_members(guild_id, channel_id):
-                bot.gateway.fetchMembers(
-                    guild_id, channel_id, keep="all",
-                    wait=1)  #get all user attributes, wait 1 second between requests
-                bot.gateway.command({
-                    'function': close_after_fetching,
-                    'params': {
-                        'guild_id': guild_id
-                    }
-                })
-                bot.gateway.run()
-                bot.gateway.resetSession()  #saves 10 seconds when gateway is run again
-                return bot.gateway.session.guild(guild_id).members
-            members = get_members(guild_id, channel_id)
-            memberslist = []
-            for memberID in members:
-                print(f"メンバーを取得しました。{memberID}")
-                memberslist.append(memberID)      
-            def memberspam():
-                spams = ""
-                with open(token_file + '.txt') as f:
-                        lines = f.readlines()
-                        while True:
-                            for l in lines:
-                                    for _ in range(randoms):
-                                        spams += "<@" + random.choice(memberslist) + "> "
-                                    randomed = randomname(10)
-                                    payload = {"content": f"{messages}\n{spams}\n" + randomed}
-                                    headers = {"authorization": l.rstrip("\n")}
-                                    res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages", headers=headers, json=payload)
-                                    spams = ""
-                                    print("Send: "+randomed)
-
-                                
-            while True:
-                time.sleep(0.7)
-                threading.Thread(target=memberspam).start()
-        else:
-            def normalspam():
-                with ThreadPoolExecutor(max_workers=4) as executor:
-                    with open(token_file + '.txt') as f:
-                        lines = f.readlines()
-                        while True:
-                            for l in lines:
-                                randoms = randomname(10)
-                                try:
-                                    payload = {"content": f"{messages}\n"+randoms}
-                                    headers = {"authorization": l.rstrip("\n")}
-                                    res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages", headers=headers, json=payload)
-                                    spams = ""
-                                    print("Send: "+randoms)
-                                except Exception as e:
-                                    print("Error: "+ e)          
-            while True:
-                time.sleep(0.4)
-                threading.Thread(target=normalspam).start()
     if modes == "15":  
         os.system("cls")
         token = open("token.txt", "r").read().splitlines()
