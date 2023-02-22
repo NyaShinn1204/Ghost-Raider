@@ -1002,7 +1002,7 @@ def menu():
 
                 check_tokens()
                 print(f'\n\n[\x1b[95m>\x1b[95m\x1B[37m] 全てのトークンをチェックしました')
-                print(f'\n[\x1b[95m>\x1b[95m\x1B[37m] skidだから本当は生きてるトークンがあるかもしれない？')
+                print(f'[\x1b[95m>\x1b[95m\x1B[37m] skidだから本当は生きてるトークンがあるかもしれない？')
                 time.sleep(1)
                 input('[\x1b[95m>\x1b[95m\x1B[37m] エンターを押して退出 ')
                                  
