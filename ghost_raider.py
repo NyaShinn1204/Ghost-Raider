@@ -434,7 +434,7 @@ def menu():
         | Discord: ここあ#0001
         | Github: https://github.com/HACKShinn1204/Ghost-Raider
         | Skid List: Ghost Raider, auau Raider
-        | Version: 0.01.42
+        | Version: 0.01.43
     """+Color.RESET)
     print(Color.BLUE+"""
 
@@ -444,7 +444,7 @@ def menu():
 
       09: Nickname Changer             10: Yax Bot Verify Bypasser  11: Reply Spammer          12: VC Joiner        
             
-      13: Token Checker                14: Token Status             15: Token Info 
+      13: Token Checker           14: Token Status             15: Token Info 
 
     """+Color.RESET)
     modes = input("Mode >> ")
@@ -456,7 +456,7 @@ def menu():
             guild_id  = input("Server Id >> ")
             channel_id = input("Channel id >> ") 
             token = input("Token >> ")
-            messageselect = input("ファイルのメッセージを読み込みますか？ >> ")
+            messageselect = input(f"{Fore.GREEN}yes=y{Fore.RESET} {Fore.RED}no=n{Fore.RESET}\nファイルのメッセージを読み込みますか？ >> ")
             if messageselect == "y":
                 ffs = open('message.txt',"r",encoding="utf-8_sig")
                 messages = ffs.read()
@@ -538,14 +538,13 @@ def menu():
                     threading.Thread(target=normalspam).start()      
         if spam_mode == "2":
             channel_id = input("Channel id >> ")    
-            messageselect = input("ファイルのメッセージを読み込みますか？ >> ")
+            messageselect = input(f"{Fore.GREEN}yes=y{Fore.RESET} {Fore.RED}no=n{Fore.RESET}\nファイルのメッセージを読み込みますか？ >> ")
             if messageselect == "y":
                 ffs = open('message.txt',"r",encoding="utf-8_sig")
                 messages = ffs.read()
             if messageselect == "n":
                 messages = input("Message >> ")       
-            randomcount = input("Random length >> ")                 
-            chlist = get_channels(token,int(guild_id))
+            randomcount = int(input("Random length >> "))                 
             randoms = int(input("Random Mention数(しない場合0と入力) >> "))
             if randoms > 0:
                 tokens = input("Input Token >> ")
@@ -966,19 +965,47 @@ def menu():
                         time.sleep(1)
                         menu()
                     except Exception as e:
-                        print("Error: "+ e)    
+                        print("Error: "+ e)   
     if modes == "13":
-        with open(token_file + '.txt') as f:
-            for line in f:
-                token=line.strip("\n")
-                headers = {"Content-Type": "application/json", "authorization": token}
-                res = requests.get(f"https://discord.com/api/v9/users/@me", headers=headers)
-                if res.status_code == 200:
-                    print(f"{Fore.GREEN}  Valid {Fore.CYAN}| {Fore.RESET}{token}")
-                elif res.status_code == 429:
-                    print(f"{Fore.YELLOW}  Rate Limited {Fore.YELLOW}[{Fore.RESET}429{Fore.YELLOW}] {Fore.CYAN}| {Fore.RESET}{token}")
-                else:
-                    print(f"{Fore.RED}  Invalid {Fore.CYAN}| {Fore.RESET}{token}")
+        check_type = input(f"[1]{Fore.GREEN}Slow Checker{Fore.RESET}\n[2]{Fore.GREEN}Fast Checker{Fore.RESET}\nMode >> ")                    
+        if check_type == "1":
+            print("Checker遅すぎワロタ")
+            with open(token_file + '.txt') as f:
+                for line in f:
+                    token=line.strip("\n")
+                    res = requests.get(f"https://discord.com/api/v9/users/@me", headers=headers)
+                    if res.status_code == 200:                   
+                        print(f"{Fore.GREEN}  Valid {Fore.CYAN}| {Fore.RESET}{token}")
+                    elif res.status_code == 429:
+                        print(f"{Fore.YELLOW}  Rate Limited {Fore.YELLOW}[{Fore.RESET}429{Fore.YELLOW}] {Fore.CYAN}| {Fore.RESET}{token}")
+                    else:
+                        print(f"{Fore.RED}  Invalid {Fore.CYAN}| {Fore.RESET}{token}")        
+        if check_type == "2":
+                lock = threading.Lock()
+                def success(text): lock.acquire(); print(f"[{Fore.GREEN}>{Fore.RESET}] {Fore.GREEN}Valid {Fore.RESET}{text}{Fore.RESET}"); lock.release()
+                def invalid(text): lock.acquire(); print(f"[{Fore.RED}>{Fore.RESET}] {Fore.RED}Invalid {Fore.RED} {text}{Fore.RESET}"); lock.release()
+
+                with open("tokens.txt", "r") as f: tokens = f.read().splitlines()
+                headers = {"authorization": tokens}
+                def check_token(token:str):
+                    headers = {"authorization": token}
+                    response = requests.get('https://discord.com/api/v9/users/@me/library', headers=headers,timeout=5)
+                    if response.status_code == 200: success(f"| {token}")
+                    else: tokens.remove(token); invalid(f"| {token}")
+                def check_tokens():
+                    threads=[]
+                    for token in tokens:
+                        try:threads.append(threading.Thread(target=check_token, args=(token,)))
+                        except Exception as e: pass
+                    for thread in threads: thread.start()
+                    for thread in threads: thread.join()
+
+                check_tokens()
+                print(f'\n\n[\x1b[95m>\x1b[95m\x1B[37m] 全てのトークンをチェックしました')
+                print(f'\n[\x1b[95m>\x1b[95m\x1B[37m] skidだから本当は生きてるトークンがあるかもしれない？')
+                time.sleep(1)
+                input('[\x1b[95m>\x1b[95m\x1B[37m] エンターを押して退出 ')
+                                 
     if modes == "14":
         status = input("候補 online,idle,dnd \nStatus >> ")
         game = input("Game Name >> ")
@@ -1030,7 +1057,7 @@ def menu():
                 Info(token)
                 menu()
     else:
-        print("引数が不正です。")
+        print("引数が不正または終了した操作です。")
         time.sleep(1)
         menu()
 menu()
