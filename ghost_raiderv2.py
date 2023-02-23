@@ -1,10 +1,23 @@
 import tkinter as tk
+import tkinter.messagebox as tmsg
+import tkinter.ttk as ttk
+import random
+import requests
+import threading
+import time
+import discum as discum
+from concurrent.futures import ThreadPoolExecutor
 root = tk.Tk()
 root.title(u"Ghost Raider")
 root.geometry("1300x750")
 root.iconbitmap(default="ghost.ico")
 root.configure(bg='grey13')
-
+    
+def start_spam():
+    print("Start Spam")    
+              
+def stop_spam():
+    print("Stop Spam") 
 # 上の部分
 uenolabel = tk.Label(background='#545454')
 uenolabel.place(x=0, y=0, height=95, width=1300)
@@ -45,14 +58,20 @@ allmt = tk.Checkbutton(text="AllMention",bg="#7c64e4",height=0, width=17)
 allmt.place(x=30, y=310)
 smmelabel = tk.Label(text="Spam Text",font=("Supernova",10,"bold"),foreground="#fff",bg="grey13")
 smmelabel.place(x=250, y=140)
-scroll_Y = tk.Scrollbar(orient='vertical')
-tex = tk.Text(background='white',yscrollcommand=scroll_Y.set)
-tex.place(x=190,y=170,width=200,height=200)
-scroll_Y['command'] = tex.yview
+#scroll_Y = tk.Scrollbar(orient='vertical')
+#tex = tk.Text(background='white',yscrollcommand=scroll_Y.set)
+#tex.place(x=190,y=170,width=200,height=200)
+#scroll_Y['command'] = tex.yview
+#scroll_Y.place( x = 390, y = 170, height = 200 )
+scroll_Y = tk.Scrollbar( orient = 'vertical' )
+metext = tk.Text(width=50, height=10)
+metext.place(x=190,y=170,width=200,height=200)
+scroll_Y[ 'command' ] = metext.yview
 scroll_Y.place( x = 390, y = 170, height = 200 )
-stsmbt = tk.Button(text="Start Spam",foreground='black', background='#88CEEB')
+stsmbt = tk.Button(text="Start Spam",foreground='black', background='#88CEEB', command=start_spam)
 stsmbt.place(x=40,y=400,width=150,height=40)
-wismbt = tk.Button(text="Stop Spam",foreground='black', background='#88CEEB')
+wismbt = tk.Button(text="Stop Spam",foreground='black', background='#88CEEB', command=stop_spam)
 wismbt.place(x=230,y=400,width=150,height=40)
 
+# Option
 root.mainloop()
