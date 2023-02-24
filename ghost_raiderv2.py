@@ -6,18 +6,47 @@ import requests
 import threading
 import time
 import discum as discum
+import string
 from concurrent.futures import ThreadPoolExecutor
 root = tk.Tk()
 root.title(u"Ghost Raider")
 root.geometry("1300x750")
 root.iconbitmap(default="ghost.ico")
 root.configure(bg='grey13')
+
+def randomname(n):
+        randlst = [random.choice(string.ascii_letters + string.digits) for i in range(n)]
+        return ''.join(randlst)
     
 def start_spam():
-    print("Start Spam")    
-              
+    print("Spam Start")
+    thread1 = threading.Thread(target=normalspam).start()
+def normalspam():
+            print("Start Spam")    
+            ffs = open('message.txt',"r",encoding="utf-8_sig")
+            messages = ffs.read()
+            guild_id  = svidentry.get
+            channel_id = chidentry.get
+            def memberspam():
+                spams = ""
+                with open('token.txt') as f:
+                        lines = f.readlines()
+                        while True:
+                            for l in lines:
+                                    randomed = randomname(5)
+                                    payload = {"content": f"{messages}\n{spams}\n" + randomed}
+                                    headers = {"authorization": l.rstrip("\n")}
+                                    res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages", headers=headers, json=payload)
+                                    spams = ""
+                                    print("Send: "+randomed)
+
+                                
+            while True:
+                time.sleep(0.7)
+                threading.Thread(target=memberspam).start()       
 def stop_spam():
     print("Stop Spam") 
+    thread1 = threading.Thread(target=normalspam).stop()
 # 上の部分
 uenolabel = tk.Label(background='#545454')
 uenolabel.place(x=0, y=0, height=95, width=1300)
@@ -56,18 +85,19 @@ allch = tk.Checkbutton(text="AllChannel",bg="#7c64e4",height=0, width=17)
 allch.place(x=30, y=275)
 allmt = tk.Checkbutton(text="AllMention",bg="#7c64e4",height=0, width=17)
 allmt.place(x=30, y=310)
-smmelabel = tk.Label(text="Spam Text",font=("Supernova",10,"bold"),foreground="#fff",bg="grey13")
-smmelabel.place(x=250, y=140)
+
+#smmelabel = tk.Label(text="Spam Text",font=("Supernova",10,"bold"),foreground="#fff",bg="grey13")
+#smmelabel.place(x=250, y=140)
 #scroll_Y = tk.Scrollbar(orient='vertical')
 #tex = tk.Text(background='white',yscrollcommand=scroll_Y.set)
 #tex.place(x=190,y=170,width=200,height=200)
 #scroll_Y['command'] = tex.yview
 #scroll_Y.place( x = 390, y = 170, height = 200 )
-scroll_Y = tk.Scrollbar( orient = 'vertical' )
-metext = tk.Text(width=50, height=10)
-metext.place(x=190,y=170,width=200,height=200)
-scroll_Y[ 'command' ] = metext.yview
-scroll_Y.place( x = 390, y = 170, height = 200 )
+#scroll_Y = tk.Scrollbar( orient = 'vertical' )
+#metext = tk.Text(width=50, height=10)
+#metext.place(x=190,y=170,width=200,height=200)
+#scroll_Y[ 'command' ] = metext.yview
+#scroll_Y.place( x = 390, y = 170, height = 200 )
 stsmbt = tk.Button(text="Start Spam",foreground='black', background='#88CEEB', command=start_spam)
 stsmbt.place(x=40,y=400,width=150,height=40)
 wismbt = tk.Button(text="Stop Spam",foreground='black', background='#88CEEB', command=stop_spam)
