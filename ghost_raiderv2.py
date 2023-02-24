@@ -6,6 +6,7 @@ import requests
 import threading
 import time
 import discum as discum
+import multiprocessing
 import string
 from concurrent.futures import ThreadPoolExecutor
 root = tk.Tk()
@@ -22,6 +23,11 @@ def start_spam():
     print("Spam Start")
     thread1 = threading.Thread(target=normalspam).start()
 def normalspam():
+    global flg
+    while True:
+        if flg == False:
+            break
+        else:
             print("Start Spam")    
             ffs = open('message.txt',"r",encoding="utf-8_sig")
             messages = ffs.read()
@@ -43,10 +49,11 @@ def normalspam():
                                 
             while True:
                 time.sleep(0.7)
-                threading.Thread(target=memberspam).start()       
+                threading.Thread(target=memberspam).start()             
 def stop_spam():
     print("Stop Spam") 
-    thread1 = threading.Thread(target=normalspam).stop()
+    global flg
+    flg = False
 # 上の部分
 uenolabel = tk.Label(background='#545454')
 uenolabel.place(x=0, y=0, height=95, width=1300)
