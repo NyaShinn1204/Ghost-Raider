@@ -453,7 +453,7 @@ def menu():
      |_____|____/|_|  \__,_|_|\__,_|\___|_|   
     
         | Made By cocoapc911 Modify By ☆にゃにゃっこ☆
-        | Discord: ここあ#0001
+        | Discord: ここあ#0001 ☆にゃにゃっこ☆#5964
         | Github: https://github.com/HACKShinn1204/Ghost-Raider
         | Skid List: Ghost Raider, auau Raider
         | Version: 0.01.45
