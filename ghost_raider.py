@@ -16,7 +16,9 @@ import re
 import websocket
 import base64
 import httpx
+import data.rpc
 import time
+from time import mktime
 import sys
 from colorama import Fore
 
@@ -28,6 +30,28 @@ import tls_client
 token_file = input("とけんファイル名(.txtは消す) >> ")
 print("設定しました。(保存はされないよ)")
 time.sleep(1)
+
+print("Starting RPC")
+client_id = "1084307231069175860"
+rpc_obj = data.rpc.DiscordIpcClient.for_platform(client_id)  
+print("RPC connection successful.")
+
+time.sleep(5)
+start_time = mktime(time.localtime())
+while True:
+    activity = {
+            "state": "Ghost Raider",  
+            "details": "New Discord Raid Tools.",
+            "timestamps": {
+                "start": start_time
+            },
+            "assets" : {
+                "large_image" : "20230213_183725_0000", # さっきコピーしたものを貼り付け
+                "large_text" : "Ghost Raider" # 画像にカーソルをあわせると表示されるテキスト
+                       }
+        }
+    rpc_obj.set_activity(activity)
+    time.sleep(900) # アクティビティを送信しすぎるとアクセスが拒否されるため
 
 kusi = None
 def bypass(token, guildid, session):
@@ -444,7 +468,7 @@ def menu():
 
       09: Nickname Changer             10: Yax Bot Verify Bypasser  11: Reply Spammer          12: VC Joiner        
             
-      13: Token Checker           14: Token Status             15: Token Info 
+      13: Token Checker                14: Token Status             15: Token Info 
 
     """+Color.RESET)
     modes = input("Mode >> ")
@@ -462,7 +486,7 @@ def menu():
                 messages = ffs.read()
             if messageselect == "n":
                 messages = input("Message >> ")                
-            randomcount = input("Random length >> ")    
+            randomcount = int(input("Random length >> "))    
             chlist = get_channels(token,int(guild_id))
             randoms = int(input("Random Mention数(しない場合0と入力) >> "))
             if randoms > 0:
