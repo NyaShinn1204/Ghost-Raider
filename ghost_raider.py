@@ -446,18 +446,17 @@ def solvecaptcha(sitekey, rqdata, useragent):
 def menu():
     clear_screen()
     print(Color.GREEN+"""
-      _____ _               _     _____       _     _           
-     / ____| |             | |   |  __ \     (_)   | |          
-    | |  __| |__   ___  ___| |_  | |__) |__ _ _  __| | ___ _ __ 
-    | | |_ | '_ \ / _ \/ __| __| |  _  // _` | |/ _` |/ _ \ '__|
-    | |__| | | | | (_) \__ \ |_  | | \ \ (_| | | (_| |  __/ |   
-     \_____|_| |_|\___/|___/\__| |_|  \_\__,_|_|\__,_|\___|_|   
+      _____ ____            _     _           
+     | ____|  _ \ _ __ __ _(_) __| | ___ _ __ 
+     |  _| | | | | '__/ _` | |/ _` |/ _ \ '__|
+     | |___| |_| | | | (_| | | (_| |  __/ |   
+     |_____|____/|_|  \__,_|_|\__,_|\___|_|   
     
         | Made By cocoapc911 Modify By ☆にゃにゃっこ☆
         | Discord: ここあ#0001
         | Github: https://github.com/HACKShinn1204/Ghost-Raider
         | Skid List: Ghost Raider, auau Raider
-        | Version: 0.01.44
+        | Version: 0.01.45
     """+Color.RESET)
     print(Color.BLUE+"""
 
