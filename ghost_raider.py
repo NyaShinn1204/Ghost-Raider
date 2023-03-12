@@ -27,31 +27,30 @@ import re
 import binascii
 import tls_client
 
-token_file = input("とけんファイル名(.txtは消す) >> ")
-print("設定しました。(保存はされないよ)")
+token_file = input("Token File Name(.txtは消す) >> ")
+print("Set: "+token_file+".txt :)")
 time.sleep(1)
 
-print("Starting RPC")
-client_id = "1084307231069175860"
-rpc_obj = data.rpc.DiscordIpcClient.for_platform(client_id)  
-print("RPC connection successful.")
-
-time.sleep(5)
-start_time = mktime(time.localtime())
-while True:
-    activity = {
-            "state": "Ghost Raider",  
-            "details": "New Discord Raid Tools.",
-            "timestamps": {
-                "start": start_time
-            },
-            "assets" : {
-                "large_image" : "20230213_183725_0000", # さっきコピーしたものを貼り付け
-                "large_text" : "Ghost Raider" # 画像にカーソルをあわせると表示されるテキスト
-                       }
-        }
-    rpc_obj.set_activity(activity)
-    time.sleep(900) # アクティビティを送信しすぎるとアクセスが拒否されるため
+def discordrpc():
+    client_id = "1084307231069175860"
+    rpc_obj = data.rpc.DiscordIpcClient.for_platform(client_id)  
+    time.sleep(5)
+    start_time = mktime(time.localtime())
+    while True:
+        activity = {
+                "state": "Ghost Raider",  
+                "details": "New Discord Raid Tools.",
+                "timestamps": {
+                    "start": start_time
+                },
+                    "assets" : {
+                    "large_image" : "20230213_183725_0000", # さっきコピーしたものを貼り付け
+                    "large_text" : "Ghost Raider" # 画像にカーソルをあわせると表示されるテキスト
+                           }
+            }
+        rpc_obj.set_activity(activity)
+        menu()
+        time.sleep(900) # アクティビティを送信しすぎるとアクセスが拒否されるため    
 
 kusi = None
 def bypass(token, guildid, session):
@@ -458,7 +457,7 @@ def menu():
         | Discord: ここあ#0001
         | Github: https://github.com/HACKShinn1204/Ghost-Raider
         | Skid List: Ghost Raider, auau Raider
-        | Version: 0.01.43
+        | Version: 0.01.44
     """+Color.RESET)
     print(Color.BLUE+"""
 
@@ -468,7 +467,7 @@ def menu():
 
       09: Nickname Changer             10: Yax Bot Verify Bypasser  11: Reply Spammer          12: VC Joiner        
             
-      13: Token Checker                14: Token Status             15: Token Info 
+      13: Token Checker                14: Token Status             15: Token Info             99: Start RPC
 
     """+Color.RESET)
     modes = input("Mode >> ")
@@ -1080,6 +1079,8 @@ def menu():
                 token = i.rstrip()
                 Info(token)
                 menu()
+    if modes == "99":
+        discordrpc()       
     else:
         print("引数が不正または終了した操作です。")
         time.sleep(1)
