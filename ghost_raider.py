@@ -2,7 +2,7 @@ import time
 import threading
 import os
 import random
-import discum.discum as discum
+import data.discum.discum as discum
 from datetime import datetime
 import requests
 import threading
