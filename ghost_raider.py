@@ -810,7 +810,7 @@ def menu():
                         },
                         "presence": {
                             "game": {
-                                "name": "Ghost Raider"
+                                "name": "ED Raider"
                             },
                             "status": "online",
                             "since": 0,
