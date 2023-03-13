@@ -31,26 +31,6 @@ token_file = input("Token File Name(.txtは消す) >> ")
 print("Set: "+token_file+".txt :)")
 time.sleep(1)
 
-def discordrpc():
-    client_id = "1084307231069175860"
-    rpc_obj = data.rpc.DiscordIpcClient.for_platform(client_id)  
-    time.sleep(5)
-    start_time = mktime(time.localtime())
-    while True:
-        activity = {
-                "state": "Ghost Raider",  
-                "details": "New Discord Raid Tools.",
-                "timestamps": {
-                    "start": start_time
-                },
-                    "assets" : {
-                    "large_image" : "20230213_183725_0000", # さっきコピーしたものを貼り付け
-                    "large_text" : "Ghost Raider" # 画像にカーソルをあわせると表示されるテキスト
-                           }
-            }
-        rpc_obj.set_activity(activity)
-        menu()
-        time.sleep(900) # アクティビティを送信しすぎるとアクセスが拒否されるため    
 
 kusi = None
 def bypass(token, guildid, session):
@@ -466,7 +446,7 @@ def menu():
 
       09: Nickname Changer             10: Yax Bot Verify Bypasser  11: Reply Spammer          12: VC Joiner        
             
-      13: Token Checker                14: Token Status             15: Token Info             99: Start RPC
+      13: Token Checker                14: Token Status             15: Token Info             99: More..
 
     """+Color.RESET)
     modes = input("Mode >> ")
@@ -1079,7 +1059,85 @@ def menu():
                 Info(token)
                 menu()
     if modes == "99":
-        discordrpc()       
+        print(Color.BLUE+"""
+      01: RPC            02: Button Prusher     
+        """+Color.RESET)
+        modulemodes = input(f"Mode >> ")
+        if modulemodes == "1":
+            client_id = "1084307231069175860"
+            rpc_obj = data.rpc.DiscordIpcClient.for_platform(client_id)  
+            print("RPCを起動しました。")
+            time.sleep(5)
+            start_time = mktime(time.localtime())
+            while True:
+                activity = {
+                        "state": "ED Raider",  
+                        "details": "New Discord Raid Tools.",
+                        "timestamps": {
+                            "start": start_time
+                        },
+                            "assets" : {
+                            "large_image" : "20230213_183725_0000", # さっきコピーしたものを貼り付け
+                            "large_text" : "ED Raider" # 画像にカーソルをあわせると表示されるテキスト
+                                   }
+                    }
+                rpc_obj.set_activity(activity)
+                menu()
+                time.sleep(900) # アクティビティを送信しすぎるとアクセスが拒否されるため    
+        if modulemodes == "2":
+            guild_id = input("Server Id >> ")
+            channel_id = input("Channel Id >> ")
+            message_id = input("Message Id >>")
+            with open(token_file + '.txt') as f:
+                lines = f.readlines()
+                while True:
+                    for l in lines:
+                            def get_msg(channel_id, message_id):
+                                url = f"https://discord.com/api/v9/channels/{channel_id}/messages?limit=1&around={message_id}"
+                                headers = { 
+                                    "authorization": token
+                                }
+                                request = requests.get(url, headers=headers)
+                                data = json.loads(request.text)
+                                return data
+                            def interact(message_id, channel_id, guild_id):      
+                                msg = get_msg(channel_id, message_id)
+                                ws = websocket.WebSocket()
+                                ws.connect("wss://gateway.discord.gg/?v=9&encoding=json")
+                                heart = ws.recv()
+                                auth = {
+                                    "op": 2,
+                                    "d": {
+                                        "token": token,
+                                        "properties": {
+                                            "os": "windows",
+                                            "browser": "chrome",
+                                            "device": "pc"
+                                        },
+                                    }
+                                }
+                                ws.send(json.dumps(auth))
+                                res = json.loads(ws.recv())
+                                payload = {
+                                    "type": 3,
+                                    "guild_id": guild_id,
+                                    "channel_id": channel_id,
+                                    "message_id": message_id,
+                                    "session_id":  res["d"]["session_id"],
+                                    "application_id": msg[0]["author"]["id"],
+                                    "data": {
+                                            "component_type": msg[0]["components"][0]["components"][0]["type"],
+                                            "custom_id": msg[0]["components"][0]["components"][0]["custom_id"]
+                                    },
+                                }
+                                req = requests.post("https://discord.com/api/v9/interactions", headers={"authorization": token}, json=payload)
+                                print(req.content)
+                                ws.close()
+                            interact(message_id,channel_id,guild_id)
+        if modulemodes == "3":
+            print("Coming Soon")
+        if modulemodes == "4":
+            print("Coming Soon")
     else:
         print("引数が不正または終了した操作です。")
         time.sleep(1)
