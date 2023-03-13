@@ -1,4 +1,3 @@
-discum==1.1.0
 emoji
 capmonster_python
 tls_client
