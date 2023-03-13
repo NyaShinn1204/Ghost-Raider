@@ -2,3 +2,4 @@ emoji
 capmonster_python
 tls_client
 httpx
+halo

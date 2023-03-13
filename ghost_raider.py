@@ -22,7 +22,7 @@ from time import mktime
 import sys
 from colorama import Fore
 
-
+from halo import Halo
 import re
 import binascii
 import tls_client
@@ -1066,12 +1066,16 @@ def menu():
         if modulemodes == "1":
             client_id = "1084307231069175860"
             rpc_obj = data.rpc.DiscordIpcClient.for_platform(client_id)  
-            print("RPCを起動しました。")
-            time.sleep(5)
-            start_time = mktime(time.localtime())
+            spinner = Halo(text='RPCを起動中... ', spinner='dots')
+            spinner.start()
+            time.sleep(2)
+            spinner.text = "RPCを起動しました。"    
+            spinner.succeed()
+            time.sleep(2)  
+            start_time = mktime(time.localtime()) 
             while True:
                 activity = {
-                        "state": "ED Raider",  
+                        "state": "dev version :)",  
                         "details": "New Discord Raid Tools.",
                         "timestamps": {
                             "start": start_time
@@ -1083,7 +1087,7 @@ def menu():
                     }
                 rpc_obj.set_activity(activity)
                 menu()
-                time.sleep(900) # アクティビティを送信しすぎるとアクセスが拒否されるため    
+                time.sleep(900) # アクティビティを送信しすぎるとアクセスが拒否されるため               
         if modulemodes == "2":
             guild_id = input("Server Id >> ")
             channel_id = input("Channel Id >> ")
