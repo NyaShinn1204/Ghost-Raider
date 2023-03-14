@@ -441,7 +441,7 @@ def menu():
         | Made By cocoapc911 Modify By ☆にゃにゃっこ☆
         | Discord: ここあ#0001 ☆にゃにゃっこ☆#5964
         | Github: https://github.com/HACKShinn1204/Ghost-Raider
-        | Skid List: Ghost Raider, auau Raider
+        | Skid List: Ghost Raider, Ghost Checker, auau Raider
         | Version: 0.01.45
     """+Color.RESET)
     print(Color.BLUE+"""
