@@ -1060,13 +1060,11 @@ def menu():
         checkmodes = input(f"[1]{Fore.GREEN}One{Fore.RESET}\n[2]{Fore.GREEN}All{Fore.RESET}\nCheck Mode >> ")
         if checkmodes == "1":
             os.system("cls")
-            token = open("token.txt", "r").read().splitlines()
-            with open(token_file + '.txt') as handle:
-                tokens = handle.readlines()
-                for i in tokens:
-                    token = i.rstrip()
-                    Info(token)
-                    menu()
+            tokens = input(f"Token >> ")
+            for i in tokens:
+                token = i.rstrip()
+                Info(token)
+                menu()
         if checkmodes == "2":            
             with open(token_file + '.txt') as f:
                 lines = f.readlines()
