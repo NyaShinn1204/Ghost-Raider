@@ -1102,7 +1102,7 @@ def menu():
             print("Coming Soon")
         if modulemodes == "5":
             #Spinner()
-            print(Color.BLUE+"\nE D   R a i d e r\n\nバグやほしい機能があったら教えてね\nDiscord: ☆にゃにゃっこ☆#5964\nGithub: https://github.com/HACKShinn1204/Ghost-Raider\nSkidしてごめん\nMino = ED\n\n"+Color.RESET)
+            print(Color.BLUE+"\nED   Raider\n\nバグやほしい機能があったら教えてね\nDiscord: ☆にゃにゃっこ☆#5964\nGithub: https://github.com/HACKShinn1204/Ghost-Raider\nSkidしてごめん\nMino = ED\n\n"+Color.RESET)
             time.sleep(1)
             input(f"エンターを押して戻る")
             menu()
