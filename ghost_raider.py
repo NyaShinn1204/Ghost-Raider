@@ -981,6 +981,7 @@ def menu():
             with open(token_file + '.txt') as f:
                 for line in f:
                     token=line.strip("\n")
+                    headers = {"authorization": token}
                     res = requests.get(f"https://discord.com/api/v9/users/@me", headers=headers)
                     if res.status_code == 200:                   
                         print(f"{Fore.GREEN}  Valid {Fore.CYAN}| {Fore.RESET}{token}")
@@ -1056,14 +1057,31 @@ def menu():
             time.sleep(1)
             menu()
     if modes == "15":  
-        os.system("cls")
-        token = open("token.txt", "r").read().splitlines()
-        with open('token.txt', 'r') as handle:
-            tokens = handle.readlines()
-            for i in tokens:
-                token = i.rstrip()
-                Info(token)
-                menu()
+        checkmodes = input(f"[1]{Fore.GREEN}One{Fore.RESET}\n[2]{Fore.GREEN}All{Fore.RESET}\nCheck Mode >> ")
+        if checkmodes == "1":
+            os.system("cls")
+            token = open("token.txt", "r").read().splitlines()
+            with open(token_file + '.txt') as handle:
+                tokens = handle.readlines()
+                for i in tokens:
+                    token = i.rstrip()
+                    Info(token)
+                    menu()
+        if checkmodes == "2":            
+            with open(token_file + '.txt') as f:
+                lines = f.readlines()
+                for l in lines:  
+                    token=l.rstrip("\n")
+                    headers = {"authorization": token}
+                    r = requests.get(f"https://discord.com/api/v9/users/@me", headers=headers)
+                    userName = r.json()['username'] + '#' + r.json()['discriminator']
+                    email = r.json()['email']
+                    print(f'''-------------
+[{Fore.LIGHTMAGENTA_EX}Token{Fore.RESET}]           {token}
+[{Fore.LIGHTMAGENTA_EX}Username{Fore.RESET}]        {userName}
+[{Fore.LIGHTMAGENTA_EX}Email{Fore.RESET}]           {email}
+-------------''')
+                    time.sleep(0.04545)      
     if modes == "99":
         print(Color.BLUE+"""
       01: RPC            02: Coming Soon    03: Coming Soon    04: Coming Soon    05: About
