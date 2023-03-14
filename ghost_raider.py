@@ -31,6 +31,12 @@ token_file = input("Token File Name(.txtは消す) >> ")
 print("Set: "+token_file+".txt :)")
 time.sleep(1)
 
+def Spinner():
+	l = ['|', '/', '-', '\\', ' ']
+	for i in l+l+l:
+		sys.stdout.write(f"""\r {i}""")
+		sys.stdout.flush()
+		time.sleep(0.1)
 
 kusi = None
 def bypass(token, guildid, session):
@@ -1012,7 +1018,7 @@ def menu():
         status = input("候補 online,idle,dnd \nStatus >> ")
         game = input("Game Name >> ")
         details = input("一行下の文 >> ")
-        state = input("二行下の文 >> ")
+        state = input("二行下の文 >> ") 
         with open(token_file + '.txt') as f:
             lines = f.readlines()
             for l in lines:    
@@ -1060,7 +1066,7 @@ def menu():
                 menu()
     if modes == "99":
         print(Color.BLUE+"""
-      01: RPC            02: Button Prusher     
+      01: RPC            02: Coming Soon    03: Coming Soon    04: Coming Soon    05: About
         """+Color.RESET)
         modulemodes = input(f"Mode >> ")
         if modulemodes == "1":
@@ -1089,61 +1095,19 @@ def menu():
                 menu()
                 time.sleep(900) # アクティビティを送信しすぎるとアクセスが拒否されるため               
         if modulemodes == "2":
-            guild_id = input("Server Id >> ")
-            channel_id = input("Channel Id >> ")
-            message_id = input("Message Id >>")
-            with open(token_file + '.txt') as f:
-                lines = f.readlines()
-                while True:
-                    for l in lines:
-                            def get_msg(channel_id, message_id):
-                                url = f"https://discord.com/api/v9/channels/{channel_id}/messages?limit=1&around={message_id}"
-                                headers = { 
-                                    "authorization": token
-                                }
-                                request = requests.get(url, headers=headers)
-                                data = json.loads(request.text)
-                                return data
-                            def interact(message_id, channel_id, guild_id):      
-                                msg = get_msg(channel_id, message_id)
-                                ws = websocket.WebSocket()
-                                ws.connect("wss://gateway.discord.gg/?v=9&encoding=json")
-                                heart = ws.recv()
-                                auth = {
-                                    "op": 2,
-                                    "d": {
-                                        "token": token,
-                                        "properties": {
-                                            "os": "windows",
-                                            "browser": "chrome",
-                                            "device": "pc"
-                                        },
-                                    }
-                                }
-                                ws.send(json.dumps(auth))
-                                res = json.loads(ws.recv())
-                                payload = {
-                                    "type": 3,
-                                    "guild_id": guild_id,
-                                    "channel_id": channel_id,
-                                    "message_id": message_id,
-                                    "session_id":  res["d"]["session_id"],
-                                    "application_id": msg[0]["author"]["id"],
-                                    "data": {
-                                            "component_type": msg[0]["components"][0]["components"][0]["type"],
-                                            "custom_id": msg[0]["components"][0]["components"][0]["custom_id"]
-                                    },
-                                }
-                                req = requests.post("https://discord.com/api/v9/interactions", headers={"authorization": token}, json=payload)
-                                print(req.content)
-                                ws.close()
-                            interact(message_id,channel_id,guild_id)
+            print("Coming Soon")
         if modulemodes == "3":
             print("Coming Soon")
         if modulemodes == "4":
             print("Coming Soon")
+        if modulemodes == "5":
+            #Spinner()
+            print(Color.BLUE+"\nED Raider使ってくれてありがと☻\nバグやほしい機能があったら教えてね\n\nMino = ED\n\nDiscord: ☆にゃにゃっこ☆#5964\nGithub: https://github.com/HACKShinn1204/Ghost-Raider\n\n"+Color.RESET)
+            time.sleep(1)
+            input(f"エンターを押して戻る")
+            menu()
     else:
         print("引数が不正または終了した操作です。")
         time.sleep(1)
-        menu()
+        menu()        
 menu()
