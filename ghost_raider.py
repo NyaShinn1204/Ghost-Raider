@@ -994,7 +994,7 @@ def menu():
                 def success(text): lock.acquire(); print(f"[{Fore.GREEN}>{Fore.RESET}] {Fore.GREEN}Valid {Fore.RESET}{text}{Fore.RESET}"); lock.release()
                 def invalid(text): lock.acquire(); print(f"[{Fore.RED}>{Fore.RESET}] {Fore.RED}Invalid {Fore.RED} {text}{Fore.RESET}"); lock.release()
 
-                with open("tokens.txt", "r") as f: tokens = f.read().splitlines()
+                with open(token_file + '.txt') as f: tokens = f.read().splitlines()
                 headers = {"authorization": tokens}
                 def check_token(token:str):
                     headers = {"authorization": token}
