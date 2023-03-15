@@ -409,6 +409,15 @@ class Color:
 	BG_WHITE       = '\033[47m'#(背景)白
 	BG_DEFAULT     = '\033[49m'#背景色をデフォルトに戻す
 	RESET          = '\033[0m'#全てリセット
+class COLOR:
+    LIGHTBLUE_EX=Fore.LIGHTBLUE_EX
+    LIGHTBLACK_EX=Fore.LIGHTBLACK_EX 
+    LIGHTMAGENTA_EX=Fore.LIGHTMAGENTA_EX
+    LIGHTRED_EX=Fore.LIGHTRED_EX
+    LIGHTCYAN_EX=Fore.LIGHTCYAN_EX
+    LIGHTWHITE_EX=Fore.LIGHTWHITE_EX
+    LIGHTGREEN_EX=Fore.LIGHTGREEN_EX
+    LIGHTYELLOW=Fore.LIGHTYELLOW_EX    
 def clear_screen():
     if os.name == 'posix':
         _ = os.system('clear')
@@ -444,15 +453,15 @@ def menu():
         | Skid List: Ghost Raider, Ghost Checker, auau Raider
         | Version: 0.01.46
     """+Color.RESET)
-    print(Color.BLUE+"""
+    print(COLOR.LIGHTBLUE_EX+"""
 
-      01: Spammer                      02: Joiner                   03: Report Spam            04: Ghost Spam         
+      [01] Spammer                      [02] Joiner                   [03] Report Spam            [04] Ghost Spam         
 
-      05: HypeSquad Change             06: Form(Threads) Creater    07: Leaver                 08: Reaction Spammer
+      [05] HypeSquad Change             [06] Form(Threads) Creater    [07] Leaver                 [08] Reaction Spammer
 
-      09: Nickname Changer             10: Yax Bot Verify Bypasser  11: Reply Spammer          12: VC Joiner        
+      [09] Nickname Changer             [10] Yax Bot Verify Bypasser  [11] Reply Spammer          [12] VC Joiner        
             
-      13: Token Checker                14: Token Status             15: Token Info             99: More..
+      [13] Token Checker                [14] Token Status             [15] Token Info             [99] More..
 
     """+Color.RESET)
     modes = input("Mode >> ")
@@ -1081,7 +1090,7 @@ def menu():
 -------------''')
                     time.sleep(0.04545)      
     if modes == "99":
-        print(Color.BLUE+"""
+        print(COLOR.LIGHTBLUE_EX+"""
       01: RPC            02: Coming Soon    03: Coming Soon    04: Coming Soon    05: About
         """+Color.RESET)
         modulemodes = input(f"Mode >> ")
@@ -1115,11 +1124,15 @@ def menu():
         if modulemodes == "3":
             print("Coming Soon")
         if modulemodes == "4":
-            print("Coming Soon")
+            #print("Patch Notes")
+            print("[>] UPDATED Patch Notes:\n\n[#] Color Change\n[#] Add RPC\n[#] Change Tool Name\n")
+            time.sleep(2)
+            input(f"エンターを押して戻る")
+            menu()
         if modulemodes == "5":
             #Spinner()
             print(Color.BLUE+"\nED   Raider\n\nバグやほしい機能があったら教えてね\nDiscord: ☆にゃにゃっこ☆#5964\nGithub: https://github.com/HACKShinn1204/Ghost-Raider\nSkidしてごめん\nMino = ED\n\n"+Color.RESET)
-            time.sleep(1)
+            time.sleep(2)
             input(f"エンターを押して戻る")
             menu()
     else:
