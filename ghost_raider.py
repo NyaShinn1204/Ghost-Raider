@@ -1125,7 +1125,7 @@ def menu():
             print("Coming Soon")
         if modulemodes == "4":
             #print("Patch Notes")
-            print("[>] UPDATED Patch Notes:\n\n[#] Color Change\n[#] Add RPC\n[#] Change Tool Name\n")
+            print("[>] UPDATED Patch Notes:\n\n[#] Color Change\n[#] Add Module\n[#] Change Tool Name\n")
             time.sleep(2)
             input(f"エンターを押して戻る")
             menu()
