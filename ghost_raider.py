@@ -1025,46 +1025,85 @@ def menu():
                 input('[\x1b[95m>\x1b[95m\x1B[37m] エンターを押して退出 ')
                                  
     if modes == "14":
-        status = input("候補 online,idle,dnd \nStatus >> ")
-        game = input("Game Name >> ")
-        details = input("一行下の文 >> ")
-        state = input("二行下の文 >> ") 
-        with open(token_file + '.txt') as f:
-            lines = f.readlines()
-            for l in lines:    
-                tokens = l.rstrip("\n")
-                ws = websocket.WebSocket()
-                ws.connect("wss://gateway.discord.gg/?encoding=json&v=9")
-                ws.send(json.dumps({
-                    "op":2,
-                        "d": {
-                            "token": tokens,
-                            "properties": {
-                                "$os": "Discord Android",
-                                "$browser": "Discord Android",
-                                "$device": "Discord Android",
-                            },
-                            "presence": {
-                                "game": {                #初期設定
-                                    "name": game,        #Ghost Raider
-                                    "type": 0,           
-                                    "details": details,  #Edited Version
-                                    "state": state       #By cocoapc911
+        token_status = input(f"[1]{Fore.GREEN}Status Changer{Fore.RESET}\n[2]{Fore.GREEN}Activity Status Changer{Fore.RESET}\nMode >> ")
+        if token_status == "1":
+            status = input("候補 online,idle,dnd \nStatus >> ")
+            with open(token_file + '.txt') as f:
+                lines = f.readlines()
+                for l in lines:    
+                    tokens = l.rstrip("\n")
+                    ws = websocket.WebSocket()
+                    ws.connect("wss://gateway.discord.gg/?encoding=json&v=9")
+                    ws.send(json.dumps({
+                        "op":2,
+                            "d": {
+                                "token": tokens,
+                                "properties": {
+                                    "$os": "Discord Android",
+                                    "$browser": "Discord Android",
+                                    "$device": "Discord Android",
                                 },
-                                "status": status,
-                                "since": 0,
-                                "activities": [],
-                                "afk": False,
+                                "presence": {
+                                    "game": {},
+                                    "status": status,
+                                    "since": 0,
+                                    "activities": [],
+                                    "afk": False,
+                                },
                             },
-                        },
-                        "s": None,
-                        "t": None,
-                }
-                )
+                            "s": None,
+                            "t": None,
+                    }
                     )
-            print(f"\n[\033[32m+\033[0m] Online | {tokens}")
-            time.sleep(1)
-            menu()
+                        )
+                if status == "online":
+                    (f"\n[\033[32m+\033[0m] Change Online | {tokens}")
+                if status == "idle":
+                    print(f"\n[\033[32m+\033[0m] Change Idle | {tokens}")
+                if status == "dnd":
+                    print(f"\n[\033[32m+\033[0m] Change Dnd | {tokens}")
+                time.sleep(2)
+                menu()
+        if token_status == "2":
+            game = input("Game Name >> ")
+            details = input("一行下の文 >> ")
+            state = input("二行下の文 >> ") 
+            with open(token_file + '.txt') as f:
+                lines = f.readlines()
+                for l in lines:    
+                    tokens = l.rstrip("\n")
+                    ws = websocket.WebSocket()
+                    ws.connect("wss://gateway.discord.gg/?encoding=json&v=9")
+                    ws.send(json.dumps({
+                        "op":2,
+                            "d": {
+                                "token": tokens,
+                                "properties": {
+                                    "$os": "Discord Android",
+                                    "$browser": "Discord Android",
+                                    "$device": "Discord Android",
+                                },
+                                "presence": {
+                                    "game": {                #初期設定
+                                        "name": game,        #Ghost Raider
+                                        "type": 0,           
+                                        "details": details,  #Edited Version
+                                        "state": state       #By cocoapc911
+                                    },
+                                    "status": "online",
+                                    "since": 0,
+                                    "activities": [],
+                                    "afk": False,
+                                },
+                            },
+                            "s": None,
+                            "t": None,
+                    }
+                    )
+                        )
+                    print(f"\n[\033[32m+\033[0m] Activity Status Change | {tokens}")
+                    time.sleep(2)
+                    menu()
     if modes == "15":  
         checkmodes = input(f"[1]{Fore.GREEN}One{Fore.RESET}\n[2]{Fore.GREEN}All{Fore.RESET}\nCheck Mode >> ")
         if checkmodes == "1":
@@ -1091,7 +1130,7 @@ def menu():
                     time.sleep(0.04545)      
     if modes == "99":
         print(COLOR.LIGHTBLUE_EX+"""
-      01: RPC            02: Coming Soon    03: Coming Soon    04: Coming Soon    05: About
+      01: RPC            02: Coming Soon    03: Coming Soon    04: Update Patch   05: About
         """+Color.RESET)
         modulemodes = input(f"Mode >> ")
         if modulemodes == "1":
