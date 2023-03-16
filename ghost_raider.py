@@ -1177,7 +1177,36 @@ def menu():
         if modulemodes == "6":
             print("Sushi Radier\nComing Soon")
             time.sleep(2)
-                
+            def sushimenu():
+                clear_screen()
+                print(Color.BLUE+"""
+ー－－－－－－－－－－－－－－－－－－－－－－－－－－
+|    .d8888. db    db .d8888. db   db d888888b        |
+|    88'  YP 88    88 88'  YP 88   88   `88'          |
+|    `8bo.   88    88 `8bo.   88ooo88    88           |
+|      `Y8b. 88    88   `Y8b. 88~~~88    88           |
+|    db   8D 88b  d88 db   8D 88   88   .88.          |
+|    `8888Y' ~Y8888P' `8888Y' YP   YP Y888888P        |
+|                                                     |
+|    d8888b.  .d8b.  d888888b d8888b. d88888b d8888b. |
+|    88  `8D d8' `8b   `88'   88  `8D 88'     88  `8D |
+|    88oobY' 88ooo88    88    88   88 88ooooo 88oobY' |
+|    88`8b   88~~~88    88    88   88 88~~~~~ 88`8b   |
+|    88 `88. 88   88   .88.   88  .8D 88.     88 `88. |
+|    88   YD YP   YP Y888888P Y8888D' Y88888P 88   YD |
+ー－－－－－－－－－－－－－－－－－－－－－－－－－－
+            """+Color.RESET)
+                print(COLOR.LIGHTGREEN_EX+"""
+ー－－－－－－－－－－－－－－－－－－－－
+
+1: Spammer  3: Checker  5: ProxyChecker
+
+2: Joiner   4: AllMemberGet
+
+ー－－－－－－－－－－－－－－－－－－－－
+    """+Color.RESET)
+            sushimenu() 
+            time.sleep(15)   
     else:
         print("引数が不正または終了した操作です。")
         time.sleep(1)
