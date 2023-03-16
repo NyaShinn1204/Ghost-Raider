@@ -1130,7 +1130,7 @@ def menu():
                     time.sleep(0.04545)      
     if modes == "99":
         print(COLOR.LIGHTBLUE_EX+"""
-      01: RPC            02: Coming Soon    03: Coming Soon    04: Update Patch   05: About
+      01: RPC            02: Coming Soon    03: Coming Soon    04: Update Patch   05: About"""+Fore.RED+"""          06: Sushi 
         """+Color.RESET)
         modulemodes = input(f"Mode >> ")
         if modulemodes == "1":
@@ -1174,6 +1174,10 @@ def menu():
             time.sleep(2)
             input(f"エンターを押して戻る")
             menu()
+        if modulemodes == "6":
+            print("Sushi Radier\nComing Soon")
+            time.sleep(2)
+                
     else:
         print("引数が不正または終了した操作です。")
         time.sleep(1)
