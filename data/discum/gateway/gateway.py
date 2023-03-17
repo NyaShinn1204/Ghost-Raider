@@ -130,7 +130,7 @@ class GatewayServer:
             "User-Agent": self.super_properties["browser_user_agent"]
         } #more info: https://stackoverflow.com/a/40675547
 
-        ws = _app.WebSocketApp(websocketurl,
+        ws = websocket.WebSocketApp(websocketurl,
                                     header = headers,
                                     on_open=lambda ws: self.on_open(ws),
                                     on_message=lambda ws, msg: self.on_message(ws, msg),

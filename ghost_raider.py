@@ -1168,7 +1168,7 @@ def menu():
             print("Coming Soon")
         if modulemodes == "4":
             #print("Patch Notes")
-            print("[>] UPDATED Patch Notes:\n\n[#] Color Change\n[#] Add Module\n[#] Change Tool Name\n")
+            print("[>] UPDATED Patch Notes:\n\n[#] Color Change\n[#] Add Module\n[#] Add Sushi Raider Skid\n")
             time.sleep(2)
             input(f"エンターを押して戻る")
             menu()
@@ -1185,7 +1185,6 @@ def menu():
                 with open("proxy.txt" , encoding="utf-8") as f:
                    return random.choice(f.readlines()).split("\n")[0]
             def sushimenu():
-                clear_screen()
                 print(Color.BLUE+"""
 ー－－－－－－－－－－－－－－－－－－－－－－－－－－
 |    .d8888. db    db .d8888. db   db d888888b        |
@@ -1262,11 +1261,51 @@ def menu():
                 if sushi_mode == "3":
                     print("Coming")
                 if sushi_mode == "4":
-                    print("Coming")
+                    tokens = input("Token >> ")
+                    guild_id = input("Server Id >> ")
+                    channel_id = input("Channel Id >> ")
+                    save_file_name = input("Save File Name (.txtは消す)>> ")
+                    bot = discum.Client(token=tokens, log=False)
+                    def close_after_fetching(resp, guild_id):
+                        if bot.gateway.finishedMemberFetching(guild_id):
+                            bot.gateway.removeCommand({
+                                'function': close_after_fetching,
+                                'params': {
+                                    'guild_id': guild_id
+                                }
+                            })
+                            bot.gateway.close()
+
+                    def get_members(guild_id, channel_id):
+                        bot.gateway.fetchMembers(
+                            guild_id, channel_id, keep="all",
+                            wait=1)  #get all user attributes, wait 1 second between requests
+                        bot.gateway.command({
+                            'function': close_after_fetching,
+                            'params': {
+                                'guild_id': guild_id
+                            }
+                        })
+                        bot.gateway.run()
+                        bot.gateway.resetSession()  #saves 10 seconds when gateway is run again
+                        return bot.gateway.session.guild(guild_id).members
+                    members = get_members(guild_id, channel_id)
+                    memberslist = []
+                    for memberID in members:
+                        print(f"メンバーを取得しました。{memberID}")
+                        with open(save_file_name+".txt", 'w') as f:
+                            f.write(f"{memberslist}\n")
+                            f.close()
+                        memberslist.append(memberID)
+                    time.sleep(2)
+                    sushimenu()    
                 if sushi_mode == "5":
-                    print("Coming")            
-            sushimenu() 
-            time.sleep(15)   
+                    print("Coming")     
+                else:
+                    print("引数が不正または終了した操作です。")
+                    time.sleep(1)
+                    sushimenu() 
+            sushimenu()        
     else:
         print("引数が不正または終了した操作です。")
         time.sleep(1)
