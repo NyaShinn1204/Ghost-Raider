@@ -1177,6 +1177,9 @@ def menu():
         if modulemodes == "6":
             print("Sushi Radier\nComing Soon")
             time.sleep(2)
+            def proxy():
+                with open("proxy.txt" , encoding="utf-8") as f:
+                   return random.choice(f.readlines()).split("\n")[0]
             def sushimenu():
                 clear_screen()
                 print(Color.BLUE+"""
@@ -1195,7 +1198,7 @@ def menu():
 |    88 `88. 88   88   .88.   88  .8D 88.     88 `88. |
 |    88   YD YP   YP Y888888P Y8888D' Y88888P 88   YD |
 ー－－－－－－－－－－－－－－－－－－－－－－－－－－
-            """+Color.RESET)
+                """+Color.RESET)
                 print(COLOR.LIGHTGREEN_EX+"""
 ー－－－－－－－－－－－－－－－－－－－－
 
@@ -1204,7 +1207,60 @@ def menu():
 2: Joiner   4: AllMemberGet
 
 ー－－－－－－－－－－－－－－－－－－－－
-    """+Color.RESET)
+                """+Color.RESET)
+                sushi_mode = input(COLOR.LIGHTMAGENTA_EX+"\nInput_Mode >> ")    
+                if sushi_mode == "1":
+                    channel_id = input("Channel_id >> ")
+                    useproxy = input("Do you use Proxy? y/n >> ")
+                    if useproxy == "y":
+                        ffs = open('message.txt',"r",encoding="utf-8_sig")
+                        messages = ffs.read()
+                        def spamproxy():
+                            global proxy
+                            with ThreadPoolExecutor(max_workers=4) as executor:
+                                with open(token_file + '.txt') as f:
+                                    lines = f.readlines()
+                                    while True:
+                                        for l in lines:
+                                            try:
+                                                randomed = randomname(10)
+                                                payload = {"content": f"{messages}\n"+randoms}
+                                                headers = {"authorization": l.rstrip("\n")}
+                                                res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages", headers=headers, json=payload, proxies=proxy)
+                                                print("Send: "+randoms)
+                                            except Exception as e:
+                                                print("Error: "+ e)          
+                        while True:
+                            time.sleep(0.4)
+                            threading.Thread(target=spamproxy).start() 
+                    if useproxy == "n":
+                        ffs = open('message.txt',"r",encoding="utf-8_sig")
+                        messages = ffs.read()
+                        def spamnoproxy():
+                            with ThreadPoolExecutor(max_workers=4) as executor:
+                                with open(token_file + '.txt') as f:
+                                    lines = f.readlines()
+                                    while True:
+                                        for l in lines:
+                                            try:
+                                                randomed = randomname(10)
+                                                payload = {"content": f"{messages}\n"+randoms}
+                                                headers = {"authorization": l.rstrip("\n")}
+                                                res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages", headers=headers, json=payload)
+                                                print("Send: "+randoms)
+                                            except Exception as e:
+                                                print("Error: "+ e)          
+                        while True:
+                            time.sleep(0.4)
+                            threading.Thread(target=spamnoproxy).start()                             
+                if sushi_mode == "2":
+                    print("Coming")
+                if sushi_mode == "3":
+                    print("Coming")
+                if sushi_mode == "4":
+                    print("Coming")
+                if sushi_mode == "5":
+                    print("Coming")            
             sushimenu() 
             time.sleep(15)   
     else:
