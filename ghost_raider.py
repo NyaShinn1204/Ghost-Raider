@@ -791,8 +791,12 @@ def menu():
         guild_id = input("Server Id >> ")
         channel_id = input("Channel Id >> ")
         message_id = input("Message Id >>")
-        ffs = open('message.txt',"r",encoding="utf-8_sig")
-        messages = ffs.read()
+        message_select = input("Message Load? y/n>> ")
+        if message_select == "y":
+            ffs = open('message.txt',"r",encoding="utf-8_sig")
+            messages = ffs.read()
+        if message_select == "n":
+            messages = input("Message >> ")    
         def reply():
             with open(token_file + '.txt') as f:
                 lines = f.readlines()
