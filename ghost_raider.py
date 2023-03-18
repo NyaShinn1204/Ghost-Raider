@@ -3,7 +3,6 @@ import threading
 import os
 import random
 import data.discum.discum as discum
-from datetime import datetime
 import requests
 import threading
 import emoji as eeemj
@@ -26,7 +25,7 @@ from halo import Halo
 import re
 import binascii
 import tls_client
-
+status = True
 token_file = input("Token File Name(.txtは消す) >> ")
 print("Set: "+token_file+".txt :)")
 time.sleep(1)
@@ -1134,7 +1133,8 @@ def menu():
                     time.sleep(0.04545)      
     if modes == "99":
         print(COLOR.LIGHTBLUE_EX+"""
-      01: RPC            02: Coming Soon    03: Coming Soon    04: Update Patch   05: About"""+Fore.RED+"""          06: Sushi 
+      01: RPC            02: Coming Soon    03: Coming Soon    04: Update Patch   05: About"""+Fore.RED+"""          
+      06: Sushi          07: GHOST RAIDER !!GUI!!
         """+Color.RESET)
         modulemodes = input(f"Mode >> ")
         if modulemodes == "1":
@@ -1332,7 +1332,131 @@ def menu():
                     print("引数が不正または終了した操作です。")
                     time.sleep(1)
                     sushimenu() 
-            sushimenu()        
+            sushimenu()      
+        if modulemodes == "7":  
+            print("open the gui")  
+            import tkinter as tk
+            import tkinter.messagebox as tmsg
+            import tkinter.ttk as ttk
+            import random
+            import requests
+            import threading
+            import time
+            import discum as discum
+            import multiprocessing
+            import string
+            from concurrent.futures import ThreadPoolExecutor
+            root = tk.Tk()
+            root.title(u"Ghost Raider")
+            root.geometry("1300x750")
+            root.iconbitmap(default="ghost.ico")
+            root.configure(bg='grey13')
+            def status():
+                global status
+                return status
+            def randomname(n):
+                    randlst = [random.choice(string.ascii_letters + string.digits) for i in range(n)]
+                    return ''.join(randlst)
+
+            def start_spam():
+                print("Spam Start")
+                thread1 = threading.Thread(target=normalspam).start()
+            def normalspam():
+                global status
+                while True:
+                    if status is False:
+                        break
+                    ffs = open('message.txt',"r",encoding="utf-8_sig")
+                    messages = ffs.read()
+                    guild_id = serverid_text.get()
+                    channel_id = channelid_text.get
+                    token = tokenentry.get
+                    def memberspam():
+                        spams = ""
+                        with open(token_file + '.txt') as f:
+                                lines = f.readlines()
+                                while True:
+                                    for l in lines:
+                                            if alc.get():
+                                                chlist = get_channels(token,int(guild_id))
+                                                channel_id = random.choice(chlist)
+                                                randomed = randomname(5)
+                                                payload = {"content": f"{messages}\n{spams}\n" + randomed}
+                                                headers = {"authorization": l.rstrip("\n")}
+                                                res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages", headers=headers, json=payload)
+                                                spams = ""
+                                                print("Send: "+randomed)
+                                            else:   
+                                                randomed = randomname(5)
+                                                payload = {"content": f"{messages}\n{spams}\n" + randomed}
+                                                headers = {"authorization": l.rstrip("\n")}
+                                                res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages", headers=headers, json=payload)
+                                                spams = ""
+                                                print("Send: "+randomed)
+                    while True:
+                        time.sleep(0.7)
+                        threading.Thread(target=memberspam).start()             
+            def stop_spam():
+                print("Stop Spam") 
+                global flg
+                flg = False
+            # 上の部分
+            serverid_text = tk.StringVar() 
+            channelid_text = tk.StringVar() 
+            uenolabel = tk.Label(background='#545454')
+            uenolabel.place(x=0, y=0, height=95, width=1300)
+            canvas = tk.Canvas(root,width = 1060, height = 90, bg = "white")
+            canvas.place(x=240, y=0)
+            rectangle = canvas.create_rectangle(0, -1, 1062, 91, outline = "gray", width = 1, fill = "#545454")
+            nmlabel0 = tk.Label(background='#2C2C2C')
+            nmlabel0.place(x=10, y=8, width=230, height=80)
+            nmlabel1 = tk.Label(text='Ghost Raider', foreground='white', background='#2C2C2C', font=("Supernova",20,"bold"))
+            nmlabel1.place(x=25, y=10)
+            nmlabel2 = tk.Label(text='V2', foreground='white', background='#2C2C2C', font=("Supernova",20,"bold"))
+            nmlabel2.place(x=95, y=50)
+            cdlabel0 = tk.Label(background='#2C2C2C')
+            cdlabel0.place(x=250, y=8, height=80, width=1055)
+            cdlabel1 = tk.Label(text='Created By cocoapc911', foreground='white', background='#2C2C2C', font=("Supernova",15,"bold"))
+            cdlabel1.place(x=270, y=20)
+            cdlabel2 = tk.Label(text='Discord: ここあ#0001', foreground='white', background='#2C2C2C', font=("Supernova",15,"bold"))
+            cdlabel2.place(x=280, y=45)
+            cdlabel3 = tk.Label(text='discord.gg/cocoapc911', foreground='white', background='#2C2C2C', font=("Supernova",15,"bold"))
+            cdlabel3.place(x=560, y=30)
+            
+            # Spammer
+            alc = tk.BooleanVar()
+            alc.set(False)
+            canvas = tk.Canvas(root, bg="grey13", height=330, width=175)
+            canvas.place(x=15, y=130)
+            spamlabel = tk.Label(text="Spammer",font=("Supernova",20,"bold"),foreground="#fff",bg="grey13")
+            spamlabel.place(x=30, y=110)
+            svidlabel = tk.Label(text="Server ID",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+            svidlabel.place(x=30, y=160)
+            svidentry = tk.Entry(width=25,textvariable=serverid_text)
+            svidentry.place(x=30, y=185)
+            chidlabel = tk.Label(text="Channel ID",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+            chidlabel.place(x=30, y=220)
+            chidentry = tk.Entry(width=25,textvariable=channelid_text)
+            chidentry.place(x=30, y=245)
+            allch = tk.Checkbutton(text="AllChannel",variable=alc,bg="#7c64e4",height=0, width=17)
+            allch.place(x=30, y=275)
+            allmt = tk.Checkbutton(text="AllMention",bg="#7c64e4",height=0, width=17)
+            allmt.place(x=30, y=310)
+            stsmbt = tk.Button(text="Start Spam",foreground='black', background='#88CEEB', command=start_spam)
+            stsmbt.place(x=30,y=350,width=150,height=40)
+            wismbt = tk.Button(text="Stop Spam",foreground='black', background='#88CEEB', command=stop_spam)
+            wismbt.place(x=30,y=400,width=150,height=40)
+            
+            # Option
+            canvas = tk.Canvas(root, bg="grey13", height=100, width=300)
+            canvas.place(x=15, y=600)
+            spamlabel = tk.Label(text="Option",font=("Supernova",20,"bold"),foreground="#fff",bg="grey13")
+            spamlabel.place(x=30, y=580)            
+            tokenlabel = tk.Label(text="Token (Option)",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+            tokenlabel.place(x=30, y=615)
+            tokenentry = tk.Entry(width=25)
+            tokenentry.place(x=30, y=640)
+            root.mainloop()
     else:
         print("引数が不正または終了した操作です。")
         time.sleep(1)
