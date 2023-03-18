@@ -1185,6 +1185,7 @@ def menu():
                 with open("proxy.txt" , encoding="utf-8") as f:
                    return random.choice(f.readlines()).split("\n")[0]
             def sushimenu():
+                clear_screen()
                 print(Color.BLUE+"""
 ー－－－－－－－－－－－－－－－－－－－－－－－－－－
 |    .d8888. db    db .d8888. db   db d888888b        |
@@ -1206,8 +1207,7 @@ def menu():
 ー－－－－－－－－－－－－－－－－－－－－
 
 1: Spammer  3: Checker  5: ProxyChecker
-
-2: Joiner   4: AllMemberGet
+2: Joiner   4: AllMemberGet       6: Back GR
 
 ー－－－－－－－－－－－－－－－－－－－－
                 """+Color.RESET)
@@ -1300,7 +1300,34 @@ def menu():
                     time.sleep(2)
                     sushimenu()    
                 if sushi_mode == "5":
-                    print("Coming")     
+                    import requests
+                    import concurrent.futures
+
+                    def check_proxy(proxy):
+                        proxy = proxy.strip()
+                        try:
+                            for protocol in ['http', 'https', 'socks4', 'socks5']:
+                                proxy_dict = {protocol: f"{protocol}://{proxy}"}
+                                response = requests.get("https://www.google.com", proxies=proxy_dict, timeout=5)
+                                if response.status_code == 200:
+                                    with open('working_proxies.txt', 'a') as f:
+                                        f.write(f"{protocol}://{proxy}\n")
+                                        print(f"{protocol}://{proxy} is working")
+                        except:
+                            print(f"{proxy} is not working")
+
+                    def check_proxies(file_path, num_threads=10):
+                        with open(file_path+".txt", "r") as f:
+                            proxies = f.readlines()
+
+                        with concurrent.futures.ThreadPoolExecutor(max_workers=num_threads) as executor:
+                            executor.map(check_proxy, proxies)
+
+                    file_path = input("Proxy File >> ")
+                    num_threads = int(input("Threads Count >> "))
+                    check_proxies(file_path, num_threads)         
+                if sushi_mode == "6":
+                    menu()    
                 else:
                     print("引数が不正または終了した操作です。")
                     time.sleep(1)
