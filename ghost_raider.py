@@ -1368,8 +1368,6 @@ def menu():
                         break
                     ffs = open('message.txt',"r",encoding="utf-8_sig")
                     messages = ffs.read()
-                    guild_id = serverid_text.get()
-                    channel_id = channelid_text.get
                     token = tokenentry.get
                     def memberspam():
                         spams = ""
@@ -1387,6 +1385,7 @@ def menu():
                                                 spams = ""
                                                 print("Send: "+randomed)
                                             else:   
+                                                channel_id = channelid_text.get()
                                                 randomed = randomname(5)
                                                 payload = {"content": f"{messages}\n{spams}\n" + randomed}
                                                 headers = {"authorization": l.rstrip("\n")}
@@ -1401,8 +1400,6 @@ def menu():
                 global flg
                 flg = False
             # 上の部分
-            serverid_text = tk.StringVar() 
-            channelid_text = tk.StringVar() 
             uenolabel = tk.Label(background='#545454')
             uenolabel.place(x=0, y=0, height=95, width=1300)
             canvas = tk.Canvas(root,width = 1060, height = 90, bg = "white")
@@ -1424,6 +1421,8 @@ def menu():
             cdlabel3.place(x=560, y=30)
             
             # Spammer
+            serverid_text = tk.StringVar() 
+            channelid_text = tk.StringVar() 
             alc = tk.BooleanVar()
             alc.set(False)
             canvas = tk.Canvas(root, bg="grey13", height=330, width=175)
