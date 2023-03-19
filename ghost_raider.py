@@ -1358,31 +1358,27 @@ def menu():
             def normalspam():
                     ffs = open('message.txt',"r",encoding="utf-8_sig")
                     messages = ffs.read()
-                    token = tokenentry.get
+                    guild_id = serverid_text.get()
+                    token = token_text.get()
+                    chlist = get_channels(token,int(guild_id))
                     def memberspam():
-                        spams = ""
                         with open(token_file + '.txt') as f:
                                 lines = f.readlines()
                                 while True:
                                     for l in lines:
                                             if alc.get():
-                                                guild_id = serverid_text.get()
-                                                token = token_text.get()
-                                                chlist = get_channels(token,int(guild_id))
                                                 channel_id = random.choice(chlist)
                                                 randomed = randomname(5)
-                                                payload = {"content": f"{messages}\n{spams}\n" + randomed}
+                                                payload = {"content": f"{messages}\n" + randomed}
                                                 headers = {"authorization": l.rstrip("\n")}
                                                 res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages", headers=headers, json=payload)
-                                                spams = ""
                                                 print("Send: "+randomed)
                                             else:   
                                                 channel_id = channelid_text.get()
                                                 randomed = randomname(5)
-                                                payload = {"content": f"{messages}\n{spams}\n" + randomed}
+                                                payload = {"content": f"{messages}\n" + randomed}
                                                 headers = {"authorization": l.rstrip("\n")}
                                                 res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages", headers=headers, json=payload)
-                                                spams = ""
                                                 print("Send: "+randomed)
                     while True:
                         time.sleep(0.7)
