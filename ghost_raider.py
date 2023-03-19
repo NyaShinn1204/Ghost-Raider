@@ -3,6 +3,7 @@ import threading
 import os
 import random
 import data.discum.discum as discum
+from datetime import datetime
 import requests
 import threading
 import emoji as eeemj
@@ -16,7 +17,6 @@ import websocket
 import base64
 import httpx
 import data.rpc
-import time
 from time import mktime
 import sys
 from colorama import Fore
@@ -25,7 +25,7 @@ from halo import Halo
 import re
 import binascii
 import tls_client
-status = True
+
 token_file = input("Token File Name(.txtは消す) >> ")
 print("Set: "+token_file+".txt :)")
 time.sleep(1)
@@ -383,7 +383,6 @@ def get_headers(option=None):
     }
     headers["x-super-properties"] = base64.b64encode(json.dumps(xxx, separators=(',', ':')).encode()).decode()
     return headers
-
 class Color:
 	BLACK          = '\033[30m'#(文字)黒
 	RED            = '\033[31m'#(文字)赤
@@ -1341,7 +1340,6 @@ def menu():
             import random
             import requests
             import threading
-            import time
             import discum as discum
             import multiprocessing
             import string
@@ -1351,21 +1349,13 @@ def menu():
             root.geometry("1300x750")
             root.iconbitmap(default="ghost.ico")
             root.configure(bg='grey13')
-            def status():
-                global status
-                return status
             def randomname(n):
                     randlst = [random.choice(string.ascii_letters + string.digits) for i in range(n)]
                     return ''.join(randlst)
-
             def start_spam():
                 print("Spam Start")
                 thread1 = threading.Thread(target=normalspam).start()
             def normalspam():
-                global status
-                while True:
-                    if status is False:
-                        break
                     ffs = open('message.txt',"r",encoding="utf-8_sig")
                     messages = ffs.read()
                     token = tokenentry.get
@@ -1376,6 +1366,8 @@ def menu():
                                 while True:
                                     for l in lines:
                                             if alc.get():
+                                                guild_id = serverid_text.get()
+                                                token = token_text.get()
                                                 chlist = get_channels(token,int(guild_id))
                                                 channel_id = random.choice(chlist)
                                                 randomed = randomname(5)
@@ -1394,11 +1386,9 @@ def menu():
                                                 print("Send: "+randomed)
                     while True:
                         time.sleep(0.7)
-                        threading.Thread(target=memberspam).start()             
+                        threading.Thread(target=memberspam).start()                    
             def stop_spam():
                 print("Stop Spam") 
-                global flg
-                flg = False
             # 上の部分
             uenolabel = tk.Label(background='#545454')
             uenolabel.place(x=0, y=0, height=95, width=1300)
@@ -1447,14 +1437,15 @@ def menu():
             wismbt.place(x=30,y=400,width=150,height=40)
             
             # Option
+            token_text = tk.StringVar()
             canvas = tk.Canvas(root, bg="grey13", height=100, width=300)
-            canvas.place(x=15, y=600)
+            canvas.place(x=15, y=640)
             spamlabel = tk.Label(text="Option",font=("Supernova",20,"bold"),foreground="#fff",bg="grey13")
-            spamlabel.place(x=30, y=580)            
+            spamlabel.place(x=30, y=620)            
             tokenlabel = tk.Label(text="Token (Option)",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
-            tokenlabel.place(x=30, y=615)
-            tokenentry = tk.Entry(width=25)
-            tokenentry.place(x=30, y=640)
+            tokenlabel.place(x=30, y=655)
+            tokenentry = tk.Entry(width=25,textvariable=token_text)
+            tokenentry.place(x=30, y=680)
             root.mainloop()
     else:
         print("引数が不正または終了した操作です。")
