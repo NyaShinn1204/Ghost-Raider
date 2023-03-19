@@ -2,7 +2,7 @@ import time
 import threading
 import os
 import random
-import discum
+import discum as discum
 from datetime import datetime
 import requests
 import threading
@@ -1381,89 +1381,92 @@ def menu():
                                                 if alc.get(): #AllChがon
                                                     channel_id = channelid_text.get()
                                                     guild_id = serverid_text.get()
+                                                    token = token_text.get()
                                                     randoms = int(mentioncount.get())
-                                                    tokens = token_text.get()
-                                                    tokens = token
-                                                    bot = discum.Client(token=tokens, log=False)
-                                                    def close_after_fetching(resp, guild_id):
-                                                        if bot.gateway.finishedMemberFetching(guild_id):
-                                                            bot.gateway.removeCommand({
+                                                    if randoms > 0:
+                                                        tokens = token
+                                                        bot = discum.Client(token=tokens, log=False)
+                                                        def close_after_fetching(resp, guild_id):
+                                                            if bot.gateway.finishedMemberFetching(guild_id):
+                                                                bot.gateway.removeCommand({
+                                                                    'function': close_after_fetching,
+                                                                    'params': {
+                                                                        'guild_id': guild_id
+                                                                    }
+                                                                })
+                                                                bot.gateway.close()
+
+                                                        def get_members(guild_id, channel_id):
+                                                            bot.gateway.fetchMembers(
+                                                                guild_id, channel_id, keep="all",
+                                                                wait=1)  #get all user attributes, wait 1 second between requests
+                                                            bot.gateway.command({
                                                                 'function': close_after_fetching,
                                                                 'params': {
                                                                     'guild_id': guild_id
                                                                 }
                                                             })
-                                                            bot.gateway.close()
-
-                                                    def get_members(guild_id, channel_id):
-                                                        bot.gateway.fetchMembers(
-                                                            guild_id, channel_id, keep="all",
-                                                            wait=1)  #get all user attributes, wait 1 second between requests
-                                                        bot.gateway.command({
-                                                            'function': close_after_fetching,
-                                                            'params': {
-                                                                'guild_id': guild_id
-                                                            }
-                                                        })
-                                                        bot.gateway.run()
-                                                        bot.gateway.resetSession()  #saves 10 seconds when gateway is run again
-                                                        return bot.gateway.session.guild(guild_id).members
-                                                    members = get_members(guild_id, channel_id)
-                                                    memberslist = []
-                                                    for memberID in members:
-                                                        print(f"メンバーを取得しました。{memberID}")
-                                                        memberslist.append(memberID) 
-                                                    channel_id = random.choice(chlist)
-                                                    for _ in range(randoms):
-                                                        spams += "<@" + random.choice(memberslist) + "> "
-                                                    randomed = randomname(randomcount)
-                                                    payload = {"content": f"{messages}\n{spams}\n" + randomed}
-                                                    headers = {"authorization": l.rstrip("\n")}
-                                                    res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages", headers=headers, json=payload)
-                                                    spams = ""
-                                                    print("Send: "+randomed)  
+                                                            bot.gateway.run()
+                                                            bot.gateway.resetSession()  #saves 10 seconds when gateway is run again
+                                                            return bot.gateway.session.guild(guild_id).members
+                                                        members = get_members(guild_id, channel_id)
+                                                        memberslist = []
+                                                        for memberID in members:
+                                                            print(f"メンバーを取得しました。{memberID}")
+                                                            memberslist.append(memberID) 
+                                                        channel_id = random.choice(chlist)
+                                                        for _ in range(randoms):
+                                                            spams += "<@" + random.choice(memberslist) + "> "
+                                                        randomed = randomname(randomcount)
+                                                        payload = {"content": f"{messages}\n{spams}\n" + randomed}
+                                                        headers = {"authorization": l.rstrip("\n")}
+                                                        res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages", headers=headers, json=payload)
+                                                        spams = ""
+                                                        print("Send: "+randomed)  
                                                 else:         #AllChがoff
                                                     channel_id = channelid_text.get()
                                                     guild_id = serverid_text.get()
+                                                    token = token_text.get()
                                                     randoms = int(mentioncount.get())
-                                                    tokens = token
-                                                    bot = discum.Client(token=tokens, log=False)
-                                                    def close_after_fetching(resp, guild_id):
-                                                        if bot.gateway.finishedMemberFetching(guild_id):
-                                                            bot.gateway.removeCommand({
+                                                    if randoms > 0:
+                                                        tokens = token
+                                                        bot = discum.Client(token=tokens, log=False)
+                                                        def close_after_fetching(resp, guild_id):
+                                                            if bot.gateway.finishedMemberFetching(guild_id):
+                                                                bot.gateway.removeCommand({
+                                                                    'function': close_after_fetching,
+                                                                    'params': {
+                                                                        'guild_id': guild_id
+                                                                    }
+                                                                })
+                                                                bot.gateway.close()
+
+                                                        def get_members(guild_id, channel_id):
+                                                            bot.gateway.fetchMembers(
+                                                                guild_id, channel_id, keep="all",
+                                                                wait=1)  #get all user attributes, wait 1 second between requests
+                                                            bot.gateway.command({
                                                                 'function': close_after_fetching,
                                                                 'params': {
                                                                     'guild_id': guild_id
-                                                            }
+                                                                }
                                                             })
-                                                            bot.gateway.close()
-
-                                                    def get_members(guild_id, channel_id):
-                                                        bot.gateway.fetchMembers(
-                                                            guild_id, channel_id, keep="all",
-                                                            wait=1)  #get all user attributes, wait 1 second between requests
-                                                        bot.gateway.command({
-                                                            'function': close_after_fetching,
-                                                            'params': {
-                                                                'guild_id': guild_id
-                                                            }
-                                                        })
-                                                        bot.gateway.run()
-                                                        bot.gateway.resetSession()  #saves 10 seconds when gateway is run again
-                                                        return bot.gateway.session.guild(guild_id).members
-                                                    members = get_members(guild_id, channel_id)
-                                                    memberslist = []
-                                                    for memberID in members:
-                                                        print(f"メンバーを取得しました。{memberID}")
-                                                        memberslist.append(memberID)                                                         
-                                                    for _ in range(randoms):
-                                                        spams += "<@" + random.choice(memberslist) + "> "
-                                                    randomed = randomname(randomcount)
-                                                    payload = {"content": f"{messages}\n{spams}\n" + randomed}
-                                                    headers = {"authorization": l.rstrip("\n")}
-                                                    res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages", headers=headers, json=payload)
-                                                    spams = ""
-                                                    print("Send: "+randomed)
+                                                            bot.gateway.run()
+                                                            bot.gateway.resetSession()  #saves 10 seconds when gateway is run again
+                                                            return bot.gateway.session.guild(guild_id).members
+                                                        members = get_members(guild_id, channel_id)
+                                                        memberslist = []
+                                                        for memberID in members:
+                                                            print(f"メンバーを取得しました。{memberID}")
+                                                            memberslist.append(memberID)                                                         
+                                                        for _ in range(randoms):
+                                                            spams += "<@" + random.choice(memberslist) + "> "
+                                                        randomed = randomname(randomcount)
+                                                        payload = {"content": f"{messages}\n{spams}\n" + randomed}
+                                                        headers = {"authorization": l.rstrip("\n")}
+                                                        res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages", headers=headers, json=payload)
+                                                        spams = ""
+                                                        print("Send: "+randomed)
                                             else:             #RandomMentionがoff
                                                 print("off")
                                                 
