@@ -1351,6 +1351,10 @@ def menu():
                 threading.Thread(target=start_spam).start()    
             def start_spam():
                 print("Spam Start")
+                if channelid_text.get() == "":
+                    print(Fore.RED+"PLS INPUT CHANNEL_ID"+Fore.RESET)
+                if serverid_text.get() == "":
+                    print(Fore.RED+"PLS INPUT SERVER_ID"+Fore.RESET)    
                 #print (int(mentioncount.get()))
                 if alc.get():
                     ffs = open('message.txt',"r",encoding="utf-8_sig")
@@ -1494,7 +1498,7 @@ def menu():
                                                 print("Error: "+ e)  
                         while True:
                             time.sleep(0.4)
-                            threading.Thread(target=alchnoalmt).start()                                
+                            threading.Thread(target=alchnoalmt).start()                                        
                 #thread1 = threading.Thread(target=ghspam).start()             
             def stop_spam():
                 # 思いつかない
