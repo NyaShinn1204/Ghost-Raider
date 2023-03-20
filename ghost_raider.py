@@ -1347,6 +1347,66 @@ def menu():
             def randomname(n):
                     randlst = [random.choice(string.ascii_letters + string.digits) for i in range(n)]
                     return ''.join(randlst)
+            # 上の部分
+            uenolabel = tk.Label(background='#545454')
+            uenolabel.place(x=0, y=0, height=95, width=1300)
+            canvas = tk.Canvas(root,width = 1060, height = 90, bg = "white")
+            canvas.place(x=240, y=0)
+            rectangle = canvas.create_rectangle(0, -1, 1062, 91, outline = "gray", width = 1, fill = "#545454")
+            nmlabel0 = tk.Label(background='#2C2C2C')
+            nmlabel0.place(x=10, y=8, width=230, height=80)
+            nmlabel1 = tk.Label(text='Ghost Raider', foreground='white', background='#2C2C2C', font=("Supernova",20,"bold"))
+            nmlabel1.place(x=25, y=10)
+            nmlabel2 = tk.Label(text='V2', foreground='white', background='#2C2C2C', font=("Supernova",20,"bold"))
+            nmlabel2.place(x=95, y=50)
+            cdlabel0 = tk.Label(background='#2C2C2C')
+            cdlabel0.place(x=250, y=8, height=80, width=1055)
+            cdlabel1 = tk.Label(text='Created By cocoapc911', foreground='white', background='#2C2C2C', font=("Supernova",15,"bold"))
+            cdlabel1.place(x=270, y=20)
+            cdlabel2 = tk.Label(text='Discord: ここあ#0001', foreground='white', background='#2C2C2C', font=("Supernova",15,"bold"))
+            cdlabel2.place(x=280, y=45)
+            cdlabel3 = tk.Label(text='discord.gg/cocoapc911', foreground='white', background='#2C2C2C', font=("Supernova",15,"bold"))
+            cdlabel3.place(x=560, y=30)
+            # defまとめ
+            # module frame
+            def spammer():
+                frame = tk.Frame(root, width=800, height=500)
+                frame.place(x=135, y=95)
+                frame.configure(bg="grey13")
+                serverid_text = tk.StringVar() 
+                channelid_text = tk.StringVar() 
+                alc = tk.BooleanVar()
+                alc.set(False) #allch
+                blc = tk.BooleanVar()
+                blc.set(False) #allmt
+                canvas = tk.Canvas(frame, bg="grey13", height=330, width=175)
+                canvas.place(x=15, y=5)
+                spamlabel = tk.Label(frame, text="Spammer",font=("Supernova",20,"bold"),foreground="#fff",bg="grey13")
+                spamlabel.place(x=30, y=10)
+                svidlabel = tk.Label(frame, text="Server ID",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+                svidlabel.place(x=30, y=65)
+                svidentry = tk.Entry(frame, width=25,textvariable=serverid_text)
+                svidentry.place(x=30, y=90)
+                chidlabel = tk.Label(frame, text="Channel ID",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+                chidlabel.place(x=30, y=115)
+                chidentry = tk.Entry(frame, width=25,textvariable=channelid_text)
+                chidentry.place(x=30, y=140)
+                allch = tk.Checkbutton(frame, text="AllChannel",variable=alc,bg="#7c64e4",height=0, width=17)
+                allch.place(x=30, y=170)
+                allmt = tk.Checkbutton(frame, text="AllMention",variable=blc,bg="#7c64e4",height=0, width=17)
+                allmt.place(x=30, y=205)
+                stsmbt = tk.Button(frame, text="Start Spam",foreground='black', background='#88CEEB', command=spammer_start)
+                stsmbt.place(x=30,y=245,width=150,height=40)
+                wismbt = tk.Button(frame, text="Stop Spam",foreground='black', background='#88CEEB', command=stop_spam)
+                wismbt.place(x=30,y=295,width=150,height=40)      
+                
+            # module main
+            global channelid_text
+            global serverid_text
+            global alc
+            global blc
+            global mentioncount
+            global token_text
             def spammer_start():
                 threading.Thread(target=start_spam).start()    
             def start_spam():
@@ -1502,59 +1562,9 @@ def menu():
                 #thread1 = threading.Thread(target=ghspam).start()             
             def stop_spam():
                 # 思いつかない
-                print("Stop Spam")
-            # 上の部分
-            uenolabel = tk.Label(background='#545454')
-            uenolabel.place(x=0, y=0, height=95, width=1300)
-            canvas = tk.Canvas(root,width = 1060, height = 90, bg = "white")
-            canvas.place(x=240, y=0)
-            rectangle = canvas.create_rectangle(0, -1, 1062, 91, outline = "gray", width = 1, fill = "#545454")
-            nmlabel0 = tk.Label(background='#2C2C2C')
-            nmlabel0.place(x=10, y=8, width=230, height=80)
-            nmlabel1 = tk.Label(text='Ghost Raider', foreground='white', background='#2C2C2C', font=("Supernova",20,"bold"))
-            nmlabel1.place(x=25, y=10)
-            nmlabel2 = tk.Label(text='V2', foreground='white', background='#2C2C2C', font=("Supernova",20,"bold"))
-            nmlabel2.place(x=95, y=50)
-            cdlabel0 = tk.Label(background='#2C2C2C')
-            cdlabel0.place(x=250, y=8, height=80, width=1055)
-            cdlabel1 = tk.Label(text='Created By cocoapc911', foreground='white', background='#2C2C2C', font=("Supernova",15,"bold"))
-            cdlabel1.place(x=270, y=20)
-            cdlabel2 = tk.Label(text='Discord: ここあ#0001', foreground='white', background='#2C2C2C', font=("Supernova",15,"bold"))
-            cdlabel2.place(x=280, y=45)
-            cdlabel3 = tk.Label(text='discord.gg/cocoapc911', foreground='white', background='#2C2C2C', font=("Supernova",15,"bold"))
-            cdlabel3.place(x=560, y=30)
-            
-            # Spammer
-            serverid_text = tk.StringVar() 
-            channelid_text = tk.StringVar() 
-            alc = tk.BooleanVar()
-            alc.set(False) #allch
-            blc = tk.BooleanVar()
-            blc.set(False) #allmt
-            canvas = tk.Canvas(root, bg="grey13", height=330, width=175)
-            canvas.place(x=15, y=130)
-            spamlabel = tk.Label(text="Spammer",font=("Supernova",20,"bold"),foreground="#fff",bg="grey13")
-            spamlabel.place(x=30, y=110)
-            svidlabel = tk.Label(text="Server ID",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
-            svidlabel.place(x=30, y=160)
-            svidentry = tk.Entry(width=25,textvariable=serverid_text)
-            svidentry.place(x=30, y=185)
-            chidlabel = tk.Label(text="Channel ID",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
-            chidlabel.place(x=30, y=220)
-            chidentry = tk.Entry(width=25,textvariable=channelid_text)
-            chidentry.place(x=30, y=245)
-            allch = tk.Checkbutton(text="AllChannel",variable=alc,bg="#7c64e4",height=0, width=17)
-            allch.place(x=30, y=275)
-            allmt = tk.Checkbutton(text="AllMention",variable=blc,bg="#7c64e4",height=0, width=17)
-            allmt.place(x=30, y=310)
-            stsmbt = tk.Button(text="Start Spam",foreground='black', background='#88CEEB', command=spammer_start)
-            stsmbt.place(x=30,y=350,width=150,height=40)
-            wismbt = tk.Button(text="Stop Spam",foreground='black', background='#88CEEB', command=stop_spam)
-            wismbt.place(x=30,y=400,width=150,height=40)
-            
+                print("Stop Spam")                      
             # Option
             token_text = tk.StringVar()
-            #mention_text = tk.StringVar()
             mentioncount = tk.DoubleVar()
             mentioncount.set(1)
             canvas = tk.Canvas(root, bg="grey13", height=118, width=300)
@@ -1569,8 +1579,41 @@ def menu():
             mentionlabel.place(x=30, y=700)
             mentionscale = tk.Scale(variable=mentioncount, orient=tk.HORIZONTAL, length=180,from_=1, to=10, foreground="#fff", bg="grey13")
             mentionscale.place(x=30, y=720)
-            #mentionentry = tk.Entry(width=25,textvariable=mention_text)
-            #mentionentry.place(x=30, y=720)            
+                        
+            # # Spammer
+            # serverid_text = tk.StringVar() 
+            # channelid_text = tk.StringVar() 
+            # alc = tk.BooleanVar()
+            # alc.set(False) #allch
+            # blc = tk.BooleanVar()
+            # blc.set(False) #allmt
+            # canvas = tk.Canvas(root, bg="grey13", height=330, width=175)
+            # canvas.place(x=15, y=130)
+            # spamlabel = tk.Label(text="Spammer",font=("Supernova",20,"bold"),foreground="#fff",bg="grey13")
+            # spamlabel.place(x=30, y=110)
+            # svidlabel = tk.Label(text="Server ID",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+            # svidlabel.place(x=30, y=160)
+            # svidentry = tk.Entry(width=25,textvariable=serverid_text)
+            # svidentry.place(x=30, y=185)
+            # chidlabel = tk.Label(text="Channel ID",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+            # chidlabel.place(x=30, y=220)
+            # chidentry = tk.Entry(width=25,textvariable=channelid_text)
+            # chidentry.place(x=30, y=245)
+            # allch = tk.Checkbutton(text="AllChannel",variable=alc,bg="#7c64e4",height=0, width=17)
+            # allch.place(x=30, y=275)
+            # allmt = tk.Checkbutton(text="AllMention",variable=blc,bg="#7c64e4",height=0, width=17)
+            # allmt.place(x=30, y=310)
+            # stsmbt = tk.Button(text="Start Spam",foreground='black', background='#88CEEB', command=spammer_start)
+            # stsmbt.place(x=30,y=350,width=150,height=40)
+            # wismbt = tk.Button(text="Stop Spam",foreground='black', background='#88CEEB', command=stop_spam)
+            # wismbt.place(x=30,y=400,width=150,height=40)
+                    
+            # MODULE LIST
+            canvas = tk.Canvas(root, bg="grey13", height=415, width=118)
+            canvas.place(x=12, y=98)
+            #tk.Button(text="Option",relief = tk.RAISED, width=15, bg="grey13", foreground="#fff", activebackground="white", command=option).place(x=16, y=101)                    
+            tk.Button(text="Spammer",relief = tk.RAISED, width=15, bg="grey13", foreground="#fff", activebackground="white", command=spammer).place(x=16, y=101)
+                    
             root.mainloop()
     else:
         print("引数が不正または終了した操作です。")
