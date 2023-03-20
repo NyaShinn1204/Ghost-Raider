@@ -1137,30 +1137,34 @@ def menu():
         """+Color.RESET)
         modulemodes = input(f"Mode >> ")
         if modulemodes == "1":
-            client_id = "1084307231069175860"
-            rpc_obj = data.rpc.DiscordIpcClient.for_platform(client_id)  
-            spinner = Halo(text='RPCを起動中... ', spinner='dots')
-            spinner.start()
-            time.sleep(2)
-            spinner.text = "RPCを起動しました。"    
-            spinner.succeed()
-            time.sleep(2)  
-            start_time = mktime(time.localtime()) 
-            while True:
-                activity = {
-                        "state": "dev version :)",  
-                        "details": "New Discord Raid Tools.",
-                        "timestamps": {
-                            "start": start_time
-                        },
-                            "assets" : {
-                            "large_image" : "20230213_183725_0000", # さっきコピーしたものを貼り付け
-                            "large_text" : "ED Raider" # 画像にカーソルをあわせると表示されるテキスト
-                                   }
-                    }
-                rpc_obj.set_activity(activity)
-                menu()
-                time.sleep(900) # アクティビティを送信しすぎるとアクセスが拒否されるため               
+            rpcmode = input(f"[1]{Fore.GREEN}ED Raider{Fore.RESET}\n[2]{Fore.GREEN}Coming Soon{Fore.RESET}\nMode >> ")
+            if rpcmode == "1":
+                client_id = "1084307231069175860"
+                rpc_obj = data.rpc.DiscordIpcClient.for_platform(client_id)  
+                spinner = Halo(text='RPCを起動中... ', spinner='dots')
+                spinner.start()
+                time.sleep(2)
+                spinner.text = "RPCを起動しました。"    
+                spinner.succeed()
+                time.sleep(2)  
+                start_time = mktime(time.localtime()) 
+                while True:
+                    activity = {
+                            "state": "dev version :)",  
+                            "details": "New Discord Raid Tools.",
+                            "timestamps": {
+                                "start": start_time
+                            },
+                                "assets" : {
+                                "large_image" : "20230213_183725_0000", # さっきコピーしたものを貼り付け
+                                "large_text" : "ED Raider" # 画像にカーソルをあわせると表示されるテキスト
+                                       }
+                        }
+                    rpc_obj.set_activity(activity)
+                    menu()
+                    time.sleep(900) # アクティビティを送信しすぎるとアクセスが拒否されるため     
+            if rpcmode == "2":
+                print("Coming Soon")                  
         if modulemodes == "2":
             print("Coming Soon")
         if modulemodes == "3":
