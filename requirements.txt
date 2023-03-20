@@ -3,3 +3,10 @@ capmonster_python
 tls_client
 httpx
 halo
+brotli
+ua_parser
+filetype
+requests_toolbelt
+websocket
+anticaptchaofficial
+pysocks

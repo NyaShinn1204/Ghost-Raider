@@ -1137,9 +1137,12 @@ def menu():
         """+Color.RESET)
         modulemodes = input(f"Mode >> ")
         if modulemodes == "1":
-            rpcmode = input(f"[1]{Fore.GREEN}ED Raider{Fore.RESET}\n[2]{Fore.GREEN}Coming Soon{Fore.RESET}\nMode >> ")
+            rpcmode = input(f"""{Fore.GREEN}
+[1]ED Raider   [3]Coming Soon
+[2]Coming Soon [4]Minecraft Mod                            
+{Fore.RESET}Mode >> """)
             if rpcmode == "1":
-                client_id = "1084307231069175860"
+                client_id = "1087494433236332544"
                 rpc_obj = data.rpc.DiscordIpcClient.for_platform(client_id)  
                 spinner = Halo(text='RPCを起動中... ', spinner='dots')
                 spinner.start()
@@ -1165,6 +1168,11 @@ def menu():
                     time.sleep(900) # アクティビティを送信しすぎるとアクセスが拒否されるため     
             if rpcmode == "2":
                 print("Coming Soon")                  
+            if rpcmode == "4":
+                rpcmodmode = input(f"""{Fore.GREEN}
+[1]Impact   
+[2]Coming Soon      
+{Fore.RESET}Mode >> """)
         if modulemodes == "2":
             print("Coming Soon")
         if modulemodes == "3":
