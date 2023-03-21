@@ -1173,6 +1173,31 @@ def menu():
 [1]Impact   
 [2]Coming Soon      
 {Fore.RESET}Mode >> """)
+                if rpcmodmode == "1":
+                    client_id = "1087667715793244160"
+                    rpc_obj = data.rpc.DiscordIpcClient.for_platform(client_id)  
+                    spinner = Halo(text='RPCを起動中... ', spinner='dots')
+                    spinner.start()
+                    time.sleep(2)
+                    spinner.text = "RPCを起動しました。"    
+                    spinner.succeed()
+                    time.sleep(2)  
+                    start_time = mktime(time.localtime()) 
+                    while True:
+                        activity = {
+                                "state": "Multiplayer",  
+                                "details": "In Game",
+                                "timestamps": {
+                                    "start": start_time
+                                },
+                                    "assets" : {
+                                    "large_image" : "24485394", # さっきコピーしたものを貼り付け
+                                    "large_text" : "ED Raider" # 画像にカーソルをあわせると表示されるテキスト
+                                           }
+                            }
+                        rpc_obj.set_activity(activity)
+                        menu()
+                        time.sleep(900) # アクティビティを送信しすぎるとアクセスが拒否されるため                        
         if modulemodes == "2":
             print("Coming Soon")
         if modulemodes == "3":
