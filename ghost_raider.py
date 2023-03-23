@@ -466,6 +466,7 @@ def menu():
     if modes == "1":
         spam_mode = input(f"[1]{Fore.GREEN}All Channel{Fore.RESET}\n[2]{Fore.GREEN}Normal Channel{Fore.RESET}\nMode >> ")
         if spam_mode == "1":
+            global randomname
             ffs = open('message.txt',"r",encoding="utf-8_sig")
             messages = ffs.read()
             guild_id  = input("Server Id >> ")
@@ -1374,8 +1375,6 @@ def menu():
             import tkinter as tk
             import tkinter.messagebox as tmsg
             import tkinter.ttk as ttk
-            import string
-            from concurrent.futures import ThreadPoolExecutor
             root = tk.Tk()
             root.title(u"Ghost Raider")
             root.geometry("1300x765")
