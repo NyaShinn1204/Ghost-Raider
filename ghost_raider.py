@@ -1380,9 +1380,6 @@ def menu():
             root.geometry("1300x765")
             root.iconbitmap(default="ghost.ico")
             root.configure(bg='grey13')
-            def randomname(n):
-                    randlst = [random.choice(string.ascii_letters + string.digits) for i in range(n)]
-                    return ''.join(randlst)
             # 上の部分
             uenolabel = tk.Label(background='#545454')
             uenolabel.place(x=0, y=0, height=95, width=1300)
@@ -1406,16 +1403,18 @@ def menu():
             # defまとめ
             # module frame
             def spammer():
-                frame = tk.Frame(root, width=800, height=500)
+                frame = tk.Frame(root, width=1165, height=540)
                 frame.place(x=135, y=95)
-                frame.configure(bg="grey13")
+                frame.configure(bg="grey13")  #grey13 ##fff
                 serverid_text = tk.StringVar() 
                 channelid_text = tk.StringVar() 
                 alc = tk.BooleanVar()
                 alc.set(False) #allch
                 blc = tk.BooleanVar()
                 blc.set(False) #allmt
-                canvas = tk.Canvas(frame, bg="grey13", height=330, width=175)
+                clc = tk.BooleanVar()
+                clc.set(False)
+                canvas = tk.Canvas(frame, bg="grey13", height=365, width=175)
                 canvas.place(x=15, y=5)
                 spamlabel = tk.Label(frame, text="Spammer",font=("Supernova",20,"bold"),foreground="#fff",bg="grey13")
                 spamlabel.place(x=30, y=10)
@@ -1431,16 +1430,39 @@ def menu():
                 allch.place(x=30, y=170)
                 allmt = tk.Checkbutton(frame, text="AllMention",variable=blc,bg="#7c64e4",height=0, width=17)
                 allmt.place(x=30, y=205)
+                ghmt = tk.Checkbutton(frame, text="GhostMention",variable=clc,bg="#7c64e4",height=0, width=17)
+                ghmt.place(x=30, y=240)
                 stsmbt = tk.Button(frame, text="Start Spam",foreground='black', background='#88CEEB', command=spammer_start)
-                stsmbt.place(x=30,y=245,width=150,height=40)
+                stsmbt.place(x=30,y=280,width=150,height=40)
                 wismbt = tk.Button(frame, text="Stop Spam",foreground='black', background='#88CEEB', command=stop_spam)
-                wismbt.place(x=30,y=295,width=150,height=40)      
-                
+                wismbt.place(x=30,y=330,width=150,height=40)      
+                # Report
+                canvas = tk.Canvas(frame, bg="grey13", height=200, width=200)
+                canvas.place(x=200, y=5)
+                repspamlabel = tk.Label(frame, text="Report Spam",font=("Supernova",20,"bold"),foreground="#fff",bg="grey13")
+                repspamlabel.place(x=215, y=10)
+                repchidlabel = tk.Label(frame, text="Channel ID",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+                repchidlabel.place(x=225, y=65)
+                repchidentry = tk.Entry(frame, width=25,textvariable=channelid_text)
+                repchidentry.place(x=225, y=90)
+                repmsidlabel = tk.Label(frame, text="Channel ID",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+                repmsidlabel.place(x=225, y=115)
+                repmsidentry = tk.Entry(frame, width=25,textvariable=channelid_text)
+                repmsidentry.place(x=225, y=140)
+                stsmbt = tk.Button(frame, text="Start Spam",foreground='black', background='#88CEEB', command=spammer_start)
+                stsmbt.place(x=225,y=170,width=155,height=35)
+                # Reaction
+                canvas = tk.Canvas(frame, bg="grey13", height=200, width=200)
+                canvas.place(x=200, y=215)
+                repspamlabel = tk.Label(frame, text="Reaction Spam",font=("Supernova",17,"bold"),foreground="#fff",bg="grey13")
+                repspamlabel.place(x=215, y=220)                
+                                
             # module main
             global channelid_text
             global serverid_text
             global alc
             global blc
+            global clc
             global mentioncount
             global token_text
             def spammer_start():
@@ -1557,6 +1579,8 @@ def menu():
                                                 #if allchannels == "y":
                                                 #    channel_id = random.choice(chlist)
                                                 #    print(channel_id)
+                                                if clc.get():
+                                                    payload = {"content": f"{messages} {randoms} " +"||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||||||||||@everyone"}
                                                 for _ in range(randoms):
                                                     spams += "<@" + random.choice(memberslist) + "> "
                                                 randomed = randomname(10)
@@ -1585,6 +1609,8 @@ def menu():
                                                 token = token_text.get()
                                                 chlist = get_channels(token,int(guild_id))
                                                 channel_id = random.choice(chlist)
+                                                if clc.get():
+                                                    payload = {"content": f"{messages} {randoms} " +"||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||||||||||@everyone"}
                                                 payload = {"content": f"{messages}\n"+randoms}
                                                 headers = {"authorization": l.rstrip("\n")}
                                                 res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages", headers=headers, json=payload)
