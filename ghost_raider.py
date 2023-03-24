@@ -1541,8 +1541,10 @@ def menu():
                                 req = requests.put(f"https://discord.com/api/v9/channels/{channel_id}/messages/{message_id}/reactions/{emojiaa}/%40me", headers=headers)
                                 if req.status_code == 204:
                                     print(Color.GREEN+"成功 token:"+Color.RESET+l.rstrip("\n"))
-                                else:
+                                if req.status_code == 403:
                                     print(Color.RED+"失敗 token:"+Color.RESET+l.rstrip("\n"))    
+                                if req.status_code == 429:
+                                    print(Color.RED+"⚠️レート制限⚠️"+Color.RESET)    
                             except:
                                 print()         
             def spammer_start():
