@@ -1409,6 +1409,9 @@ def menu():
                 global reachannelid_text
                 global reamessageid_text
                 global emojiname_text
+                global rpychannelid_text
+                global rpyserverid_text
+                global rpymessageid_text
                 global alc
                 global blc
                 global clc
@@ -1425,6 +1428,9 @@ def menu():
                 repchannelid_text = tk.StringVar()
                 repmessageid_text = tk.StringVar()
                 emojiname_text = tk.StringVar()
+                rpychannelid_text = tk.StringVar()
+                rpyserverid_text = tk.StringVar()
+                rpymessageid_text = tk.StringVar()
                 alc = tk.BooleanVar()
                 alc.set(False) #allch
                 blc = tk.BooleanVar()
@@ -1481,8 +1487,8 @@ def menu():
                 reachidentry.place(x=225, y=275)
                 repmsidlabel = tk.Label(frame, text="Message ID",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
                 repmsidlabel.place(x=225, y=300)                
-                reachidentry = tk.Entry(frame, width=25,textvariable=reamessageid_text)
-                reachidentry.place(x=225, y=325)
+                reamsidentry = tk.Entry(frame, width=25,textvariable=reamessageid_text)
+                reamsidentry.place(x=225, y=325)
                 alms = tk.Checkbutton(frame, text="All Message",variable=dlc,bg="#7c64e4",height=0, width=17)
                 alms.place(x=225, y=355)                
                 module = (
@@ -1497,11 +1503,63 @@ def menu():
                 )
                 ttk.Combobox(frame, height=20, values=module, textvariable=emojiname_text).place(x=225,y=385)
                 strsbt = tk.Button(frame, text="Start Reaction",foreground='black', background='#88CEEB', command=reaspam_start)
-                strsbt.place(x=225,y=410,width=155,height=35)                 
+                strsbt.place(x=225,y=410,width=155,height=35)  
+                # Reply Spam
+                canvas = tk.Canvas(frame, bg="grey13", height=320, width=200)
+                canvas.place(x=410, y=5)
+                rpyspamlabel = tk.Label(frame, text="Reply Spam",font=("Supernova",17,"bold"),foreground="#fff",bg="grey13")
+                rpyspamlabel.place(x=425, y=10)        
+                rpysvidlabel = tk.Label(frame, text="Server ID",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+                rpysvidlabel.place(x=425, y=65)       
+                rpysvidentry = tk.Entry(frame, width=25,textvariable=rpyserverid_text)
+                rpysvidentry.place(x=425, y=90)                
+                rpychidlabel = tk.Label(frame, text="Channel ID",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+                rpychidlabel.place(x=425, y=115)                
+                rpychidentry = tk.Entry(frame, width=25,textvariable=rpychannelid_text)
+                rpychidentry.place(x=425, y=140)
+                rpychidlabel = tk.Label(frame, text="Meesage ID",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+                rpychidlabel.place(x=425, y=165)                
+                rpychidentry = tk.Entry(frame, width=25,textvariable=rpymessageid_text)
+                rpychidentry.place(x=425, y=190)              
+                rpystsmbt = tk.Button(frame, text="Start Spam",foreground='black', background='#88CEEB', command=rpyspammer_start)
+                rpystsmbt.place(x=425,y=230,width=150,height=40)
+                rpywismbt = tk.Button(frame, text="Stop Spam",foreground='black', background='#88CEEB', command=rpystop_spam)
+                rpywismbt.place(x=425,y=280,width=150,height=40)    
             def joinerleaver():
+                global joinerinvite_text
+                global elc
+                global leaverserverid_text
+                elc = tk.BooleanVar()
+                elc.set(False)
+                joinerinvite_text = tk.StringVar()
+                leaverserverid_text = tk.StringVar()
                 frame = tk.Frame(root, width=1165, height=540)
                 frame.place(x=135, y=95)
-                frame.configure(bg="grey13")  #grey13 ##fff                
+                frame.configure(bg="grey13")  #grey13 ##fff         
+                # joiner
+                canvas = tk.Canvas(frame, bg="grey13", height=200, width=200)
+                canvas.place(x=15, y=5)
+                joinerlabel = tk.Label(frame, text="Joiner",font=("Supernova",20,"bold"),foreground="#fff",bg="grey13")
+                joinerlabel.place(x=30, y=10)
+                joinerinvitelabel = tk.Label(frame, text="Invite Code",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+                joinerinvitelabel.place(x=30, y=65)
+                joinerinviteentry = tk.Entry(frame, width=25,textvariable=joinerinvite_text)
+                joinerinviteentry.place(x=30, y=90)
+                rlsr = tk.Checkbutton(frame, text="Rule Screen",variable=elc,bg="#7c64e4",height=0, width=17)
+                rlsr.place(x=30, y=120)                     
+                joinerstsmbt = tk.Button(frame, text="Start Joiner",foreground='black', background='#88CEEB', command=joiner_start)
+                joinerstsmbt.place(x=30,y=170,width=155,height=35)   
+                # leaver
+                canvas = tk.Canvas(frame, bg="grey13", height=160, width=200)
+                canvas.place(x=225, y=5)
+                leaverlabel = tk.Label(frame, text="Leaver",font=("Supernova",20,"bold"),foreground="#fff",bg="grey13")
+                leaverlabel.place(x=250, y=10)
+                leaverinvitelabel = tk.Label(frame, text="Server Id",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+                leaverinvitelabel.place(x=250, y=65)
+                leaverinviteentry = tk.Entry(frame, width=25,textvariable=leaverserverid_text)
+                leaverinviteentry.place(x=250, y=90)         
+                leaverstsmbt = tk.Button(frame, text="Start Leaver",foreground='black', background='#88CEEB', command=leaver_start)
+                leaverstsmbt.place(x=250,y=120,width=155,height=35)                       
             # module main
             global spamchannelid_text
             global spamserverid_text
@@ -1509,12 +1567,116 @@ def menu():
             global reachannelid_text
             global reamessageid_text
             global emojiname_text
+            global rpychannelid_text
+            global rpyserverid_text
+            global rpymessageid_text
             global alc
             global blc
             global clc
             global dlc
+            global elc
             global mentioncount
             global token_text
+            global joinerinvite_text
+            global leaverserverid_text
+            def leaver_start():
+                threading.Thread(target=start_leaver).start()    
+            def start_leaver():
+                guild = leaverserverid_text.get()    
+                with open(token_file + '.txt') as f:
+                    lines = f.readlines()
+                    for l in lines:
+                        try:
+                            headers = {"authorization": l.rstrip("\n")}
+                            res = requests.delete(f"https://discord.com/api/v9/users/@me/guilds/{guild}", headers=headers)
+                        except:
+                                print("エラーが発生しました。") 
+            def joiner_start():
+                threading.Thread(target=start_joiner).start()
+            def start_joiner():    
+                invid = joinerinvite_text.get()
+                def join():
+                    with open(token_file + '.txt') as f:
+                        lines = f.readlines()
+                        for l in lines:
+                            print("start")
+                            token = l.rstrip("\n")
+                            session = get_session()
+                            proxies = get_proxies()[0]
+                            headers = get_headers()
+                            headers["Referer"] = "https://discord.com/invite/" + invid
+                            headers["x-context-properties"] = "addr1qyle9n2s8us209evf0u5snwy8xd9shc5gqxpsjcxv3xvs4fljtx4q0eq57tjcjlefpxugwv6tp03gsqvrp9svezvep2sl993zr"
+                            headers["authorization"] = token
+                            
+                            session.get("https://discord.com/api/v9/experiments?with_guild_experiments=true", headers=headers, proxy=proxies)
+                            
+                            del headers["x-context-properties"]
+                            
+                            xcreq = session.get("https://discord.com/api/v9/invites/" + invid + "?with_counts=true&with_expiration=true", headers=headers, proxy=proxies).json()
+                            
+                            chid = xcreq["channel"]["id"]
+                            guildid = xcreq["guild"]["id"]
+                            chtype = xcreq["channel"]["type"]
+                            xxx = {
+                                "location": "Accept Invite Page",
+                                "location_guild_id": str(guildid),
+                                "location_channel_id": str(chid),
+                                "location_channel_type": str(chtype) 
+                            }
+                            headers["x-context-properties"] = base64.b64encode(json.dumps(xxx, separators=(',', ':')).encode()).decode()
+                            try:
+                                    joinreq = session.post(f"https://discord.com/api/v9/invites/{invid}", headers=headers, json={})
+                                    if "captcha_key" not in joinreq.json():
+                                        if "You need to verify your account in order to perform this action." in joinreq.json():
+                                            print(f"{token}は死亡しています。")
+                                        print(f"参加しました。")
+                                        if elc.get():
+                                            bypass(token, guildid, session)
+                                    if "captcha_key" in joinreq.json():
+                                        wsitekey = joinreq.json()['captcha_sitekey']
+                                        print(f"キャプチャーに検出されました。")
+                                        crqdata = joinreq.json()["captcha_rqdata"]
+                                        captchakey = solvecaptcha(sitekey=wsitekey, rqdata=crqdata, useragent=headers["user-agent"])
+                                        captcha_rqtoken = joinreq.json()["captcha_rqtoken"]
+                                        payload = {'captcha_key': captchakey, 'captcha_rqtoken': captcha_rqtoken}
+                                        joinreq2 = session.post(f"https://discord.com/api/v9/invites/{invid}", headers=headers, json=payload)
+                                        if joinreq2.status_code == 200:
+                                            print(f"参加完了")
+                                            if option == "y":
+                                                bypass(token, guildid, session)
+                                        else:
+                                            print(f"参加失敗")
+                                            #continue
+                            except Exception as err:
+                                    print(f"エラーが発生しました。")
+                with ThreadPoolExecutor(max_workers=4) as executor:
+                    executor.submit(join)
+            def rpyspammer_start():
+                time.sleep(0.5)
+                threading.Thread(target=start_rpyspam).start()
+            def start_rpyspam():
+                guild_id = rpyserverid_text.get()
+                channel_id = rpychannelid_text.get()
+                message_id = rpymessageid_text.get()
+                with open(token_file + '.txt') as f:
+                    lines = f.readlines()
+                    while True:
+                        for l in lines:
+                                try:
+                                    randoms = randomname(10)
+                                    payload = {"content":f"{messages}\n"+randoms,"message_reference":{"guild_id":f"{guild_id}","channel_id":f"{channel_id}","message_id":f"{message_id}"}}
+                                    headers = {"authorization":l.rstrip("\n")}
+                                    req = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages",headers=headers,json=payload)
+                                    if req.status_code == 204:
+                                        print(Color.GREEN+"成功 token:"+Color.RESET+l.rstrip("\n"))
+                                    if req.status_code == 403:
+                                        print(Color.RED+"失敗 token:"+Color.RESET+l.rstrip("\n"))    
+                                    if req.status_code == 429:
+                                        print(Color.RED+"⚠️レート制限⚠️"+Color.RESET)
+                                except:
+                                    print("失敗！")  
+            def rpystop_spam():
+                print("Stop Spam") 
             def repspam_start():
                 threading.Thread(target=start_repspam).start()
             def start_repspam():
@@ -1799,7 +1961,7 @@ def menu():
             canvas.place(x=12, y=98)
             #tk.Button(text="Option",relief = tk.RAISED, width=15, bg="grey13", foreground="#fff", activebackground="white", command=option).place(x=16, y=101)                    
             tk.Button(text="Spammer",relief = tk.RAISED, width=15, bg="grey13", foreground="#fff", activebackground="white", command=spammer).place(x=16, y=101)
-            tk.Button(text="Joiner Leaver",relief = tk.RAISED, width=15, bg="grey13", foreground="#fff", activebackground="white", command=joinerleaver).place(x=16, y=127)     
+            tk.Button(text="Joiner Leaver",relief = tk.RAISED, width=15, bg="grey13", foreground="#fff", activebackground="white", command=joinerleaver).place(x=16, y=127)
             root.mainloop()
     else:
         print("引数が不正または終了した操作です。")
