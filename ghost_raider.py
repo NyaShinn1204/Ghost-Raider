@@ -753,7 +753,7 @@ def menu():
                                 req = requests.put(f"https://discord.com/api/v9/channels/{channel_id}/messages/{message_id}/reactions/{emojiaa}/%40me", headers=headers)
                             except Exception as e:
                                 print("Error: "+ e)       
-    if modes == "10":
+    if modes == "d":
         url = input("Verify URL >> ")
         with open(token_file + '.txt') as f:
                 lines = f.readlines()
@@ -1560,6 +1560,22 @@ def menu():
                 leaverinviteentry.place(x=250, y=90)         
                 leaverstsmbt = tk.Button(frame, text="Start Leaver",foreground='black', background='#88CEEB', command=leaver_start)
                 leaverstsmbt.place(x=250,y=120,width=155,height=35)                       
+            def more():
+                global hysq_text
+                hysq_text =tk.StringVar()
+                frame = tk.Frame(root, width=1165, height=540)
+                frame.place(x=135, y=95)
+                frame.configure(bg="grey13")  #grey13 ##fff                     
+                canvas = tk.Canvas(frame, bg="grey13", height=150, width=200)
+                canvas.place(x=15, y=5)
+                hschlabel = tk.Label(frame, text="HypeSquad Change",font=("Supernova",15,"bold"),foreground="#fff",bg="grey13")
+                hschlabel.place(x=20, y=10)
+                hschselectlabel = tk.Label(frame, text="HypeSquad",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+                hschselectlabel.place(x=30, y=60)
+                hypesquad = ('Bravery','Brilliance','Balance','None')
+                ttk.Combobox(frame, height=20, values=hypesquad, textvariable=hysq_text).place(x=30,y=85)
+                hschstsmbt = tk.Button(frame, text="Start Change",foreground='black', background='#88CEEB', command=hsch_start)
+                hschstsmbt.place(x=30,y=120,width=155,height=35)  
             # module main
             global spamchannelid_text
             global spamserverid_text
@@ -1579,6 +1595,44 @@ def menu():
             global token_text
             global joinerinvite_text
             global leaverserverid_text
+            global hysq_text
+            def hsch_start():
+                threading.Thread(target=start_hsch).start()
+            def start_hsch():    
+                house_id = hysq_text.get()
+                with open(token_file + '.txt') as f:
+                    lines = f.readlines()
+                    while True:
+                        for l in lines:
+                            try:
+                                if house_id == "Bravery":
+                                    house_id = "1"
+                                if house_id == "Brilliance":    
+                                    house_id = "2"
+                                if house_id == "Balance":
+                                    house_id = "3"
+                                if house_id == "None":
+                                    house_id = "4"        
+                                if house_id == "4":
+                                    headers = {"authorization": l.rstrip("\n")}
+                                    res = requests.delete(f"https://discord.com/api/v9/hypesquad/online", headers=headers)
+                                    if res.status_code == 204:
+                                        print(f"{Fore.GREEN} 成功{Fore.RESET}")
+                                    else: 
+                                        print(f"{Fore.RED} 失敗{Fore.RESET}")
+                                    time.sleep(1)
+                                    menu()
+                                payload = {"house_id": house_id}
+                                headers = {"authorization": l.rstrip("\n")}
+                                res = requests.post(f"https://discord.com/api/v9/hypesquad/online", headers=headers, json=payload)
+                                if res.status_code == 204:
+                                    print(f"{Fore.GREEN} 成功{Fore.RESET}")
+                                else: 
+                                    print(f"{Fore.RED} 失敗{Fore.RESET}")
+                                time.sleep(1)
+                                menu()
+                            except Exception as e:
+                                print("Error: "+ e)          
             def leaver_start():
                 threading.Thread(target=start_leaver).start()    
             def start_leaver():
@@ -1676,6 +1730,7 @@ def menu():
                                 except:
                                     print("失敗！")  
             def rpystop_spam():
+                # とめかたわかりましぇん
                 print("Stop Spam") 
             def repspam_start():
                 threading.Thread(target=start_repspam).start()
@@ -1962,6 +2017,7 @@ def menu():
             #tk.Button(text="Option",relief = tk.RAISED, width=15, bg="grey13", foreground="#fff", activebackground="white", command=option).place(x=16, y=101)                    
             tk.Button(text="Spammer",relief = tk.RAISED, width=15, bg="grey13", foreground="#fff", activebackground="white", command=spammer).place(x=16, y=101)
             tk.Button(text="Joiner Leaver",relief = tk.RAISED, width=15, bg="grey13", foreground="#fff", activebackground="white", command=joinerleaver).place(x=16, y=127)
+            tk.Button(text="More",relief = tk.RAISED, width=15, bg="grey13", foreground="#fff", activebackground="white", command=more).place(x=16, y=487)
             root.mainloop()
     else:
         print("引数が不正または終了した操作です。")
