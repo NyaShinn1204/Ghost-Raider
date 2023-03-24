@@ -15,6 +15,7 @@ import tls_client
 import re
 import websocket
 import base64
+import urllib
 import httpx
 import data.rpc
 from time import mktime
@@ -717,7 +718,6 @@ def menu():
                     res = requests.delete(f"https://discord.com/api/v9/users/@me/guilds/{guild}", headers=headers)
                 except:
                         print("エラーが発生しました。") 
-    import urllib
     if modes == "8":
         reaction_mode = input(f"[1]{Fore.GREEN}All Messages{Fore.RESET}\n[2]{Fore.GREEN}One Messages{Fore.RESET}\nMode >> ")
         if reaction_mode == "2":
@@ -1523,7 +1523,7 @@ def menu():
                     print(Fore.RED+"PLS INPUT CHANNEL_ID"+Fore.RESET)
                 if reamessageid_text.get() == "":                        
                     print(Fore.RED+"PLS INPUT MESSAGE_ID"+Fore.RESET)
-                print("Emoji >> "+emojiname_text.get()+" Channel Id >> "+reachannelid_text.get())
+                print("Emoji >> "+emojiname_text.get()+" Channel Id >> "+reachannelid_text.get()+" Message Id >> "+reamessageid_text.get())
                 emoji = emojiname_text.get()
                 channel_id = reachannelid_text.get()
                 message_id = reamessageid_text.get()
@@ -1539,8 +1539,12 @@ def menu():
                                 emojiaa = urllib.parse.quote(emojii)
                                 headers = {"authorization": l.rstrip("\n")}
                                 req = requests.put(f"https://discord.com/api/v9/channels/{channel_id}/messages/{message_id}/reactions/{emojiaa}/%40me", headers=headers)
+                                if req.status_code == 204:
+                                    print(Color.GREEN+"成功 token:"+Color.RESET+l.rstrip("\n"))
+                                else:
+                                    print(Color.RED+"失敗 token:"+Color.RESET+l.rstrip("\n"))    
                             except:
-                                print("Error")                         
+                                print()         
             def spammer_start():
                 threading.Thread(target=start_spam).start()    
             def start_spam():
