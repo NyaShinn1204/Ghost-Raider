@@ -753,7 +753,7 @@ def menu():
                                 req = requests.put(f"https://discord.com/api/v9/channels/{channel_id}/messages/{message_id}/reactions/{emojiaa}/%40me", headers=headers)
                             except Exception as e:
                                 print("Error: "+ e)       
-    if modes == "d":
+    if modes == "10":
         url = input("Verify URL >> ")
         with open(token_file + '.txt') as f:
                 lines = f.readlines()
