@@ -1468,7 +1468,7 @@ def menu():
                 repmsidlabel.place(x=225, y=115)
                 repmsidentry = tk.Entry(frame, width=25,textvariable=repmessageid_text)
                 repmsidentry.place(x=225, y=140)
-                stsmbt = tk.Button(frame, text="Start Spam",foreground='black', background='#88CEEB', command=spammer_start)
+                stsmbt = tk.Button(frame, text="Start Spam",foreground='black', background='#88CEEB', command=repspam_start)
                 stsmbt.place(x=225,y=170,width=155,height=35)
                 # Reaction
                 canvas = tk.Canvas(frame, bg="grey13", height=230, width=200)
@@ -1515,6 +1515,24 @@ def menu():
             global dlc
             global mentioncount
             global token_text
+            def repspam_start():
+                threading.Thread(target=start_repspam).start()
+            def start_repspam():
+                print("RepSpam Start")
+                channel_id = reachannelid_text.get()
+                message_id = reamessageid_text.get()
+                with open(token_file + '.txt') as f:
+                    lines = f.readlines()
+                    while True:
+                        for l in lines:
+                            try:
+                                payload = {"version":"1.0","variant":"3","language":"en","breadcrumbs":[3,14,52],"elements":{},"name":"message","channel_id":f"{channel_id}","message_id":f"{message_id}"}
+                                headers = {"authorization": l.rstrip("\n")}
+                                res = requests.post(f"https://discord.com/api/v9/reporting/message", headers=headers, json=payload)
+                                print(l.rstrip("\n"))
+                                print(res.text)
+                            except Exception as e:
+                                print("Error: "+ e)         
             def reaspam_start():
                 threading.Thread(target=start_reaspam).start()
             def start_reaspam():
@@ -1527,9 +1545,30 @@ def menu():
                 emoji = emojiname_text.get()
                 channel_id = reachannelid_text.get()
                 message_id = reamessageid_text.get()
+                token = token_text.get()
                 if dlc.get():    
                     if token_text.get() == "":
-                        print(Fore.RED+"PLS INPUT TOKEN"+Fore.RESET)    
+                        print(Fore.RED+"PLS INPUT TOKEN"+Fore.RESET) 
+                    mslist = get_messages(token,int(channel_id))
+                    with open(token_file + '.txt') as f:
+                        lines = f.readlines()
+                        while True:
+                            for l in lines:
+                                try:
+                                    message_id = random.choice(mslist)
+                                    emojii = eeemj.emojize(emoji, language='alias')
+                                    emojiaa = urllib.parse.quote(emojii)
+                                    message_id = random.choice(mslist)
+                                    headers = {"authorization": l.rstrip("\n")}
+                                    req = requests.put(f"https://discord.com/api/v9/channels/{channel_id}/messages/{message_id}/reactions/{emojiaa}/%40me", headers=headers)
+                                    if req.status_code == 204:
+                                        print(Color.GREEN+"成功 token:"+Color.RESET+l.rstrip("\n"))
+                                    if req.status_code == 403:
+                                        print(Color.RED+"失敗 token:"+Color.RESET+l.rstrip("\n"))    
+                                    if req.status_code == 429:
+                                        print(Color.RED+"⚠️レート制限⚠️"+Color.RESET)                                      
+                                except Exception as e:
+                                        print("Error: "+ e)              
                 else:       
                     with open(token_file + '.txt') as f:
                         lines = f.readlines()
