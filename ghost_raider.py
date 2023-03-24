@@ -1403,12 +1403,27 @@ def menu():
             # defまとめ
             # module frame
             def spammer():
+                global spamchannelid_text
+                global spamserverid_text
+                global repchannelid_text
+                global reachannelid_text
+                global reamessageid_text
+                global emojiname_text
+                global alc
+                global blc
+                global clc
+                global dlc
+                global mentioncount
+                global token_text    
                 frame = tk.Frame(root, width=1165, height=540)
                 frame.place(x=135, y=95)
                 frame.configure(bg="grey13")  #grey13 ##fff
                 spamserverid_text = tk.StringVar() 
                 spamchannelid_text = tk.StringVar() 
-                messageid_text = tk.StringVar()
+                reachannelid_text = tk.StringVar()
+                reamessageid_text = tk.StringVar()
+                repchannelid_text = tk.StringVar()
+                repmessageid_text = tk.StringVar()
                 emojiname_text = tk.StringVar()
                 alc = tk.BooleanVar()
                 alc.set(False) #allch
@@ -1451,7 +1466,7 @@ def menu():
                 repchidentry.place(x=225, y=90)
                 repmsidlabel = tk.Label(frame, text="Message ID",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
                 repmsidlabel.place(x=225, y=115)
-                repmsidentry = tk.Entry(frame, width=25,textvariable=repchannelid_text)
+                repmsidentry = tk.Entry(frame, width=25,textvariable=repmessageid_text)
                 repmsidentry.place(x=225, y=140)
                 stsmbt = tk.Button(frame, text="Start Spam",foreground='black', background='#88CEEB', command=spammer_start)
                 stsmbt.place(x=225,y=170,width=155,height=35)
@@ -1482,10 +1497,8 @@ def menu():
             global spamchannelid_text
             global spamserverid_text
             global repchannelid_text
-            global repserverid_text
             global reachannelid_text
             global reamessageid_text
-            global messageid_text
             global emojiname_text
             global alc
             global blc
@@ -1501,22 +1514,24 @@ def menu():
                     print(Fore.RED+"PLS INPUT CHANNEL_ID"+Fore.RESET)
                 if reamessageid_text.get() == "":                        
                     print(Fore.RED+"PLS INPUT MESSAGE_ID"+Fore.RESET)
+                print("Emoji >> "+emojiname_text.get()+" Channel Id >> "+reachannelid_text.get())
                 emoji = emojiname_text.get()
                 channel_id = reachannelid_text.get()
-                message_id = messageid_text.get()
-                with open(token_file + '.txt') as f:
-                    lines = f.readlines()
-                    for l in lines:
-                        try:
-                            emojii = eeemj.emojize(emoji, language='alias')
-                            emojiaa = urllib.parse.quote(emojii)
-                            headers = {"authorization": l.rstrip("\n")}
-                            req = requests.put(f"https://discord.com/api/v9/channels/{channel_id}/messages/{message_id}/reactions/{emojiaa}/%40me", headers=headers)
-                        except:
-                            print("Error")    
+                message_id = reamessageid_text.get()
                 if dlc.get():    
                     if token_text.get() == "":
                         print(Fore.RED+"PLS INPUT TOKEN"+Fore.RESET)    
+                else:       
+                    with open(token_file + '.txt') as f:
+                        lines = f.readlines()
+                        for l in lines:
+                            try:
+                                emojii = eeemj.emojize(emoji, language='alias')
+                                emojiaa = urllib.parse.quote(emojii)
+                                headers = {"authorization": l.rstrip("\n")}
+                                req = requests.put(f"https://discord.com/api/v9/channels/{channel_id}/messages/{message_id}/reactions/{emojiaa}/%40me", headers=headers)
+                            except:
+                                print("Error")                         
             def spammer_start():
                 threading.Thread(target=start_spam).start()    
             def start_spam():
