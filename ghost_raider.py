@@ -1398,7 +1398,7 @@ def menu():
             cdlabel1.place(x=270, y=20)
             cdlabel2 = tk.Label(text='Discord: ここあ#0001', foreground='white', background='#2C2C2C', font=("Supernova",15,"bold"))
             cdlabel2.place(x=280, y=45)
-            cdlabel3 = tk.Label(text='discord.gg/cocoapc911', foreground='white', background='#2C2C2C', font=("Supernova",15,"bold"))
+            cdlabel3 = tk.Label(text='discord.gg/6rmzcytnkM', foreground='white', background='#2C2C2C', font=("Supernova",15,"bold"))
             cdlabel3.place(x=560, y=30)
             # defまとめ
             # module frame
@@ -1406,25 +1406,29 @@ def menu():
                 frame = tk.Frame(root, width=1165, height=540)
                 frame.place(x=135, y=95)
                 frame.configure(bg="grey13")  #grey13 ##fff
-                serverid_text = tk.StringVar() 
-                channelid_text = tk.StringVar() 
+                spamserverid_text = tk.StringVar() 
+                spamchannelid_text = tk.StringVar() 
+                messageid_text = tk.StringVar()
+                emojiname_text = tk.StringVar()
                 alc = tk.BooleanVar()
                 alc.set(False) #allch
                 blc = tk.BooleanVar()
                 blc.set(False) #allmt
                 clc = tk.BooleanVar()
                 clc.set(False)
+                dlc = tk.BooleanVar()
+                dlc.set(False)
                 canvas = tk.Canvas(frame, bg="grey13", height=365, width=175)
                 canvas.place(x=15, y=5)
                 spamlabel = tk.Label(frame, text="Spammer",font=("Supernova",20,"bold"),foreground="#fff",bg="grey13")
                 spamlabel.place(x=30, y=10)
                 svidlabel = tk.Label(frame, text="Server ID",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
                 svidlabel.place(x=30, y=65)
-                svidentry = tk.Entry(frame, width=25,textvariable=serverid_text)
+                svidentry = tk.Entry(frame, width=25,textvariable=spamserverid_text)
                 svidentry.place(x=30, y=90)
                 chidlabel = tk.Label(frame, text="Channel ID",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
                 chidlabel.place(x=30, y=115)
-                chidentry = tk.Entry(frame, width=25,textvariable=channelid_text)
+                chidentry = tk.Entry(frame, width=25,textvariable=spamchannelid_text)
                 chidentry.place(x=30, y=140)
                 allch = tk.Checkbutton(frame, text="AllChannel",variable=alc,bg="#7c64e4",height=0, width=17)
                 allch.place(x=30, y=170)
@@ -1443,44 +1447,94 @@ def menu():
                 repspamlabel.place(x=215, y=10)
                 repchidlabel = tk.Label(frame, text="Channel ID",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
                 repchidlabel.place(x=225, y=65)
-                repchidentry = tk.Entry(frame, width=25,textvariable=channelid_text)
+                repchidentry = tk.Entry(frame, width=25,textvariable=repchannelid_text)
                 repchidentry.place(x=225, y=90)
-                repmsidlabel = tk.Label(frame, text="Channel ID",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+                repmsidlabel = tk.Label(frame, text="Message ID",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
                 repmsidlabel.place(x=225, y=115)
-                repmsidentry = tk.Entry(frame, width=25,textvariable=channelid_text)
+                repmsidentry = tk.Entry(frame, width=25,textvariable=repchannelid_text)
                 repmsidentry.place(x=225, y=140)
                 stsmbt = tk.Button(frame, text="Start Spam",foreground='black', background='#88CEEB', command=spammer_start)
                 stsmbt.place(x=225,y=170,width=155,height=35)
                 # Reaction
-                canvas = tk.Canvas(frame, bg="grey13", height=200, width=200)
+                canvas = tk.Canvas(frame, bg="grey13", height=230, width=200)
                 canvas.place(x=200, y=215)
-                repspamlabel = tk.Label(frame, text="Reaction Spam",font=("Supernova",17,"bold"),foreground="#fff",bg="grey13")
-                repspamlabel.place(x=215, y=220)                
-                                
+                reaspamlabel = tk.Label(frame, text="Reaction Spam",font=("Supernova",17,"bold"),foreground="#fff",bg="grey13")
+                reaspamlabel.place(x=215, y=220)
+                repchidlabel = tk.Label(frame, text="Channel ID",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+                repchidlabel.place(x=225, y=250)                
+                reachidentry = tk.Entry(frame, width=25,textvariable=reachannelid_text)
+                reachidentry.place(x=225, y=275)
+                repmsidlabel = tk.Label(frame, text="Message ID",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+                repmsidlabel.place(x=225, y=300)                
+                reachidentry = tk.Entry(frame, width=25,textvariable=reamessageid_text)
+                reachidentry.place(x=225, y=325)
+                alms = tk.Checkbutton(frame, text="All Message",variable=dlc,bg="#7c64e4",height=0, width=17)
+                alms.place(x=225, y=355)                
+                module = (':thinking:', ':upside_down:', ':middle_finger:', ':white_check_mark:', ':rage:', ':poop:')
+                ttk.Combobox(frame, height=3, values=module, textvariable=emojiname_text).place(x=225,y=385)
+                strsbt = tk.Button(frame, text="Start Reaction",foreground='black', background='#88CEEB', command=reaspam_start)
+                strsbt.place(x=225,y=410,width=155,height=35)                 
+            def joinerleaver():
+                frame = tk.Frame(root, width=1165, height=540)
+                frame.place(x=135, y=95)
+                frame.configure(bg="grey13")  #grey13 ##fff                
             # module main
-            global channelid_text
-            global serverid_text
+            global spamchannelid_text
+            global spamserverid_text
+            global repchannelid_text
+            global repserverid_text
+            global reachannelid_text
+            global reamessageid_text
+            global messageid_text
+            global emojiname_text
             global alc
             global blc
             global clc
+            global dlc
             global mentioncount
             global token_text
+            def reaspam_start():
+                threading.Thread(target=start_reaspam).start()
+            def start_reaspam():
+                print("ReaSpam Start")
+                if reachannelid_text.get() == "":
+                    print(Fore.RED+"PLS INPUT CHANNEL_ID"+Fore.RESET)
+                if reamessageid_text.get() == "":                        
+                    print(Fore.RED+"PLS INPUT MESSAGE_ID"+Fore.RESET)
+                emoji = emojiname_text.get()
+                channel_id = reachannelid_text.get()
+                message_id = messageid_text.get()
+                with open(token_file + '.txt') as f:
+                    lines = f.readlines()
+                    for l in lines:
+                        try:
+                            emojii = eeemj.emojize(emoji, language='alias')
+                            emojiaa = urllib.parse.quote(emojii)
+                            headers = {"authorization": l.rstrip("\n")}
+                            req = requests.put(f"https://discord.com/api/v9/channels/{channel_id}/messages/{message_id}/reactions/{emojiaa}/%40me", headers=headers)
+                        except:
+                            print("Error")    
+                if dlc.get():    
+                    if token_text.get() == "":
+                        print(Fore.RED+"PLS INPUT TOKEN"+Fore.RESET)    
             def spammer_start():
                 threading.Thread(target=start_spam).start()    
             def start_spam():
                 print("Spam Start")
-                if channelid_text.get() == "":
+                if spamchannelid_text.get() == "":
                     print(Fore.RED+"PLS INPUT CHANNEL_ID"+Fore.RESET)
-                if serverid_text.get() == "":
+                if spamserverid_text.get() == "":
                     print(Fore.RED+"PLS INPUT SERVER_ID"+Fore.RESET)    
                 #print (int(mentioncount.get()))
                 if alc.get():
+                    if token_text.get() == "":
+                        print(Fore.RED+"PLS INPUT TOKEN"+Fore.RESET)                        
                     ffs = open('message.txt',"r",encoding="utf-8_sig")
                     messages = ffs.read()
                     randoms = int(mentioncount.get())
-                    channel_id = channelid_text.get()
+                    channel_id = spamchannelid_text.get()
                     tokens = token_text.get()
-                    guild_id = serverid_text.get()
+                    guild_id = spamserverid_text.get()
                     bot = discum.Client(token=tokens, log=False)
                     def close_after_fetching(resp, guild_id):
                         if bot.gateway.finishedMemberFetching(guild_id):
@@ -1536,9 +1590,9 @@ def menu():
                     messages = ffs.read()                    
                     randoms = int(mentioncount.get())
                     tokens = token_text.get()
-                    guild_id = serverid_text.get()
+                    guild_id = spamserverid_text.get()
                     token = token_text.get()
-                    channel_id = channelid_text.get()
+                    channel_id = spamchannelid_text.get()
                     chlist = get_channels(token,int(guild_id))
                     bot = discum.Client(token=tokens, log=False)
                     def close_after_fetching(resp, guild_id):
@@ -1593,7 +1647,8 @@ def menu():
                             time.sleep(0.7)
                             threading.Thread(target=noalchalmt).start()                            
                 if blc.get(): #alchalmt
-                    print()
+                    if token_text.get() == "":
+                        print(Fore.RED+"PLS INPUT TOKEN"+Fore.RESET)    
                 else:         #alchnoalmt
                         def alchnoalmt():
                             ffs = open('message.txt',"r",encoding="utf-8_sig")
@@ -1605,7 +1660,7 @@ def menu():
                                         for l in lines:
                                             randoms = randomname(10)
                                             try:
-                                                guild_id = serverid_text.get()
+                                                guild_id = spamserverid_text.get()
                                                 token = token_text.get()
                                                 chlist = get_channels(token,int(guild_id))
                                                 channel_id = random.choice(chlist)
@@ -1675,7 +1730,7 @@ def menu():
             canvas.place(x=12, y=98)
             #tk.Button(text="Option",relief = tk.RAISED, width=15, bg="grey13", foreground="#fff", activebackground="white", command=option).place(x=16, y=101)                    
             tk.Button(text="Spammer",relief = tk.RAISED, width=15, bg="grey13", foreground="#fff", activebackground="white", command=spammer).place(x=16, y=101)
-                    
+            tk.Button(text="Joiner Leaver",relief = tk.RAISED, width=15, bg="grey13", foreground="#fff", activebackground="white", command=joinerleaver).place(x=16, y=127)     
             root.mainloop()
     else:
         print("引数が不正または終了した操作です。")
