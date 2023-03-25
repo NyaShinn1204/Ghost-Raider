@@ -1406,6 +1406,7 @@ def menu():
                 global spamchannelid_text
                 global spamserverid_text
                 global repchannelid_text
+                global repmessageid_text
                 global reachannelid_text
                 global reamessageid_text
                 global emojiname_text
@@ -1565,7 +1566,8 @@ def menu():
                 hysq_text =tk.StringVar()
                 frame = tk.Frame(root, width=1165, height=540)
                 frame.place(x=135, y=95)
-                frame.configure(bg="grey13")  #grey13 ##fff                     
+                frame.configure(bg="grey13")  #grey13 ##fff         
+                # hysq change            
                 canvas = tk.Canvas(frame, bg="grey13", height=150, width=200)
                 canvas.place(x=15, y=5)
                 hschlabel = tk.Label(frame, text="HypeSquad Change",font=("Supernova",15,"bold"),foreground="#fff",bg="grey13")
@@ -1576,26 +1578,103 @@ def menu():
                 ttk.Combobox(frame, height=20, values=hypesquad, textvariable=hysq_text).place(x=30,y=85)
                 hschstsmbt = tk.Button(frame, text="Start Change",foreground='black', background='#88CEEB', command=hsch_start)
                 hschstsmbt.place(x=30,y=120,width=155,height=35)  
+                # Thread, Forum
+            def forumthread():  
+                global flc
+                global forumserverid_text
+                global forumchannelid_text
+                global forumname_text
+                global forumcontent_text
+                global forumcontententry
+                flc = tk.BooleanVar()
+                flc.set(False)                
+                forumserverid_text = tk.StringVar()            
+                forumchannelid_text = tk.StringVar()
+                forumname_text = tk.StringVar()    
+                forumcontent_text = tk.StringVar()
+                frame = tk.Frame(root, width=1165, height=540)
+                frame.place(x=135, y=95)
+                frame.configure(bg="grey13")  #grey13 ##fff     
+                canvas = tk.Canvas(frame, bg="grey13", height=365, width=200)
+                canvas.place(x=15, y=5)
+                forumlabel = tk.Label(frame, text="Forum Spam",font=("Supernova",20,"bold"),foreground="#fff",bg="grey13")
+                forumlabel.place(x=30, y=10)
+                forumserveridlabel = tk.Label(frame, text="Server Id",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+                forumserveridlabel.place(x=30, y=65)
+                forumserveridentry = tk.Entry(frame, width=25,textvariable=forumserverid_text)
+                forumserveridentry.place(x=30, y=90)
+                forumchannelidlabel = tk.Label(frame, text="Forum Channel Id",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+                forumchannelidlabel.place(x=30, y=115)
+                forumchannelidentry = tk.Entry(frame, width=25,textvariable=forumchannelid_text)
+                forumchannelidentry.place(x=30, y=140)
+                forumnamelabel = tk.Label(frame, text="Forum Name",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+                forumnamelabel.place(x=30, y=165)
+                forumnameentry = tk.Entry(frame, width=25,textvariable=forumname_text)
+                forumnameentry.place(x=30, y=190)
+                forumcontentlabel = tk.Label(frame, text="Forum Message",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+                forumcontentlabel.place(x=30, y=215)
+                forumcontententry = tk.Entry(frame, width=25,textvariable=forumcontent_text)
+                forumcontententry.place(x=30, y=245)                           
+                msld = tk.Checkbutton(frame, text="Message Load",variable=flc,bg="#7c64e4",height=0, width=17)
+                msld.place(x=30, y=280)                     
+                forumstsmbt = tk.Button(frame, text="Start Spam",foreground='black', background='#88CEEB', command=forum_start)
+                forumstsmbt.place(x=30,y=335,width=155,height=35)            
+                                                        
             # module main
             global spamchannelid_text
             global spamserverid_text
             global repchannelid_text
+            global repmessageid_text
             global reachannelid_text
             global reamessageid_text
             global emojiname_text
             global rpychannelid_text
             global rpyserverid_text
             global rpymessageid_text
+            global forumserverid_text
+            global forumchannelid_text
+            global forumname_text
+            global forumcontent_text
+            global forumcontententry
             global alc
             global blc
             global clc
             global dlc
             global elc
+            global flc
             global mentioncount
             global token_text
             global joinerinvite_text
             global leaverserverid_text
             global hysq_text
+            def forum_start():
+                threading.Thread(target=start_forum).start()
+            def start_forum():    
+                forum_id = forumchannelid_text.get()
+                forum_name = forumname_text.get()
+                if flc.get():
+                    ffs = open('message.txt',"r",encoding="utf-8_sig")
+                    forum_message = ffs.read()       
+                else:
+                    forum_message = forumcontent_text.get()   
+                with open(token_file + '.txt') as f:
+                    lines = f.readlines()
+                    while True:
+                        for l in lines:
+                            try:
+                                randoms = randomname(7)
+                                payload = {"name": f"{forum_name} " +randoms, "message": {"content": f"{forum_message}"}}
+                                headers = {"authorization": l.rstrip("\n")}
+                                res = requests.post(f"https://discord.com/api/v9/channels/{forum_id}/threads?use_nested_fields=true", headers=headers, json=payload)
+                                #print(l.rstrip("\n"))
+                                if res.status_code == 201:
+                                    print("Success Send : "+res.json().get('name'))
+                                if res.status_code == 50001: 
+                                    print("Not Permission : "+l.rstrip())   
+                                if res.status_code == 429:
+                                    print("Rate Limited : "+l.rstrip()) 
+                            except Exception as e:
+                                print("Error: "+ e) 
             def hsch_start():
                 threading.Thread(target=start_hsch).start()
             def start_hsch():    
@@ -1736,8 +1815,8 @@ def menu():
                 threading.Thread(target=start_repspam).start()
             def start_repspam():
                 print("RepSpam Start")
-                channel_id = reachannelid_text.get()
-                message_id = reamessageid_text.get()
+                channel_id = repchannelid_text.get()
+                message_id = repmessageid_text.get()
                 with open(token_file + '.txt') as f:
                     lines = f.readlines()
                     while True:
@@ -2017,6 +2096,7 @@ def menu():
             #tk.Button(text="Option",relief = tk.RAISED, width=15, bg="grey13", foreground="#fff", activebackground="white", command=option).place(x=16, y=101)                    
             tk.Button(text="Spammer",relief = tk.RAISED, width=15, bg="grey13", foreground="#fff", activebackground="white", command=spammer).place(x=16, y=101)
             tk.Button(text="Joiner Leaver",relief = tk.RAISED, width=15, bg="grey13", foreground="#fff", activebackground="white", command=joinerleaver).place(x=16, y=127)
+            tk.Button(text="Forum Thread",relief = tk.RAISED, width=15, bg="grey13", foreground="#fff", activebackground="white", command=forumthread).place(x=16, y=153)
             tk.Button(text="More",relief = tk.RAISED, width=15, bg="grey13", foreground="#fff", activebackground="white", command=more).place(x=16, y=487)
             root.mainloop()
     else:
