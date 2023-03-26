@@ -1741,6 +1741,12 @@ def menu():
                 threading.Thread(target=start_assp).start()
             def start_assp():
                 if glc.get():
+                    if asciichannelid_text == "":
+                        print(Fore.RED+"PLS INPUT CHANNEL_ID"+Fore.RESET)
+                    if asciiserverid_text == "":
+                        print(Fore.RED+"PLS INPUT SERVER_ID"+Fore.RESET)
+                    if token_text.get() == "":
+                        print(Fore.RED+"PLS INPUT TOKEN"+Fore.RESET)
                     chlist = get_channels(token,int(guild_id))   
                     with open(token_file + '.txt') as f:
                         lines = f.readlines()
@@ -1754,6 +1760,8 @@ def menu():
                                 except Exception as e:
                                     print("Error: "+ e)   
                 else:
+                    if asciichannelid_text == "":
+                        print(Fore.RED+"PLS INPUT CHANNEL_ID"+Fore.RESET)
                     channel_id = asciichannelid_text.get()    
                     with open(token_file + '.txt') as f:
                         lines = f.readlines()
