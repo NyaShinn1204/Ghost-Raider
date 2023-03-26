@@ -1568,10 +1568,12 @@ def menu():
                 global imspchannelid_text
                 global imspmessage_text
                 global imspurl_text
+                global typechannelid_text
                 hysq_text = tk.StringVar()
                 imspchannelid_text = tk.StringVar()
                 imspmessage_text = tk.StringVar()
                 imspurl_text = tk.StringVar()
+                typechannelid_text = tk.StringVar()
                 frame = tk.Frame(root, width=1165, height=540)
                 frame.place(x=135, y=95)
                 frame.configure(bg="grey13")  #grey13 ##fff         
@@ -1604,7 +1606,18 @@ def menu():
                 imspurlentry = tk.Entry(frame, width=25,textvariable=imspurl_text)
                 imspurlentry.place(x=240, y=175)                                   
                 imspstsmbt = tk.Button(frame, text="Start Spam",foreground='black', background='#88CEEB', command=imsp_start)
-                imspstsmbt.place(x=240,y=220,width=155,height=35)                  
+                imspstsmbt.place(x=240,y=220,width=155,height=35)                 
+                # Typing Action 
+                canvas = tk.Canvas(frame, bg="grey13", height=150, width=200)
+                canvas.place(x=15, y=165)
+                typeabel = tk.Label(frame, text="Typing Action",font=("Supernova",15,"bold"),foreground="#fff",bg="grey13")
+                typeabel.place(x=40, y=175)
+                typechidlabel = tk.Label(frame, text="Channel Id",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+                typechidlabel.place(x=30, y=220)
+                typechannelentry = tk.Entry(frame, width=25,textvariable=typechannelid_text)
+                typechannelentry.place(x=30, y=245)                 
+                typestsmbt = tk.Button(frame, text="Start Change",foreground='black', background='#88CEEB', command=typeaction_start)
+                typestsmbt.place(x=30,y=280,width=155,height=35)                                  
                 # Thread, Forum
             def forumthread():  
                 global flc
@@ -1677,6 +1690,22 @@ def menu():
             global imspchannelid_text
             global imspmessage_text
             global imspurl_text
+            global typechannelid_text
+            def typeaction_start():
+                threading.Thread(target=start_tpat).start()
+            def start_tpat():
+                channel_id = typechannelid_text.get()    
+                with open(token_file + '.txt') as f:
+                    lines = f.readlines()
+                    while True:
+                        for l in lines:
+                            try:
+                                headers = {"authorization": l.rstrip("\n")}
+                                res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/typing", headers=headers)
+                                if res.status_code == 204:
+                                    print("Typing Success")
+                            except Exception as e:
+                                print("Error: "+ e)                 
             def imsp_start():
                 threading.Thread(target=start_imsp).start()
             def start_imsp():
