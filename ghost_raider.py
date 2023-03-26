@@ -27,6 +27,7 @@ import re
 import binascii
 import tls_client
 
+
 token_file = input("Token File Name(.txtは消す) >> ")
 print("Set: "+token_file+".txt :)")
 time.sleep(1)
@@ -692,7 +693,8 @@ def menu():
                             print(f"エラーが発生しました。")
         with ThreadPoolExecutor(max_workers=4) as executor:
             executor.submit(join)
-
+    if modes == "11144514":
+        print("test")
     if modes == "3":
         channel_id = input("Channel Id >> ")
         message_id = input("Message Id >>")
@@ -1563,7 +1565,13 @@ def menu():
                 leaverstsmbt.place(x=250,y=120,width=155,height=35)                       
             def more():
                 global hysq_text
-                hysq_text =tk.StringVar()
+                global imspchannelid_text
+                global imspmessage_text
+                global imspurl_text
+                hysq_text = tk.StringVar()
+                imspchannelid_text = tk.StringVar()
+                imspmessage_text = tk.StringVar()
+                imspurl_text = tk.StringVar()
                 frame = tk.Frame(root, width=1165, height=540)
                 frame.place(x=135, y=95)
                 frame.configure(bg="grey13")  #grey13 ##fff         
@@ -1578,6 +1586,25 @@ def menu():
                 ttk.Combobox(frame, height=20, values=hypesquad, textvariable=hysq_text).place(x=30,y=85)
                 hschstsmbt = tk.Button(frame, text="Start Change",foreground='black', background='#88CEEB', command=hsch_start)
                 hschstsmbt.place(x=30,y=120,width=155,height=35)  
+                # image spam(DEV VERSION)
+                canvas = tk.Canvas(frame, bg="grey13", height=250, width=200)
+                canvas.place(x=225, y=5)
+                imsplabel = tk.Label(frame, text="Image Spam",font=("Supernova",15,"bold"),foreground="#fff",bg="grey13")
+                imsplabel.place(x=230, y=10)
+                imspchannellabel = tk.Label(frame, text="Channel Id",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+                imspchannellabel.place(x=240, y=50)
+                imspchannelidentry = tk.Entry(frame, width=25,textvariable=imspchannelid_text)
+                imspchannelidentry.place(x=240, y=75) 
+                imspmessagelabel = tk.Label(frame, text="Message",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+                imspmessagelabel.place(x=240, y=100)
+                imspmessageentry = tk.Entry(frame, width=25,textvariable=imspmessage_text)
+                imspmessageentry.place(x=240, y=125)       
+                imspurllabel = tk.Label(frame, text="Image URL",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+                imspurllabel.place(x=240, y=150)
+                imspurlentry = tk.Entry(frame, width=25,textvariable=imspurl_text)
+                imspurlentry.place(x=240, y=175)                                   
+                imspstsmbt = tk.Button(frame, text="Start Spam",foreground='black', background='#88CEEB', command=imsp_start)
+                imspstsmbt.place(x=240,y=220,width=155,height=35)                  
                 # Thread, Forum
             def forumthread():  
                 global flc
@@ -1647,6 +1674,24 @@ def menu():
             global joinerinvite_text
             global leaverserverid_text
             global hysq_text
+            global imspchannelid_text
+            global imspmessage_text
+            global imspurl_text
+            def imsp_start():
+                threading.Thread(target=start_imsp).start()
+            def start_imsp():
+                channel_id = imspchannelid_text.get()
+                message = imspmessage_text.get()
+                with open(token_file + '.txt') as f:
+                    lines = f.readlines()
+                    while True:
+                        for l in lines:
+                            try:
+                                token = l.rstrip("\n")
+                                bot = discum.Client(token=token, log=False)
+                                bot.sendFile("{channel_id}","{imspurl_text}",isurl=True,message="{}")
+                            except Exception as e:
+                                print("Error: "+ e) 
             def forum_start():
                 threading.Thread(target=start_forum).start()
             def start_forum():    
