@@ -40,6 +40,14 @@ def Spinner():
 		time.sleep(0.1)
 
 kusi = None
+
+def asciigen(length):
+    asc = ''
+    for x in range(int(length)):
+        num = random.randrange(13000)
+        asc = asc + chr(num)
+    return asc
+
 def bypass(token, guildid, session):
     headers = get_headers()
     headers["Authorization"] = token
@@ -1419,11 +1427,15 @@ def menu():
                 global blc
                 global clc
                 global dlc
+                global glc
                 global mentioncount
                 global token_text    
+                global asciiserverid_text
+                global asciichannelid_text
+                global asciicount
                 frame = tk.Frame(root, width=1165, height=540)
                 frame.place(x=135, y=95)
-                frame.configure(bg="grey13")  #grey13 ##fff
+                frame.configure(bg="grey13")#grey13 ##fff
                 spamserverid_text = tk.StringVar() 
                 spamchannelid_text = tk.StringVar() 
                 reachannelid_text = tk.StringVar()
@@ -1434,6 +1446,8 @@ def menu():
                 rpychannelid_text = tk.StringVar()
                 rpyserverid_text = tk.StringVar()
                 rpymessageid_text = tk.StringVar()
+                asciiserverid_text = tk.StringVar()
+                asciichannelid_text = tk.StringVar()
                 alc = tk.BooleanVar()
                 alc.set(False) #allch
                 blc = tk.BooleanVar()
@@ -1528,6 +1542,34 @@ def menu():
                 rpystsmbt.place(x=425,y=230,width=150,height=40)
                 rpywismbt = tk.Button(frame, text="Stop Spam",foreground='black', background='#88CEEB', command=rpystop_spam)
                 rpywismbt.place(x=425,y=280,width=150,height=40)    
+                # ASCII spam
+                glc = tk.BooleanVar()
+                glc.set(False) #allmt
+                canvas = tk.Canvas(frame, bg="grey13", height=355, width=200)
+                canvas.place(x=620, y=5) 
+                asciispamlabel = tk.Label(frame, text="ASCII Spam",font=("Supernova",17,"bold"),foreground="#fff",bg="grey13")
+                asciispamlabel.place(x=635, y=10)        
+                asciisvidlabel = tk.Label(frame, text="Server ID",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+                asciisvidlabel.place(x=635, y=65)       
+                asciisvidentry = tk.Entry(frame, width=25,textvariable=asciiserverid_text)
+                asciisvidentry.place(x=635, y=90)                
+                asciichidlabel = tk.Label(frame, text="Channel ID",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+                asciichidlabel.place(x=635, y=115)                
+                asciichidentry = tk.Entry(frame, width=25,textvariable=asciichannelid_text)
+                asciichidentry.place(x=635, y=140)  
+                asciicountlabel = tk.Label(frame, text="Ascii Count",font=("Supernova",12,"bold"),foreground="#fff",bg="grey13")
+                asciicountlabel.place(x=635, y=165)                                             
+                asciicount = tk.DoubleVar()
+                asciicount.set(1)
+                asciicountscale = tk.Scale(frame, variable=asciicount, orient=tk.HORIZONTAL, length=150,from_=5, to=1999, foreground="#fff", bg="grey13")
+                asciicountscale.place(x=635, y=190)
+                asciiallch = tk.Checkbutton(frame, text="AllChannel",variable=glc,bg="#7c64e4",height=0, width=17)
+                asciiallch.place(x=640, y=240)
+                asciistsmbt = tk.Button(frame, text="Start Spam",foreground='black', background='#88CEEB', command=asciispammer_start)
+                asciistsmbt.place(x=640,y=270,width=150,height=40)
+                asciiwismbt = tk.Button(frame, text="Stop Spam",foreground='black', background='#88CEEB', command=stop_asciispam)
+                asciiwismbt.place(x=640,y=320,width=150,height=40)                 
+                
             def joinerleaver():
                 global joinerinvite_text
                 global elc
@@ -1616,7 +1658,7 @@ def menu():
                 typechidlabel.place(x=30, y=220)
                 typechannelentry = tk.Entry(frame, width=25,textvariable=typechannelid_text)
                 typechannelentry.place(x=30, y=245)                 
-                typestsmbt = tk.Button(frame, text="Start Change",foreground='black', background='#88CEEB', command=typeaction_start)
+                typestsmbt = tk.Button(frame, text="Start Typing",foreground='black', background='#88CEEB', command=typeaction_start)
                 typestsmbt.place(x=30,y=280,width=155,height=35)                                  
                 # Thread, Forum
             def forumthread():  
@@ -1682,6 +1724,7 @@ def menu():
             global dlc
             global elc
             global flc
+            global glc
             global mentioncount
             global token_text
             global joinerinvite_text
@@ -1691,6 +1734,40 @@ def menu():
             global imspmessage_text
             global imspurl_text
             global typechannelid_text
+            global asciiserverid_text
+            global asciichannelid_text
+            global asciicount            
+            def asciispammer_start():
+                threading.Thread(target=start_assp).start()
+            def start_assp():
+                if glc.get():
+                    chlist = get_channels(token,int(guild_id))   
+                    with open(token_file + '.txt') as f:
+                        lines = f.readlines()
+                        while True:
+                            for l in lines:
+                                try:
+                                    channel_id = random.choice(chlist)
+                                    payload = {"content": asciigen(asciicount.get())}
+                                    headers = {"authorization": l.rstrip("\n")}
+                                    res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages",headers=headers,json=payload)
+                                except Exception as e:
+                                    print("Error: "+ e)   
+                else:
+                    channel_id = asciichannelid_text.get()    
+                    with open(token_file + '.txt') as f:
+                        lines = f.readlines()
+                        while True:
+                            for l in lines:
+                                try:
+                                    payload = {"content": asciigen(asciicount.get())}
+                                    headers = {"authorization": l.rstrip("\n")}
+                                    res = requests.post(f"https://discord.com/api/v9/channels/{channel_id}/messages",headers=headers,json=payload)
+                                except Exception as e:
+                                    print("Error: "+ e)                  
+            def stop_asciispam():
+                # わかんね
+                print("Stop ASCII")                    
             def typeaction_start():
                 threading.Thread(target=start_tpat).start()
             def start_tpat():
