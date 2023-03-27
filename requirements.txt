@@ -1,4 +1,5 @@
 emoji
+discum==1.1.0
 capmonster_python
 tls_client
 httpx
@@ -10,3 +11,4 @@ requests_toolbelt
 websocket
 anticaptchaofficial
 pysocks
+customtkinter

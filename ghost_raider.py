@@ -1144,7 +1144,7 @@ def menu():
     if modes == "99":
         print(COLOR.LIGHTBLUE_EX+"""
       01: RPC            02: Coming Soon    03: Coming Soon    04: Update Patch   05: About"""+Fore.RED+"""          
-      06: Sushi          07: GHOST RAIDER !!GUI!!
+      06: Sushi          07: GHOST RAIDER  ! !   G U I    ! !  08: Reat Raider  ! !   ???   ! !
         """+Color.RESET)
         modulemodes = input(f"Mode >> ")
         if modulemodes == "1":
@@ -2301,6 +2301,8 @@ def menu():
             tk.Button(text="Forum Thread",relief = tk.RAISED, width=15, bg="grey13", foreground="#fff", activebackground="white", command=forumthread).place(x=16, y=153)
             tk.Button(text="More",relief = tk.RAISED, width=15, bg="grey13", foreground="#fff", activebackground="white", command=more).place(x=16, y=487)
             root.mainloop()
+        if modulemodes == "8":    
+            import data.reat.main
     else:
         print("引数が不正または終了した操作です。")
         time.sleep(1)
