@@ -1381,8 +1381,12 @@ def menu():
                     sushimenu() 
             sushimenu()      
         if modulemodes == "7":  
-            print("open the gui")  
-            import data.cocoapc.v2
+            print("open the gui") 
+            guimodes = input("[1]v2\n[2]v3\nMode >> ")
+            if guimodes == "1": 
+                import data.cocoapc.v2
+            if guimodes == "2":
+                import data.cocoapc.v3    
         if modulemodes == "8":    
             import data.cocoapc.reat
     else:

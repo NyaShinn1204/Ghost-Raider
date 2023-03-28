@@ -267,7 +267,7 @@ cdlabel1 = tk.Label(text='Created By cocoapc911', foreground='white', background
 cdlabel1.place(x=270, y=20)
 cdlabel2 = tk.Label(text='Discord: ここあ#0001', foreground='white', background='#2C2C2C', font=("Supernova",15,"bold"))
 cdlabel2.place(x=280, y=45)
-cdlabel3 = tk.Label(text='discord.gg/6rmzcytnkM', foreground='white', background='#2C2C2C', font=("Supernova",15,"bold"))
+cdlabel3 = tk.Label(text='discord.gg/CvCwYKxZ', foreground='white', background='#2C2C2C', font=("Supernova",15,"bold"))
 cdlabel3.place(x=560, y=30)
 # defまとめ
 # module frame
