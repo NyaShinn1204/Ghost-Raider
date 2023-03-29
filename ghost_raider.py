@@ -1,6 +1,7 @@
 import time
 import threading
 import os
+import discord
 import random
 import discum as discum
 from datetime import datetime
@@ -1145,6 +1146,7 @@ def menu():
         print(COLOR.LIGHTBLUE_EX+"""
       01: RPC            02: Coming Soon    03: Coming Soon    04: Update Patch   05: About"""+Fore.RED+"""          
       06: Sushi          07: GHOST RAIDER  ! !   G U I    ! !  08: Reat Raider  ! !   ???   ! !
+      09: Voice Channel SPAM
         """+Color.RESET)
         modulemodes = input(f"Mode >> ")
         if modulemodes == "1":
@@ -1389,6 +1391,31 @@ def menu():
                 import data.cocoapc.v3    
         if modulemodes == "8":    
             import data.cocoapc.reat
+        if modulemodes == "9":
+            guild_id = input("Server Id >> ")
+            channel_id = input("Voice Channel Id >> ")
+            songfile = input("Song File (.mp3を消す)>> ")
+            startmessage = input("このメッセージを入力すると開始\nメッセージ >> ")
+            with open(token_file + '.txt') as f:
+                lines = f.readlines()
+                for l in lines:    
+                    class MyClient(discord.Client):
+                        async def on_message(self, message):
+                            # only respond to ourselves
+                            if message.author != self.user:
+                                return
+                        async def on_message(self, message):
+                            if message.content == startmessage:
+                                if message.author.voice is None:
+                                    print("あなたはボイスチャンネルに接続していません。")
+                                    return
+                                # ボイスチャンネルに接続する
+                                await message.author.voice.channel.connect()
+                                print("接続しました。")
+                                message.guild.voice_client.play(discord.FFmpegPCMAudio(songfile+".mp3"))     
+                    client = MyClient()
+                    client.run('tokenいれてね')    
+                    menu()                     
     else:
         print("引数が不正または終了した操作です。")
         time.sleep(1)
