@@ -1,7 +1,6 @@
 import time
 import threading
 import os
-import discord
 import random
 import discum as discum
 from datetime import datetime
@@ -1395,26 +1394,27 @@ def menu():
             guild_id = input("Server Id >> ")
             channel_id = input("Voice Channel Id >> ")
             songfile = input("Song File (.mp3を消す)>> ")
-            startmessage = input("このメッセージを入力すると開始\nメッセージ >> ")
+            startcommand = input("開始するメッセージ >> ")
+            stopcommand = input("停止するメッセージ >> ")
             with open(token_file + '.txt') as f:
                 lines = f.readlines()
                 for l in lines:    
+                    import discord
                     class MyClient(discord.Client):
-                        async def on_message(self, message):
-                            # only respond to ourselves
-                            if message.author != self.user:
-                                return
-                        async def on_message(self, message):
-                            if message.content == startmessage:
-                                if message.author.voice is None:
-                                    print("あなたはボイスチャンネルに接続していません。")
-                                    return
-                                # ボイスチャンネルに接続する
-                                await message.author.voice.channel.connect()
-                                print("接続しました。")
-                                message.guild.voice_client.play(discord.FFmpegPCMAudio(songfile+".mp3"))     
+                        async def on_message(self, message):    
+                            if message.content == startcommand:
+                                serverid = guild_id
+                                channelid = channel_id
+                                #if message.guild.voice_client is None:
+                                #    await message.channel.send("接続していません。")
+                                #    return
+                                await client.get_guild(int(serverid)).get_channel(int(channelid)).connect()
+                                message.guild.voice_client.play(discord.FFmpegPCMAudio(songfile+".mp3"))
+                            if message.content == stopcommand:
+                                message.guild.voice_client.stop()
+                                await message.guild.voice_client.disconnect()    
                     client = MyClient()
-                    client.run('tokenいれてね')    
+                    client.run('MTA4NDM2Njc4OTU0MDA1NzE1OQ.G2VlPr.WtNtakb1JgquTfOEoS0AHttX4e8KyYG7q17H3c')    
                     menu()                     
     else:
         print("引数が不正または終了した操作です。")
