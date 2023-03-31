@@ -35,7 +35,7 @@ frame.place(x=20, y=115)
 frame.configure(bg="grey13")#grey13 ##fff
 canvas = tk.Canvas(frame, bg="grey13", height=365, width=450)
 canvas.place(x=0, y=15)
-
+tk.Label(frame, text='Spammer').place(x=,y=)
 
 
 
