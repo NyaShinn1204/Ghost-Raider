@@ -8,8 +8,8 @@ root.iconbitmap(default="ghost.ico")
 root.resizable(0,0)
 root.configure(bg='grey13')
 # 上の部分
-# nm = name
-# cd = credits
+ # nm = name
+ # cd = credits
 toplabel = tk.Label(background='#545454')
 toplabel.place(x=0, y=0, height=95, width=1300)
 canvas = tk.Canvas(root,width = 1060, height = 90, bg = "white")
@@ -29,7 +29,12 @@ cdlabel2 = tk.Label(text='Discord: ここあ#0001', foreground='white', backgrou
 cdlabel2.place(x=280, y=45)
 cdlabel3 = tk.Label(text='discord.gg/CvCwYKxZ', foreground='white', background='#2C2C2C', font=("Supernova",15,"bold"))
 cdlabel3.place(x=560, y=30)
-
+# Spammer
+frame = tk.Frame(root, width=1165, height=540)
+frame.place(x=20, y=115)
+frame.configure(bg="grey13")#grey13 ##fff
+canvas = tk.Canvas(frame, bg="grey13", height=365, width=450)
+canvas.place(x=0, y=15)
 
 
 

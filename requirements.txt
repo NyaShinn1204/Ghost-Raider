@@ -12,3 +12,5 @@ websocket
 anticaptchaofficial
 pysocks
 customtkinter
+discord.py-self
+discord.py-self[voice]
